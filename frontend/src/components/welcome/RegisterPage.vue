@@ -49,7 +49,7 @@
                 </el-form-item>
                 <el-form-item prop="code">
                     <el-row :gutter="8">
-                        <el-col :span="17">
+                        <el-col :span="18">
                             <el-input v-model="form.code" :maxlength="6" type="text" placeholder="请输入验证码">
                                 <template #prefix>
                                     <el-icon>
@@ -181,14 +181,13 @@ const register = () => {
 }
 
 const validateEmail = () => {
-    post('/api/auth/valid-email', {
+    post('/api/auth/valid-register-email', {
         email: form.email
     },(message) => {
         ElMessage.success(message)
         coldTime.value = 60
         setInterval(() => coldTime.value--, 1000)
     })
-
 }
 
 
