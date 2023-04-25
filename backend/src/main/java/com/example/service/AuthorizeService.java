@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * @ClassName AuthorizeService
- * @Description TODO
+ * @Description 用户登录相关的service
  * @Author syp10
  * @Data 2023/4/20 23:44
  */

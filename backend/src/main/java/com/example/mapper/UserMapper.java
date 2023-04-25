@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Update;
 
 /**
  * @ClassName UserMapper
- * @Description TODO
+ * @Description user的mapper类
  * @Author su
  * @Date 2023/4/19 21:32
  */

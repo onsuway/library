@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName AuthorizeService
- * @Description TODO
+ * @Description 用户登录相关的service实现类
  * @Author su
  * @Date 2023/4/19 21:31
  */

@@ -27,7 +27,7 @@ import java.io.IOException;
 
 /**
  * @ClassName SecurityConfiguration
- * @Description TODO
+ * @Description security配置类
  * @Author su
  * @Date 2023/4/18 23:43
  */

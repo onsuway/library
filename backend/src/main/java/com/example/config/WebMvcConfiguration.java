@@ -8,12 +8,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @ClassName WebConfiguration
- * @Description TODO
+ * @Description springMVC配置类
  * @Author su
  * @Date 2023/4/23 21:52
  */
 @Configuration
-public class WebConfiguration implements WebMvcConfigurer {
+public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Resource
     AuthorizeInterceptor authorizeInterceptor;

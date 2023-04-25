@@ -14,7 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
  * @ClassName AuthorizeInterceptor
- * @Description TODO
+ * @Description 登录鉴权相关的过滤器
  * @Author su
  * @Date 2023/4/23 21:42
  */
@@ -23,8 +23,14 @@ public class AuthorizeInterceptor implements HandlerInterceptor {
     @Resource
     UserMapper userMapper;
 
+    /**
+     * @description 从context中获取用户信息并添加到session的attribute中
+     * @author su
+     * @return boolean
+     * @date 2023/4/25 22:39
+     */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         User user = (User) authentication.getPrincipal();
