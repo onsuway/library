@@ -11,19 +11,20 @@ function post(url, data, success, failure = defaultFailure, error = defaultError
         },
         withCredentials: true
     }).then(({data}) => {
-        if (data.success){
+        if (data.success) {
             success(data.message, data.status)
         } else {
             failure(data.message, data.status)
         }
     }).catch(error)
 }
+
 
 function get(url, success, failure = defaultFailure, error = defaultError) {
     axios.get(url, {
         withCredentials: true
     }).then(({data}) => {
-        if (data.success){
+        if (data.success) {
             success(data.message, data.status)
         } else {
             failure(data.message, data.status)
@@ -31,4 +32,21 @@ function get(url, success, failure = defaultFailure, error = defaultError) {
     }).catch(error)
 }
 
-export { post, get }
+function deleted(url, itemIds ,success, failure = defaultFailure, error = defaultError)
+{
+    axios.delete(url, {
+        withCredentials: true,
+        data: {
+            ids: itemIds
+        }
+    }).then(({data}) => {
+        if (data.success) {
+            success(data.message, data.status)
+        } else {
+            failure(data.message, data.status)
+        }
+    }).catch(error)
+}
+
+
+export {post, get, deleted}

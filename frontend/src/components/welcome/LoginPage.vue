@@ -70,10 +70,10 @@ const login = () => {
         }, (message) => {
             ElMessage.success(message)
             get('/api/user/me', (message) => {
-                userStore.auth.user = message
-                router.push('/index')
+                userStore.login(message)
+                router.push('/' + message.role)
             },() => {
-                userStore.auth.user = null
+                userStore.logout()
             })
         })
     }

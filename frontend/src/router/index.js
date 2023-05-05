@@ -1,51 +1,122 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import {useUserStore} from "@/stores";
+import {ElMessage} from "element-plus";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'welcome',
-      component: () => import('@/views/WelcomeView.vue'),
-      children: [
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
         {
-          path:'',
-          name: 'welcome-login',
-          component: () => import('@/components/welcome/LoginPage.vue')
+            path: '/',
+            name: 'welcome',
+            component: () => import('@/views/WelcomeView.vue'),
+            meta: {
+                welcome: true
+            },
+            children: [
+                {
+                    path: '',
+                    name: 'welcome-login',
+                    component: () => import('@/components/welcome/LoginPage.vue')
+                },
+                {
+                    path: 'register',
+                    name: 'welcome-register',
+                    component: () => import('@/components/welcome/RegisterPage.vue')
+                },
+                {
+                    path: 'forget',
+                    name: 'welcome-forget',
+                    component: () => import('@/components/welcome/ForgetPage.vue')
+                }
+            ]
         },
         {
-          path:'register',
-          name: 'welcome-register',
-          component: () => import('@/components/welcome/RegisterPage.vue')
+            path: '/admin',
+            name: 'admin',
+            redirect: 'admin/home',
+            meta: {
+                requireAdmin: true,
+            },
+            component: () => import('@/views/layout/AdminLayout.vue'),
+            children: [
+                {
+                    path: 'home',
+                    name: 'home',
+                    component: () => import('@/views/admin/HomeView.vue')
+                },
+                {
+                    path: 'book',
+                    name: 'book',
+                    component: () => import('@/views/admin/BookView.vue')
+                },
+                {
+                    path: 'borrow',
+                    name: 'borrow',
+                    component: () => import('@/views/admin/BorrowView.vue')
+                },
+                {
+                    path: 'userAdmin',
+                    name: 'user-admin',
+                    component: () => import('@/views/admin/UserView.vue')
+                }
+            ]
         },
         {
-          path: 'forget',
-          name: 'welcome-forget',
-          component: () => import('@/components/welcome/ForgetPage.vue')
+            path: '/user',
+            name: 'user',
+            meta: {
+                requireUser: true,
+            },
+            component: () => import('@/views/layout/UserLayout.vue'),
+            children: [
+                {
+                    path: 'bookBorrow',
+                    name: 'book-borrow',
+                    component: () => import('@/views/user/BookAndBorrowView.vue')
+                },
+                {
+                    path: 'me',
+                    name: 'personalInfo',
+                    component: () => import('@/views/user/PersonalInfoView.vue')
+                }
+            ]
         }
-      ]
-    },
-    {
-      path: '/index',
-      name: 'index',
-      component: () => import('@/views/IndexView.vue')
-    }
 
-  ]
+    ]
 })
 
-router.beforeEach((to,from,next) => {
-  const userStore = useUserStore()
-  if (userStore.auth.user != null && to.name.startsWith('welcome-')){
-    next('/index')
-  }else if (userStore.auth.user == null && to.fullPath.startsWith('/index')){
-    next('/')
-  }else if (to.matched.length === 0){
-    next('/index')
-  }else {
-    next()
-  }
+router.beforeEach((to, from, next) => {
+    const userStore = useUserStore()
+
+    userStore.updateUserInfo()
+
+    const {role} = userStore.userInfo
+
+
+    const requireAdmin = to.matched.some(record => record.meta.requireAdmin)
+    const requireUser = to.matched.some(record => record.meta.requireUser)
+    const isWelcome = to.matched.some(record => record.meta.welcome)
+    if (userStore.isLogin) {
+        if (isWelcome) {
+            ElMessage.info('已经登录，无需进入登录页面')
+            next('/' + role)
+        } else if (role !== 'admin' && requireAdmin) {
+            ElMessage.warning('无权访问管理页面')
+            next('/' + role)
+        } else if (role !== 'user' && requireUser) {
+            ElMessage.warning('管理员无法访问用户页面')
+            next('/' + role)
+        } else {
+            next()
+        }
+    } else {
+        if (isWelcome) {
+            next()
+        } else {
+            ElMessage.info('请先登录')
+            next({name: 'welcome-login'})
+        }
+    }
 })
 
 export default router

@@ -14,15 +14,13 @@ import org.apache.ibatis.annotations.Update;
  */
 public interface UserMapper {
 
-    @Select("select * from db_account where username = #{text} or email = #{text}")
+    @Select("select * from account where username = #{text} or email = #{text}")
     Account findAccountByUsernameOrEmail(String text);
 
-    @Select("select * from db_account where username = #{text} or email = #{text}")
-    AccountUser findAccountUserByUsernameOrEmail(String text);
 
-    @Insert("insert into db_account (username, password, email) values (#{username}, #{password}, #{email})")
+    @Insert("insert into account (username, password, email) values (#{username}, #{password}, #{email})")
     int creatAccount(String username, String password, String email);
 
-    @Update("update db_account set password = #{password} where email = #{email}")
+    @Update("update account set password = #{password} where email = #{email}")
     int resetPasswordByEmail(String password, String email);
 }

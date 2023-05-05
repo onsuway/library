@@ -41,6 +41,8 @@ public class SecurityConfiguration {
     @Resource
     DataSource dataSource;
 
+    @Resource
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, PersistentTokenRepository tokenRepository) throws Exception {
         return http

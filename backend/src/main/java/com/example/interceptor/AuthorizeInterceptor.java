@@ -35,7 +35,7 @@ public class AuthorizeInterceptor implements HandlerInterceptor {
         Authentication authentication = context.getAuthentication();
         User user = (User) authentication.getPrincipal();
         String username = user.getUsername();
-        AccountUser accountUser = userMapper.findAccountUserByUsernameOrEmail(username);
+        AccountUser accountUser = new AccountUser(userMapper.findAccountByUsernameOrEmail(username));
         request.getSession().setAttribute("account", accountUser);
         return true;
     }
