@@ -1,17 +1,19 @@
 <template>
     <div style="display: flex;margin-bottom: 20px">
-        <div style="">
+        <div>
             <el-button type="danger" @click="deleteSelectedBooks(selectedRowIds)">批量删除</el-button>
             <el-button type="primary" @click="handleAddBook()">添加书籍</el-button>
-
         </div>
-
-        <div style="flex: 1; margin: 0 400px">
-            <el-input size="large"  v-model="searchInputText" placeholder="按书名或作者搜索书籍">
+        <div style="margin: auto 50px">
+            <el-tag type="warning">库存不足</el-tag>
+            <el-tag type="danger">库存为0</el-tag>
+        </div>
+        <div style="flex: 1; margin: 0 300px">
+            <el-input size="large" v-model="searchInputText" placeholder="按书名或作者搜索书籍">
                 <template #prepend>
                     <el-select v-model="searchInputSelected" size="large" placeholder="书名/作者" style="width: 115px">
-                        <el-option label="书名" value="title" />
-                        <el-option label="作者" value="author" />
+                        <el-option label="书名" value="title"/>
+                        <el-option label="作者" value="author"/>
                     </el-select>
                 </template>
                 <template #append>
@@ -22,9 +24,9 @@
 
         <div>
             <el-popover
-                placement="top-start"
-                :width="220"
-                trigger="click"
+                    placement="top-start"
+                    :width="220"
+                    trigger="click"
             >
                 <template #reference>
                     <el-button class="m-2" type="success">点此查看所有书籍类别</el-button>
@@ -34,11 +36,11 @@
                     <el-table-column fixed="right" label="操作">
                         <template #default="{row}">
                             <el-popconfirm
-                                title="确定删除吗？该类别的书籍将会被置空"
-                                width="220"
-                                confirm-button-text="确定"
-                                cancel-button-text="取消"
-                                @confirm="handleDeleteType(row)"
+                                    title="确定删除吗？该类别的书籍将会被置空"
+                                    width="220"
+                                    confirm-button-text="确定"
+                                    cancel-button-text="取消"
+                                    @confirm="handleDeleteType(row)"
                             >
                                 <template #reference>
                                     <el-button type="danger">删除</el-button>
@@ -54,16 +56,16 @@
 
         <!--  点击表格下方的添加书籍按钮按钮打开的对话框表单  -->
         <el-dialog
-            v-model="addBookDialogVisible"
-            title="新增书籍信息"
-            width="27%"
-            align-center
+                v-model="addBookDialogVisible"
+                title="新增书籍信息"
+                width="27%"
+                align-center
         >
             <el-form
-                label-width="100px"
-                :model="bookForm"
-                style="max-width: 460px"
-                label-position="right"
+                    label-width="100px"
+                    :model="bookForm"
+                    style="max-width: 460px"
+                    label-position="right"
             >
                 <el-form-item label="书名">
                     <el-input v-model="bookForm.title"/>
@@ -77,13 +79,13 @@
                 <el-form-item label="类型">
                     <el-select v-model="bookForm.type_name" class="m-2" placeholder="书籍类型" size="default">
                         <el-option
-                            v-for="item in typeList"
-                            :value="item.type_name"
-                            :key="item.type_id"
+                                v-for="item in typeList"
+                                :value="item.type_name"
+                                :key="item.type_id"
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="库存" >
+                <el-form-item label="库存">
                     <el-input-number v-model="bookForm.nums" :min="0"/>
                 </el-form-item>
             </el-form>
@@ -99,29 +101,30 @@
 
     <div>
         <el-table
-            @selection-change="handleSelectionChange"
-            :data="bookList"
-            height="800"
-            style="width: 100%"
-            :row-class-name="tableRowClassName"
-            size="large"
-            border
+                @selection-change="handleSelectionChange"
+                :data="bookList"
+                height="800"
+                style="width: 100%"
+                :row-class-name="tableRowClassName"
+                size="large"
+                :cell-style="{'text-align':'center'}"
+                :header-cell-style="{'text-align':'center'}"
         >
             <el-table-column type="selection" width="55"/>
             <el-table-column prop="bid" label="ID" width="100"/>
             <el-table-column prop="title" label="书名" width="200"/>
             <el-table-column prop="author" label="作者" width="200"/>
-            <el-table-column prop="desc" label="简介"  header-align="center"/>
+            <el-table-column prop="desc" label="简介"/>
             <el-table-column
-                prop="type_name"
-                label="类型"
-                width="200"
-                :filters="filterTypeList"
-                :filter-method="filterHandler"
-                filter-placement="bottom"
+                    prop="type_name"
+                    label="类型"
+                    width="200"
+                    :filters="filterTypeList"
+                    :filter-method="filterHandler"
+                    filter-placement="bottom"
             />
             <el-table-column prop="nums" label="库存" width="100"/>
-            <el-table-column  label="操作" align="right" width="200" header-align="center">
+            <el-table-column label="操作" align="right" width="200" >
                 <template #default="{row}">
                     <el-button type="primary" @click="handleEdit(row)">编辑</el-button>
                     <el-button type="danger" @click="handleDeleteBook(row)">删除</el-button>
@@ -131,10 +134,10 @@
 
         <!--  点击每行的编辑按钮打开的对话框表单  -->
         <el-dialog
-            v-model="editBookDialogVisible"
-            title="编辑书籍信息"
-            width="27%"
-            align-center
+                v-model="editBookDialogVisible"
+                title="编辑书籍信息"
+                width="27%"
+                align-center
         >
             <el-form
                     label-width="100px"
@@ -260,7 +263,7 @@ const freshBookList = () => {
 const freshTypeList = () => {
     get('/api/book/getAllType', (message) => {
         typeList.value = message
-        if (typeList.value.length !== filterTypeList.value.length){
+        if (typeList.value.length !== filterTypeList.value.length) {
             filterTypeList.value = []
             typeList.value.forEach((item) => {
                 filterTypeList.value.push({
@@ -403,13 +406,13 @@ const handleAddType = () => {
         inputErrorMessage: '书籍类别只能是中文',
         inputPlaceholder: "类别名称后无需加‘类’"
     })
-        .then(({ value }) => {
+        .then(({value}) => {
             post('/api/book/addType', {
                 type_name: value + '类'
-            } , (message) => {
+            }, (message) => {
                 ElMessage.success(message + value + '类');
                 freshTypeList()
-            },(message) => {
+            }, (message) => {
                 ElMessage.warning(message)
             })
         })
@@ -418,15 +421,15 @@ const handleAddType = () => {
         })
 }
 
-const filterHandler =(value, row, column) => {
+const filterHandler = (value, row, column) => {
     const property = column['property']
     return row[property] === value
 }
 
 const handleSearch = () => {
-    if (searchInputText.value === '' || searchInputSelected.value === ''){
+    if (searchInputText.value === '' || searchInputSelected.value === '') {
         ElMessage.warning('搜索类型和搜索输入均不允许为空')
-    }else {
+    } else {
         //post
         post('/api/book/search', {
             search_type: searchInputSelected.value,
@@ -443,9 +446,11 @@ const handleSearch = () => {
 .el-table .warning-row {
     --el-table-tr-bg-color: var(--el-color-warning-light-9);
 }
+
 .el-table .success-row {
     --el-table-tr-bg-color: var(--el-color-success-light-9);
 }
+
 .el-table .danger-row {
     --el-table-tr-bg-color: var(--el-color-danger-light-9);
 }

@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -15,7 +16,8 @@ public class Book {
     String author;
     String desc;
 
-//    int type_id;
+    @JsonIgnore
+    int type_id;
     String type_name;
 
     int nums;

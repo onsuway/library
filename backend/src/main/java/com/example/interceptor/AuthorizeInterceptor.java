@@ -1,6 +1,6 @@
 package com.example.interceptor;
 
-import com.example.entity.user.AccountUser;
+import com.example.entity.Account;
 import com.example.mapper.UserMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,8 +35,8 @@ public class AuthorizeInterceptor implements HandlerInterceptor {
         Authentication authentication = context.getAuthentication();
         User user = (User) authentication.getPrincipal();
         String username = user.getUsername();
-        AccountUser accountUser = new AccountUser(userMapper.findAccountByUsernameOrEmail(username));
-        request.getSession().setAttribute("account", accountUser);
+        Account account = userMapper.findAccountByUsernameOrEmail(username);
+        request.getSession().setAttribute("account", account);
         return true;
     }
 }

@@ -1,17 +1,28 @@
 package com.example;
 
+import com.example.entity.Borrow;
 import com.example.mapper.BookMapper;
+import com.example.mapper.BorrowMapper;
+import com.example.service.BorrowService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
+
 @SpringBootTest
 class BackendApplicationTests {
 
     @Resource
     BookMapper bookMapper;
+
+    @Resource
+    BorrowMapper borrowMapper;
+
+    @Resource
+    BorrowService borrowService;
 
     @Test
     void contextLoads() {
@@ -48,5 +59,11 @@ class BackendApplicationTests {
     @Test
     void search() {
         System.out.println(bookMapper.selectBookByAuthor("刘"));
+    }
+
+    @Test
+    void borrow(){
+        List<Borrow> willOverdue = borrowService.getWillOverdue();
+        System.out.println(willOverdue);
     }
 }

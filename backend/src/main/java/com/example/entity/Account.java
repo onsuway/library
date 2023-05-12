@@ -1,9 +1,10 @@
-package com.example.entity.auth;
+package com.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
- * @ClassName User
+ * @ClassName Account
  * @Description TODO
  * @Author su
  * @Date 2023/4/19 21:33
@@ -15,6 +16,7 @@ public class Account {
 
     String username;
 
+    @JsonIgnore
     String password;
 
     String email;

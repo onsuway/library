@@ -1,10 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/library_online?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://localhost:3306/library_online?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: root
     password: 193777
-
   mail:
     host: smtp.qq.com
     username: 1016620694@qq.com
@@ -21,3 +20,6 @@ spring:
       database: 0
       host: localhost
       port: 6379
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
