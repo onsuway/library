@@ -26,4 +26,6 @@ public interface BorrowService {
     int extendBorrowByIds(String ids);
 
     int returnBorrowByIds(String ids);
+
+    List<Borrow> getBorrowingByAccountId(String account_id);
 }

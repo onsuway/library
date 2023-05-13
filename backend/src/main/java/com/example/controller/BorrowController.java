@@ -62,4 +62,9 @@ public class BorrowController {
         return RestBean.success("成功归还了" + result + "条借阅订单");
     }
 
+    @GetMapping("/get-borrowing-by-user/{account_id}")
+    public RestBean<List<Borrow>> getBorrowingByAccount(@PathVariable String account_id){
+        List<Borrow> borrowing = borrowService.getBorrowingByAccountId(account_id);
+        return RestBean.success(borrowing);
+    }
 }

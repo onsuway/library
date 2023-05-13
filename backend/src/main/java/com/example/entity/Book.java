@@ -12,12 +12,16 @@ import lombok.Data;
 @Data
 public class Book {
     int bid;
+
     String title;
+
     String author;
+
     String desc;
 
     @JsonIgnore
     int type_id;
+
     String type_name;
 
     int nums;

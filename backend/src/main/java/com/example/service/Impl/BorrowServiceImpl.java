@@ -67,4 +67,9 @@ public class BorrowServiceImpl implements BorrowService {
         return borrowMapper.batchReturnBorrowByIds(ids);
     }
 
+    @Override
+    public List<Borrow> getBorrowingByAccountId(String account_id) {
+        return borrowMapper.selectBorrowingByAccountId(account_id);
+    }
+
 }

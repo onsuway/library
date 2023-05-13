@@ -1,14 +1,14 @@
 <template>
     <div style="display: flex;margin-bottom: 20px">
-        <div>
+        <div style="margin-right: 5px">
             <el-button type="danger" @click="deleteSelectedBooks(selectedRowIds)">批量删除</el-button>
             <el-button type="primary" @click="handleAddBook()">添加书籍</el-button>
         </div>
-        <div style="margin: auto 50px">
+        <div style="margin: 5px 10px">
             <el-tag type="warning">库存不足</el-tag>
             <el-tag type="danger">库存为0</el-tag>
         </div>
-        <div style="flex: 1; margin: 0 300px">
+        <div style="flex: 1; margin: 0 auto">
             <el-input size="large" v-model="searchInputText" placeholder="按书名或作者搜索书籍">
                 <template #prepend>
                     <el-select v-model="searchInputSelected" size="large" placeholder="书名/作者" style="width: 115px">
@@ -22,7 +22,7 @@
             </el-input>
         </div>
 
-        <div>
+        <div style="margin-left: 5px">
             <el-popover
                     placement="top-start"
                     :width="220"
@@ -98,12 +98,11 @@
         </el-dialog>
     </div>
 
-
     <div>
         <el-table
                 @selection-change="handleSelectionChange"
                 :data="bookList"
-                height="800"
+                height="79vh"
                 style="width: 100%"
                 :row-class-name="tableRowClassName"
                 size="large"

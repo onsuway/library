@@ -63,7 +63,6 @@ class BackendApplicationTests {
 
     @Test
     void borrow(){
-        List<Borrow> willOverdue = borrowService.getWillOverdue();
-        System.out.println(willOverdue);
+
     }
 }

@@ -9,7 +9,9 @@ export const useUserStore = defineStore('userStore', {
             id: '',
             username: '',
             email: '',
-            role: ''
+            role: '',
+            borrowing_nums: 0,
+            credit: 0,
         }
     }),
     getters: {
@@ -28,7 +30,9 @@ export const useUserStore = defineStore('userStore', {
                 id: '',
                 username: '',
                 email: '',
-                role: ''
+                role: '',
+                borrowing_nums: 0,
+                credit: 0,
             }
         },
         updateUserInfo() {

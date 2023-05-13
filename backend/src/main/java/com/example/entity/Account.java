@@ -22,4 +22,8 @@ public class Account {
     String email;
 
     String role;
+
+    int borrowing_nums;
+
+    int credit;
 }

@@ -1,21 +1,21 @@
 <template>
     <div style="display: flex;">
-        <div>
+        <div style="margin: 0 auto">
             <el-radio-group v-model="radio" @change="handleRadioChange">
                 <el-radio-button label="unreturned">所有未归还</el-radio-button>
                 <el-radio-button label="willOverdue">即将逾期</el-radio-button>
                 <el-radio-button label="overdue">已逾期</el-radio-button>
             </el-radio-group>
         </div>
-        <div style="margin: auto 20px">
+        <div style="margin: 0 20px">
             <el-button type="primary" @click="handleBatchExtend(selectedRowIds)">批量延长</el-button>
             <el-button type="success" @click="handleBatchReturn(selectedRowIds)">批量归还</el-button>
         </div>
-        <div style="margin: auto 50px">
+        <div style="margin: auto 20px">
             <el-tag type="warning">即将逾期</el-tag>
             <el-tag type="danger">已经逾期</el-tag>
         </div>
-        <div style="flex: 1;margin: 0 300px">
+        <div style="flex: 1;margin: 0 auto">
             <el-input size="large" v-model="searchInputText" placeholder="按用户名或书名搜索借阅订单">
                 <template #prepend>
                     <el-select
@@ -39,6 +39,7 @@
                 @selection-change="handleSelectionChange"
                 :data="borrowList"
                 style="width: 100%"
+                height="79vh"
                 :cell-style="{'text-align':'center'}"
                 :header-cell-style="{'text-align':'center'}"
                 :row-class-name="tableRowClassName"
@@ -54,7 +55,7 @@
             <el-table-column label="操作" align="right" header-align="center">
                 <template #default="{row}">
                     <el-popconfirm
-                            title="确定延长七天借阅时间吗？"
+                            title="确定延长三天借阅时间吗？"
                             width="220"
                             confirm-button-text="确定"
                             cancel-button-text="取消"
@@ -75,7 +76,6 @@
                             <el-button type="success">确认归还</el-button>
                         </template>
                     </el-popconfirm>
-
                 </template>
             </el-table-column>
         </el-table>
@@ -120,7 +120,6 @@ const handleSelectionChange = (val) => {
 
 //表格的响应式class类名
 const tableRowClassName = ({row}) => {
-
     const due_time = new Date(row.due_time)
 
     if (row.del_flag === 0) {
@@ -130,7 +129,6 @@ const tableRowClassName = ({row}) => {
             return 'warning-row'
         } else return ''
     }
-
 }
 
 const freshUnreturnedBorrowList = () => {
@@ -204,7 +202,7 @@ const handleBatchExtend = (selectedRowIds) => {
         ElMessage.warning('选中不能为空！')
     } else {
         ElMessageBox.confirm(
-            '确定将这些借阅延长七天吗，这不可撤销！',
+            '确定将这些借阅延长三天吗，这不可撤销！',
             '延长确认',
             {
                 confirmButtonText: '确认',
