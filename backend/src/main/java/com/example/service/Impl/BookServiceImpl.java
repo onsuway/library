@@ -86,4 +86,19 @@ public class BookServiceImpl implements BookService {
             return bookMapper.selectBookByAuthor(text);
         }else return null;
     }
+
+    @Override
+    public int getBookUniqueCount() {
+        return bookMapper.getBookUniqueCount();
+    }
+
+    @Override
+    public int getBookTotalCount() {
+        return bookMapper.getBookTotalCount();
+    }
+
+    @Override
+    public int getTypeCount() {
+        return bookMapper.getTypeCount();
+    }
 }

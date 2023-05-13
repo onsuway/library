@@ -58,6 +58,16 @@ const router = createRouter({
                     path: 'userAdmin',
                     name: 'user-admin',
                     component: () => import('@/views/admin/UserView.vue')
+                },
+                {
+                    path: 'me',
+                    name: 'admin-me',
+                    component: () => import('@/views/admin/PersInfoView.vue')
+                },
+                {
+                    path: 'changePassword',
+                    name: 'change-password',
+                    component: () => import('@/views/admin/ChangePasswordView.vue')
                 }
             ]
         },
@@ -76,8 +86,8 @@ const router = createRouter({
                 },
                 {
                     path: 'me',
-                    name: 'personalInfo',
-                    component: () => import('@/views/user/PersonalInfoView.vue')
+                    name: 'user-me',
+                    component: () => import('@/views/user/PersInfoView.vue')
                 }
             ]
         }

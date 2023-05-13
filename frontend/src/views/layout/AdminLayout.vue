@@ -54,8 +54,12 @@
                             </el-icon>
                             <span>个人设置</span>
                         </template>
-                        <el-menu-item index="2-1">个人信息</el-menu-item>
-                        <el-menu-item index="2-2">隐私设置</el-menu-item>
+                        <el-menu-item index="/admin/me">
+                            个人信息
+                        </el-menu-item>
+                        <el-menu-item index="/admin/changePassword">
+                            修改密码
+                        </el-menu-item>
                     </el-sub-menu>
                 </el-menu>
             </el-aside>
@@ -72,8 +76,10 @@
                     </div>
                     <div style="margin-top: 5px">
                         <el-dropdown>
-                            <el-avatar class="user-avatar"
-                                       src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"/>
+                            <el-avatar
+                                class="user-avatar"
+                                src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"
+                            />
                             <template #dropdown>
                                 <el-dropdown-menu>
                                     <el-dropdown-item :icon="User">个人信息</el-dropdown-item>
@@ -82,7 +88,6 @@
                                 </el-dropdown-menu>
                             </template>
                         </el-dropdown>
-
                     </div>
                 </el-header>
                 <el-main>

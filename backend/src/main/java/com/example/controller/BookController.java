@@ -83,4 +83,19 @@ public class BookController {
         return RestBean.success(books);
     }
 
+    @GetMapping("/book-unique-count")
+    public RestBean<Integer> getBookUniqueCount(){
+        return RestBean.success(bookService.getBookUniqueCount());
+    }
+
+    @GetMapping("/book-total-count")
+    public RestBean<Integer> getBookTotalCount(){
+        return RestBean.success(bookService.getBookTotalCount());
+    }
+
+    @GetMapping("/type-count")
+    public RestBean<Integer> getTypeCount(){
+        return RestBean.success(bookService.getTypeCount());
+    }
+
 }

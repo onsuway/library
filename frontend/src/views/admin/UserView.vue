@@ -1,5 +1,12 @@
 <template>
     <div>
+        <div style="margin: 20px 600px">
+            <el-input size="large" v-model="searchInputText" placeholder="按用户名搜索用户">
+                <template #append>
+                    <el-button :icon="Search" @click="handleSearch()"/>
+                </template>
+            </el-input>
+        </div>
         <el-table
                 :data="userList"
                 size="large"
@@ -80,12 +87,15 @@
 import {get, post} from "@/net";
 import {ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {ArrowDown, Tools} from "@element-plus/icons-vue";
+import {ArrowDown, Search, Tools} from "@element-plus/icons-vue";
 
 const userList = ref([])
 const userBorrowingList = ref([])
 const dialogTableVisible = ref(false)
 const currentUser = ref('')
+
+//搜索框的输入文本
+const searchInputText = ref('')
 
 const freshUserList = () => {
     get('/api/user/get-all', (message) => {
@@ -152,6 +162,20 @@ const handleResetCredit = (row) => {
         .catch(() => {
             ElMessage.info("取消了重置信用积分")
         })
+}
+
+const handleSearch = () => {
+    if (searchInputText.value === ''){
+        ElMessage.warning('搜索不允许为空')
+    }else {
+        post('/api/user/search', {
+            text: searchInputText.value
+        }, (message) => {
+            userList.value = message
+        }, (message) => {
+            ElMessage.warning(message)
+        })
+    }
 }
 </script>
 

@@ -61,4 +61,13 @@ public interface BookMapper {
     })
     @Select("select * from book where author like '%${text}%'")
     List<Book> selectBookByAuthor(String text);
+
+    @Select("select count(*) from book")
+    int getBookUniqueCount();
+
+    @Select("select sum(nums) from book")
+    int getBookTotalCount();
+
+    @Select("select count(*) from type")
+    int getTypeCount();
 }

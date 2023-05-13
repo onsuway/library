@@ -32,4 +32,14 @@ public class UserServiceImpl implements UserService {
         }else return 0;
     }
 
+    @Override
+    public int getUserCount() {
+        return userMapper.getUserCount();
+    }
+
+    @Override
+    public List<Account> searchAccountByUsername(String text) {
+        return userMapper.searchAccountByUsername(text);
+    }
+
 }

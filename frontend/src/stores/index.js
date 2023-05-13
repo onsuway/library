@@ -44,37 +44,4 @@ export const useUserStore = defineStore('userStore', {
         }
     },
     persist: true
-
-    // const isLogin = ref(false)
-    //
-    // const user = ref({
-    //     id: '',
-    //     username: '',
-    //     email: '',
-    //     role: ''
-    // })
-    //
-    // function setLoginStatus(LoginStatus){
-    //     if (LoginStatus){
-    //         isLogin.value = true
-    //     }else {
-    //         isLogin.value = !isLogin.value
-    //     }
-    // }
-    //
-    // function setUser(message) {
-    //     user.id = message.id
-    //     user.username = message.username
-    //     user.email = message.email
-    //     user.role = message.role
-    // }
-    //
-    // function clearUser() {
-    //     this.id = ''
-    //     this.name = ''
-    //     this.email = ''
-    //     this.role = ''
-    // }
-    //
-    // return {isLogin, user, setLoginStatus ,setUser, clearUser}
 })

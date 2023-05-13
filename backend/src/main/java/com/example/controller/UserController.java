@@ -40,4 +40,13 @@ public class UserController {
         }
     }
 
+    @GetMapping("/user-count")
+    public RestBean<Integer> getUserCount(){
+        return RestBean.success(userService.getUserCount());
+    }
+
+    @PostMapping("/search")
+    public RestBean<List<Account>> searchAccountByUsername(@RequestParam("text") String text){
+        return RestBean.success(userService.searchAccountByUsername(text));
+    }
 }

@@ -31,4 +31,10 @@ public interface UserMapper {
 
     @Update("update account set credit = 3 where id = #{id}")
     int resetCreditById(String id);
+
+    @Select("select count(*) from account")
+    int getUserCount();
+
+    @Select("select * from account where username like '%${text}%' and del_flag = 0")
+    List<Account> searchAccountByUsername(String text);
 }

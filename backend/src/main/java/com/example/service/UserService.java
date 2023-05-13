@@ -15,4 +15,8 @@ public interface UserService {
     List<Account> getAllAccountUser();
 
     int resetCredit(String account_id);
+
+    int getUserCount();
+
+    List<Account> searchAccountByUsername(String text);
 }

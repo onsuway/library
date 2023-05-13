@@ -28,4 +28,10 @@ public interface BookService {
     int deleteType(int type_id);
 
     List<Book> searchBookByTitleOrAuthor(String TitleOrAuthor, String text);
+
+    int getBookUniqueCount();
+
+    int getBookTotalCount();
+
+    int getTypeCount();
 }
