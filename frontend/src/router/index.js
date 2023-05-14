@@ -74,21 +74,33 @@ const router = createRouter({
         {
             path: '/user',
             name: 'user',
+            redirect: 'user/home',
             meta: {
                 requireUser: true,
             },
             component: () => import('@/views/layout/UserLayout.vue'),
             children: [
                 {
-                    path: 'bookBorrow',
-                    name: 'book-borrow',
-                    component: () => import('@/views/user/BookAndBorrowView.vue')
+                    path: 'home',
+                    name: 'home',
+                    component: () => import('@/views/user/HomeView.vue')
+                },
+                {
+                    path: 'bookSearchList',
+                    name: 'book-searchList',
+                    component: () => import('@/views/user/BookSearchList.vue')
+                },
+                {
+                    path: 'bookRecommend',
+                    name: 'book-recommend',
+                    component: () => import('@/views/user/BookRecommendationsView.vue')
                 },
                 {
                     path: 'me',
                     name: 'user-me',
-                    component: () => import('@/views/user/PersInfoView.vue')
-                }
+                    component: () => import('@/views/user/PersBorrowView.vue')
+                },
+
             ]
         }
 
@@ -99,7 +111,6 @@ router.beforeEach((to, from, next) => {
     const userStore = useUserStore()
 
     userStore.updateUserInfo()
-
 
 
     const requireAdmin = to.matched.some(record => record.meta.requireAdmin)

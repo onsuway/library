@@ -1,70 +1,47 @@
 <template>
-    <div style="height: 100vh;">
-        <el-container style="height: 100%;">
-            <el-aside width="200px" class="content-aside" :style="{width: hideMenu? '0' : '250px'}">
-                <div style="height: 60px;line-height: 60px;text-align: center;transition: 0.3s;font-weight: bold; font-size: 20px"
-                        :style="{opacity: hideMenu? '0' : '1'}">
-                    校园论坛
+    <div class="user-layout">
+        <el-container>
+            <el-header class="content-header">
+                <div style="flex: 1">
+                    <el-image
+                            src="https://image.itbaima.net/images/90/image-20230514153349528.png"
+                    />
                 </div>
-                <el-menu
-
-                        style="height: calc(100% - 60px);border: none"
-                        default-active="2"
-                        class="el-menu-vertical-demo"
-                >
-                    <el-sub-menu index="1">
-                        <template #title>
-                            <el-icon>
-                                <Compass/>
-                            </el-icon>
-                            <span>交流论坛</span>
+                <div style="flex: 0.7">
+                    <el-menu
+                        mode="horizontal"
+                        background-color="#66b1ff"
+                        text-color="white"
+                        active-text-color="black"
+                        router
+                        :default-active="router.currentRoute.value.fullPath"
+                    >
+                        <el-menu-item index="/user/home">书籍检索</el-menu-item>
+                        <el-menu-item index="/user/bookRecommend">书籍推荐</el-menu-item>
+                        <el-menu-item index="/user/me">个人借阅</el-menu-item>
+                    </el-menu>
+                </div>
+                <div style="text-align: right;margin: 15px 10px 0 0; line-height: 15px">
+                    <div style="font-weight: bold;font-size: 18px">{{ userStore.userInfo.username }}</div>
+                    <div style="color: grey;font-size: 14px;">{{ userStore.userInfo.email }}</div>
+                </div>
+                <div style="margin-top: 8px">
+                    <el-dropdown>
+                        <el-avatar
+                                class="user-avatar"
+                                src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"
+                        />
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item :icon="User">个人信息</el-dropdown-item>
+                                <el-dropdown-item :icon="SwitchButton" divided @click="logout">退出登录
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
                         </template>
-                        <el-menu-item index="1-1">帖子广场</el-menu-item>
-                        <el-menu-item index="1-2">发表帖子</el-menu-item>
-                        <el-menu-item index="1-3">我的收藏</el-menu-item>
-                    </el-sub-menu>
-                    <el-sub-menu index="2">
-                        <template #title>
-                            <el-icon>
-                                <Setting/>
-                            </el-icon>
-                            <span>个人设置</span>
-                        </template>
-                        <el-menu-item index="2-1">个人信息</el-menu-item>
-                        <el-menu-item index="2-2">隐私设置</el-menu-item>
-                    </el-sub-menu>
-                </el-menu>
-            </el-aside>
-            <el-container>
-                <el-header class="content-header">
-                    <div>
-                        <el-button style="margin-top: 8px;font-size: 20px;width: 20px"
-                                   :icon="hideMenu ? Expand : Fold" text @click="hideMenu = !hideMenu"/>
-                    </div>
-                    <div style="flex:1; margin: 0 40px">
-                        <el-input :prefix-icon="Search" style="margin-top: 8px"/>
-                    </div>
-                    <div style="text-align: right;margin: 13px 10px 0 0; line-height: 14px">
-                        <div style="font-weight: bold;font-size: 18px">{{ userStore.userInfo.username }}</div>
-                        <div style="color: grey;font-size: 14px;">{{ userStore.userInfo.email }}</div>
-                    </div>
-                    <div style="margin-top: 5px">
-                        <el-dropdown>
-                            <el-avatar class="user-avatar"
-                                       src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"/>
-                            <template #dropdown>
-                                <el-dropdown-menu>
-                                    <el-dropdown-item :icon="User">个人信息</el-dropdown-item>
-                                    <el-dropdown-item :icon="SwitchButton" divided @click="logout">退出登录
-                                    </el-dropdown-item>
-                                </el-dropdown-menu>
-                            </template>
-                        </el-dropdown>
-
-                    </div>
-                </el-header>
-                <el-main>Main</el-main>
-            </el-container>
+                    </el-dropdown>
+                </div>
+            </el-header>
+            <el-main style="padding: 0"><router-view/></el-main>
         </el-container>
     </div>
 </template>
@@ -75,14 +52,10 @@ import {ElMessage} from "element-plus";
 import router from "@/router";
 import {useUserStore} from "@/stores";
 import {
-    Compass, Expand, Fold,
-    Search, Setting,
     SwitchButton,
     User
 } from "@element-plus/icons-vue";
-import {ref} from "vue";
 
-const hideMenu = ref(false)
 
 const userStore = useUserStore();
 
@@ -95,22 +68,17 @@ const logout = () => {
 }
 </script>
 
-<style scoped>
+<style >
 .user-avatar:hover {
     cursor: pointer;
 }
 
 .content-header {
+    background-color: #66b1ff;
     padding: 0 10px;
     display: flex;
-    height: 50px;
-    border-bottom: solid 1px #e0e0e0;
+    height: 63px;
 }
 
-.content-aside {
-    width: 250px;
-    border-right: solid 1px #e0e0e0;
-    transition: 0.4s;
-}
 
 </style>
