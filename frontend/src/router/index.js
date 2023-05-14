@@ -100,13 +100,14 @@ router.beforeEach((to, from, next) => {
 
     userStore.updateUserInfo()
 
-    const {role} = userStore.userInfo
 
 
     const requireAdmin = to.matched.some(record => record.meta.requireAdmin)
     const requireUser = to.matched.some(record => record.meta.requireUser)
     const isWelcome = to.matched.some(record => record.meta.welcome)
+
     if (userStore.isLogin) {
+        const {role} = userStore.userInfo
         if (isWelcome) {
             ElMessage.info('已经登录，无需进入登录页面')
             next('/' + role)

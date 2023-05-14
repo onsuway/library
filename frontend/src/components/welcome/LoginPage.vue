@@ -79,6 +79,13 @@ const login = () => {
     }
 }
 
+userStore.updateUserInfo()
+
+if (userStore.isLogin){
+    router.push('/' + userStore.userInfo.role)
+}
+
+
 </script>
 
 <style scoped>
