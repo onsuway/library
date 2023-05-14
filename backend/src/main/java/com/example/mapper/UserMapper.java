@@ -1,7 +1,6 @@
 package com.example.mapper;
 
 import com.example.entity.Account;
-import com.example.entity.Borrow;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

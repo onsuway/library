@@ -105,8 +105,8 @@ import router from "@/router";
 import {useUserStore} from "@/stores";
 import {
     Collection,
-    Compass, Expand, Fold, HomeFilled, List, MessageBox,
-    Search, Setting,
+    Expand, Fold, HomeFilled, List, MessageBox,
+    Setting,
     SwitchButton,
     User, UserFilled
 } from "@element-plus/icons-vue";

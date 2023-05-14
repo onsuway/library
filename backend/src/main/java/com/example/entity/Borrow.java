@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 /**
  * @ClassName Borrow
- * @Description TODO
+ * @Description 借阅类
  * @Author su
  * @Date 2023/5/7 22:25
  */

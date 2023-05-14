@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @ClassName Book
- * @Description TODO
+ * @Description 书籍类
  * @Author su
  * @Date 2023/5/2 16:49
  */

@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import com.example.entity.Book;
 import com.example.entity.Borrow;
 import com.example.entity.RestBean;
 import com.example.service.BorrowService;
@@ -11,7 +10,7 @@ import java.util.List;
 
 /**
  * @ClassName BorrowController
- * @Description TODO
+ * @Description 借阅接口
  * @Author su
  * @Date 2023/5/7 21:58
  */

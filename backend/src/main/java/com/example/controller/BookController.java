@@ -57,7 +57,7 @@ public class BookController {
     }
 
     @PostMapping("/addType")
-    public RestBean<String> addType(@RequestParam("") String type_name){
+    public RestBean<String> addType(@RequestParam("type_name") String type_name){
         String message = bookService.addType(type_name);
         if (message == null){
             return RestBean.success("成功新增");

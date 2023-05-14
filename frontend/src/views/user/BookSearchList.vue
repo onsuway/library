@@ -68,7 +68,7 @@
                             </div>
                             <div class="book-nums">可借({{ book.nums }})</div>
                             <div class="book-operation">
-                                <el-button type="primary" :disabled="book.nums === 0" @click="handleBorrow(book.bid)">
+                                <el-button type="primary" :disabled="book.nums === 0" @click="handleBorrow()">
                                     借阅
                                 </el-button>
                             </div>
@@ -141,7 +141,7 @@ const handleSearch = () => {
 }
 
 
-const handleBorrow = (bid) => {
+const handleBorrow = () => {
     //TODO 待后端实现用户借阅接口
     ElMessage.success('借阅')
 }

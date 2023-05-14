@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {get} from "@/net";
-import {ElMessage} from "element-plus";
 
 export const useUserStore = defineStore('userStore', {
     state: () => ({

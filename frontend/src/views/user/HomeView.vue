@@ -32,7 +32,6 @@
 <script setup>
 import {Search} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
-import {post} from "@/net";
 import {ref} from "vue";
 import router from "@/router";
 

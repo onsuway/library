@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @ClassName RestBean
- * @Description TODO
+ * @Description 统一结果返回类
  * @Author su
  * @Date 2023/4/19 12:46
  */
