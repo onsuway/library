@@ -68,7 +68,7 @@
                             </div>
                             <div class="book-nums">可借({{ book.nums }})</div>
                             <div class="book-operation">
-                                <el-button type="primary" :disabled="book.nums === 0" @click="handleBorrow()">
+                                <el-button type="primary" :disabled="book.nums === 0" @click="handleBorrow(book.bid)">
                                     借阅
                                 </el-button>
                             </div>
@@ -87,16 +87,24 @@
 
 <script setup>
 import {useRoute} from "vue-router";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {Promotion, Search} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
 import {get, post} from "@/net";
-import {useUserStore} from "@/stores";
+import {useCheckBoxStore, useUserStore} from "@/stores";
 import router from "@/router";
+
+onMounted(() => {
+    checkBoxStore.setCheckBoxList(typeNameList.value)
+    freshBookSearchList()
+
+
+    console.log(userStore.userInfo.credit)
+})
 
 const route = useRoute()
 const userStore = useUserStore()
-
+const checkBoxStore = useCheckBoxStore()
 
 
 //从主页搜索框传过来的搜索类型和搜索文本
@@ -108,22 +116,33 @@ const bookSearchList = ref([])
 
 const typeList = ref([])
 
-const checkBoxList = ref([])
+const checkBoxList = ref(checkBoxStore.getCheckBox)
+
+const typeNameList = ref([])
+
+
+get('/api/book/getAllType', (message) => {
+    typeList.value = message
+    typeNameList.value = typeList.value.map(type => type.type_name)
+})
+
 
 const freshBookSearchList = () => {
     post('/api/book/search', {
         search_type: searchInputSelected.value,
         search_value: searchInputText.value
     }, (message) => {
-        bookSearchList.value = message
+
+        if (checkBoxStore.getCheckBox.length === 0) {
+            checkBoxStore.setCheckBoxList(typeNameList.value)
+            freshBookSearchList()
+        }
+
+        bookSearchList.value = message.filter(book =>
+            checkBoxList.value.indexOf(book.type_name) !== -1
+        )
     })
 }
-
-freshBookSearchList()
-
-get('/api/book/getAllType', (message) => {
-    typeList.value = message
-})
 
 const handleSearch = () => {
     if (searchInputText.value === '' || searchInputSelected.value === '') {
@@ -141,13 +160,21 @@ const handleSearch = () => {
 }
 
 
-const handleBorrow = () => {
-    //TODO 待后端实现用户借阅接口
-    ElMessage.success('借阅')
+const handleBorrow = (bid) => {
+    post('/api/borrow/user-borrow', {
+        bid: bid,
+        account_id: userStore.userInfo.id
+    },() => {
+        ElMessage.success('成功借阅')
+        freshBookSearchList()
+    }, (message) => {
+        ElMessage.warning(message)
+    })
 }
 
+
 const handleCheckBoxChange = () => {
-    //TODO 待实现多选框的状态持久化
+    checkBoxStore.setCheckBoxList(checkBoxList.value)
     freshBookSearchList()
 }
 

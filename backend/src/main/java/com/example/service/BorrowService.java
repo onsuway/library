@@ -28,4 +28,6 @@ public interface BorrowService {
     int returnBorrowByIds(String ids);
 
     List<Borrow> getBorrowingByAccountId(String account_id);
+
+    String borrow(String bid, String accountId);
 }

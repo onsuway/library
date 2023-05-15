@@ -1,6 +1,5 @@
 package com.example;
 
-import com.example.entity.Borrow;
 import com.example.mapper.BookMapper;
 import com.example.mapper.BorrowMapper;
 import com.example.service.BorrowService;
@@ -10,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.List;
+import java.sql.Timestamp;
 
 @SpringBootTest
 class BackendApplicationTests {
@@ -23,6 +22,7 @@ class BackendApplicationTests {
 
     @Resource
     BorrowService borrowService;
+
 
     @Test
     void contextLoads() {
@@ -63,6 +63,9 @@ class BackendApplicationTests {
 
     @Test
     void borrow(){
-
+        Timestamp borrow_time = new Timestamp(System.currentTimeMillis());
+        Timestamp due_time = new Timestamp(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
+        System.out.println(borrowMapper.insertBorrow("66", "8", borrow_time, due_time));
     }
+
 }

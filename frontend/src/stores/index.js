@@ -1,6 +1,7 @@
 import {defineStore} from "pinia";
 import {get} from "@/net";
 
+//当前登录用户的信息
 export const useUserStore = defineStore('userStore', {
     state: () => ({
         isLogin: false,
@@ -46,3 +47,22 @@ export const useUserStore = defineStore('userStore', {
         storage: sessionStorage,
     },
 })
+
+//user-搜索书籍列表页面 checkBox的状态
+export const useCheckBoxStore = defineStore('checkBoxStore', {
+    state: () => ({
+        checkBoxList: []
+    }),
+    getters: {
+        getCheckBox: (state) => state.checkBoxList,
+    },
+    actions: {
+        setCheckBoxList(checkBox) {
+            this.checkBoxList = checkBox
+        }
+    },
+    persist: {
+        storage: sessionStorage,
+    }
+})
+

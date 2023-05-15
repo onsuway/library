@@ -41,7 +41,7 @@ const router = createRouter({
             children: [
                 {
                     path: 'home',
-                    name: 'home',
+                    name: 'admin-home',
                     component: () => import('@/views/admin/HomeView.vue')
                 },
                 {
@@ -82,7 +82,7 @@ const router = createRouter({
             children: [
                 {
                     path: 'home',
-                    name: 'home',
+                    name: 'user-home',
                     component: () => import('@/views/user/HomeView.vue')
                 },
                 {
@@ -111,7 +111,6 @@ router.beforeEach((to, from, next) => {
     const userStore = useUserStore()
 
     userStore.updateUserInfo()
-
 
     const requireAdmin = to.matched.some(record => record.meta.requireAdmin)
     const requireUser = to.matched.some(record => record.meta.requireUser)

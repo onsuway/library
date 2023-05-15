@@ -36,4 +36,13 @@ public interface UserMapper {
 
     @Select("select * from account where username like '%${text}%' and del_flag = 0")
     List<Account> searchAccountByUsername(String text);
+
+    @Select("select credit from account where id = #{id}")
+    int getUserCreditById(String id);
+
+    @Select("select borrowing_nums from account where id = #{id}")
+    int getUserBorrowingNumsById(String id);
+
+    @Update("update account set borrowing_nums = borrowing_nums + 1 where id = #{id}")
+    int increaseBorrowingNumsById(String id);
 }

@@ -3,6 +3,7 @@ package com.example.mapper;
 import com.example.entity.Borrow;
 import org.apache.ibatis.annotations.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -82,4 +83,14 @@ public interface BorrowMapper {
     })
     @Select("select * from borrow where account_id = #{account_id} and del_flag = 0")
     List<Borrow> selectBorrowingByAccountId(String account_id);
+
+    @Update("update book set nums = nums - 1 where bid = #{bid} and nums > 0")
+    int decreaseBookNumsByBid(String bid);
+
+    @Insert("insert into borrow (book_id, account_id, borrow_time, due_time) values (#{book_id}, #{account_id}, #{borrow_time}, #{due_time})")
+    int insertBorrow(String book_id, String account_id, Timestamp borrow_time, Timestamp due_time);
+
+    @Select("select count(*) from borrow where book_id = #{book_id} and account_id = #{account_id}")
+    int selectBorrowByBidAndAccountId(String book_id, String account_id);
+
 }

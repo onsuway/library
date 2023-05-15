@@ -66,4 +66,15 @@ public class BorrowController {
         List<Borrow> borrowing = borrowService.getBorrowingByAccountId(account_id);
         return RestBean.success(borrowing);
     }
+
+    @PostMapping("/user-borrow")
+    public RestBean<String> userBorrow(@RequestParam("bid") String bid,
+                                       @RequestParam("account_id") String account_id){
+        String message = borrowService.borrow(bid, account_id);
+        if (message == null){
+            return RestBean.success();
+        }else {
+            return RestBean.failure(400, message);
+        }
+    }
 }

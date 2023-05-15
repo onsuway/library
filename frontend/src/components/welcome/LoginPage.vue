@@ -45,7 +45,7 @@
 
 <script setup>
 import {Lock, User} from "@element-plus/icons-vue";
-import {reactive} from "vue";
+import {onMounted, reactive} from "vue";
 import {ElMessage} from "element-plus";
 import {get, post} from "@/net";
 import router from "@/router";
@@ -79,11 +79,13 @@ const login = () => {
     }
 }
 
-userStore.updateUserInfo()
+// userStore.updateUserInfo()
 
-if (userStore.isLogin){
-    router.push('/' + userStore.userInfo.role)
-}
+onMounted(() => {
+    if (userStore.isLogin){
+        router.push('/' + userStore.userInfo.role)
+    }
+})
 
 
 </script>

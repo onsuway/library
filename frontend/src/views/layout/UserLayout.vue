@@ -5,6 +5,8 @@
                 <div style="flex: 1">
                     <el-image
                             src="https://image.itbaima.net/images/90/image-20230514153349528.png"
+                            @click="router.push('/user/home')"
+                            class="logo"
                     />
                 </div>
                 <div style="flex: 0.7">
@@ -70,6 +72,10 @@ const logout = () => {
 
 <style >
 .user-avatar:hover {
+    cursor: pointer;
+}
+
+.logo:hover {
     cursor: pointer;
 }
 

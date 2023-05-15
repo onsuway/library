@@ -23,3 +23,9 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+
+#constants:
+#  time:
+#    borrow-long: ${7*24*60*60*1000L}
+
+
