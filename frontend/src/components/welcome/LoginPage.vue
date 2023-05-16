@@ -79,7 +79,6 @@ const login = () => {
     }
 }
 
-// userStore.updateUserInfo()
 
 onMounted(() => {
     if (userStore.isLogin){
