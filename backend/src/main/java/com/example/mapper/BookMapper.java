@@ -33,11 +33,11 @@ public interface BookMapper {
     @Select("select * from type")
     List<Type> getAllType();
 
-    @Update("update book set title = #{title}, author = #{author}, `desc` = #{desc}, type_id = #{type_id}, nums = #{nums} where bid = #{bid}")
-    int editBookById(int bid, String title, String author, String desc, int type_id, int nums);
+    @Update("update book set title = #{title}, author = #{author}, `desc` = #{desc}, type_id = #{type_id}, nums = #{nums} , cover_url = #{cover_url} where bid = #{bid}")
+    int editBookById(int bid, String title, String author, String desc, int type_id, int nums, String cover_url);
 
-    @Insert("insert into book(title, author, `desc`, type_id, nums) values(#{title}, #{author}, #{desc}, #{type_id}, #{nums})")
-    int addBook(String title, String author, String desc, int type_id, int nums);
+    @Insert("insert into book(title, author, `desc`, type_id, nums, cover_url) values(#{title}, #{author}, #{desc}, #{type_id}, #{nums}, #{cover_url})")
+    int addBook(String title, String author, String desc, int type_id, int nums, String cover_url);
 
     @Insert("insert into type(type_name) values(#{type_name})")
     int addType(String type_name);

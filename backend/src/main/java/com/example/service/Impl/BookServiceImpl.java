@@ -45,7 +45,8 @@ public class BookServiceImpl implements BookService {
                book.getAuthor(),
                book.getDesc(),
                bookMapper.getTypeIdByTypeName(book.getType_name()),
-               book.getNums()
+               book.getNums(),
+               book.getCover_url()
        );
     }
 
@@ -56,7 +57,8 @@ public class BookServiceImpl implements BookService {
                 book.getAuthor(),
                 book.getDesc(),
                 bookMapper.getTypeIdByTypeName(book.getType_name()),
-                book.getNums()
+                book.getNums(),
+                book.getCover_url()
         );
     }
 

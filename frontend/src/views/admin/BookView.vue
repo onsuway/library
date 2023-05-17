@@ -54,7 +54,7 @@
         </div>
 
 
-        <!--  点击表格下方的添加书籍按钮按钮打开的对话框表单  -->
+        <!--  点击表格上方的添加书籍按钮按钮打开的对话框表单  -->
         <el-dialog
                 v-model="addBookDialogVisible"
                 title="新增书籍信息"
@@ -66,17 +66,19 @@
                     :model="bookForm"
                     style="max-width: 460px"
                     label-position="right"
+                    ref="formRef"
+                    :rules="rules"
             >
-                <el-form-item label="书名">
+                <el-form-item label="书名" prop="title">
                     <el-input v-model="bookForm.title"/>
                 </el-form-item>
-                <el-form-item label="作者">
+                <el-form-item label="作者" prop="author">
                     <el-input v-model="bookForm.author"/>
                 </el-form-item>
-                <el-form-item label="简介">
+                <el-form-item label="简介" prop="desc">
                     <el-input v-model="bookForm.desc" type="textarea" :rows="5"/>
                 </el-form-item>
-                <el-form-item label="类型">
+                <el-form-item label="类型" prop="type_name">
                     <el-select v-model="bookForm.type_name" class="m-2" placeholder="书籍类型" size="default">
                         <el-option
                                 v-for="item in typeList"
@@ -85,8 +87,11 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="库存">
+                <el-form-item label="库存" prop="nums">
                     <el-input-number v-model="bookForm.nums" :min="0"/>
+                </el-form-item>
+                <el-form-item label="封面图URL" prop="cover_url">
+                    <el-input v-model="bookForm.cover_url" placeholder="没有可为空"/>
                 </el-form-item>
             </el-form>
             <template #footer>
@@ -110,6 +115,17 @@
                 :header-cell-style="{'text-align':'center'}"
         >
             <el-table-column type="selection" width="55"/>
+            <el-table-column label="封面图" width="200">
+                <template #default="scope">
+                    <div style="height: 240px;width: 180px;">
+                        <el-image :src="scope.row.cover_url">
+                            <template #placeholder>
+                                <div class="image-slot"><span class="dot"></span></div>
+                            </template>
+                        </el-image>
+                    </div>
+                </template>
+            </el-table-column>
             <el-table-column prop="bid" label="ID" width="100"/>
             <el-table-column prop="title" label="书名" width="200"/>
             <el-table-column prop="author" label="作者" width="200"/>
@@ -143,17 +159,19 @@
                     :model="bookForm"
                     style="max-width: 460px"
                     label-position="right"
+                    ref="formRef"
+                    :rules="rules"
             >
-                <el-form-item label="书名">
+                <el-form-item label="书名" prop="title">
                     <el-input v-model="bookForm.title"/>
                 </el-form-item>
-                <el-form-item label="作者">
+                <el-form-item label="作者" prop="author">
                     <el-input v-model="bookForm.author"/>
                 </el-form-item>
-                <el-form-item label="简介">
+                <el-form-item label="简介" prop="desc">
                     <el-input v-model="bookForm.desc" type="textarea" :rows="5"/>
                 </el-form-item>
-                <el-form-item label="类型">
+                <el-form-item label="类型" prop="type_name">
                     <el-select v-model="bookForm.type_name" class="m-2" placeholder="书籍类型" size="default">
                         <el-option
                                 v-for="item in typeList"
@@ -162,8 +180,11 @@
                         />
                     </el-select>
                 </el-form-item>
-                <el-form-item label="库存">
+                <el-form-item label="库存" prop="nums">
                     <el-input-number v-model="bookForm.nums" :min="0"/>
+                </el-form-item>
+                <el-form-item label="封面图URL" prop="cover_url">
+                    <el-input v-model="bookForm.cover_url" placeholder="没有可为空"/>
                 </el-form-item>
             </el-form>
             <template #footer>
@@ -207,6 +228,19 @@ const selectedRowIds = ref([]);
 //书籍表格根据类型筛选的列表
 const filterTypeList = ref([])
 
+
+const formRef = ref()
+
+//编辑书籍内容 和 添加新书籍 的表单内容规则限制
+const rules = {
+    title: [
+        {required: true, message: '书名不能为空', trigger: 'blur'},
+    ],
+    author: [
+        {required: true, message: '作者不能为空', trigger: 'blur'},
+    ],
+}
+
 //表格的响应式class类名
 const tableRowClassName = ({row}) => {
     if (row.nums === 0) {
@@ -226,6 +260,7 @@ const bookList = ref([
         desc: '',
         type_name: '',
         nums: 0,
+        cover_url: '',
     }
 ])
 
@@ -244,7 +279,8 @@ const bookForm = ref({
     author: '',
     desc: '',
     type_name: '',
-    nums: 0
+    nums: 0,
+    cover_url: '',
 })
 
 //刷新书籍列表
@@ -336,14 +372,21 @@ const handleEdit = (row) => {
     bookForm.value.desc = row.desc
     bookForm.value.type_name = row.type_name
     bookForm.value.nums = row.nums
+    bookForm.value.cover_url = row.cover_url
 }
 
 //编辑书籍信息的表单保存操作
 const editSubmit = () => {
-    editBookDialogVisible.value = false
-    post('/api/book/edit', bookForm.value, (message) => {
-        ElMessage.success(message)
-        freshBookList()
+    formRef.value.validate((isValid) => {
+        if (isValid) {
+            editBookDialogVisible.value = false
+            post('/api/book/edit', bookForm.value, (message) => {
+                ElMessage.success(message)
+                freshBookList()
+            })
+        }else {
+            ElMessage.warning('请完整填写书籍内容')
+        }
     })
 }
 
@@ -390,11 +433,19 @@ const handleAddBook = () => {
 
 
 const addBookSubmit = () => {
-    addBookDialogVisible.value = false
-    post('/api/book/addBook', bookForm.value, (message) => {
-        ElMessage.success(message)
-        freshBookList()
+    formRef.value.validate((isValid) => {
+        if (isValid) {
+            addBookDialogVisible.value = false
+            post('/api/book/addBook', bookForm.value, (message) => {
+                ElMessage.success(message)
+                freshBookList()
+            })
+        }else {
+            ElMessage.warning('请完整填写书籍内容')
+        }
     })
+
+
 }
 
 const handleAddType = () => {

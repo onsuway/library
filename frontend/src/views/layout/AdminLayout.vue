@@ -4,7 +4,7 @@
             <el-aside width="200px" class="content-aside" :style="{width: hideMenu? '0' : '250px'}">
                 <div style="height: 60px;line-height: 60px;text-align: center;transition: 0.3s;font-weight: bold; font-size: 20px"
                      :style="{opacity: hideMenu? '0' : '1'}">
-                    白马图书馆
+                    Henu图书馆管理端
                 </div>
                 <el-menu
                         style="height: calc(100% - 60px);border: none"

@@ -25,4 +25,7 @@ public class Book {
     String type_name;
 
     int nums;
+
+    //书籍封面图片的链接
+    String cover_url;
 }
