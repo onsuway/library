@@ -115,9 +115,9 @@
                 :header-cell-style="{'text-align':'center'}"
         >
             <el-table-column type="selection" width="55"/>
-            <el-table-column label="封面图" width="200">
+            <el-table-column label="封面图" width="180">
                 <template #default="scope">
-                    <div style="height: 240px;width: 180px;">
+                    <div style="height: 120px;width: 90px; margin: 0 auto">
                         <el-image :src="scope.row.cover_url">
                             <template #placeholder>
                                 <div class="image-slot"><span class="dot"></span></div>
@@ -151,7 +151,7 @@
         <el-dialog
                 v-model="editBookDialogVisible"
                 title="编辑书籍信息"
-                width="27%"
+                width="40%"
                 align-center
         >
             <el-form
@@ -239,6 +239,9 @@ const rules = {
     author: [
         {required: true, message: '作者不能为空', trigger: 'blur'},
     ],
+    type_name: [
+        {required: true, message: '类型不能为空，如果无对应类别，请先添加类别', trigger: 'blur'},
+    ]
 }
 
 //表格的响应式class类名
@@ -429,6 +432,7 @@ const handleAddBook = () => {
     bookForm.value.desc = ''
     bookForm.value.type_name = ''
     bookForm.value.nums = 0
+    bookForm.value.cover_url = ''
 }
 
 

@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.entity.Borrow;
+import com.example.entity.BorrowCount;
 import org.apache.ibatis.annotations.*;
 
 import java.sql.Timestamp;
@@ -32,9 +33,10 @@ public interface BorrowMapper {
     @Select("select * from borrow where due_time < NOW() and del_flag = 0")
     List<Borrow> getOverdueBorrow();
 
+    //严禁删除！
     @Select("select title from book where bid = #{book_id}")
     String findTitleByBid(int book_id);
-
+    //严禁删除！
     @Select("select username from account where id = #{account_id}")
     String findUsernameById(int account_id);
 
@@ -47,7 +49,6 @@ public interface BorrowMapper {
     })
     @Select("select * from borrow where del_flag = 0")
     List<Borrow> getUnreturnedBorrow();
-
 
     @Results({
             @Result(column = "book_id", property = "title",
@@ -92,5 +93,9 @@ public interface BorrowMapper {
 
     @Select("select count(*) from borrow where book_id = #{book_id} and account_id = #{account_id}")
     int selectBorrowByBidAndAccountId(String book_id, String account_id);
+
+
+    @Select("select book_id, count(*) as borrow_count from borrow group by book_id order by borrow_count DESC LIMIT 5")
+    List<BorrowCount> selectHotBorrowBook();
 
 }

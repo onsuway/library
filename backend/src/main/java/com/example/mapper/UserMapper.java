@@ -18,12 +18,17 @@ public interface UserMapper {
     @Select("select * from account where username = #{text} or email = #{text}")
     Account findAccountByUsernameOrEmail(String text);
 
-
     @Insert("insert into account (username, password, email) values (#{username}, #{password}, #{email})")
     int creatAccount(String username, String password, String email);
 
     @Update("update account set password = #{password} where email = #{email}")
     int resetPasswordByEmail(String password, String email);
+
+    @Select("select password from account where id = #{account_id}")
+    String getPasswordByAccountId(String account_id);
+
+    @Update("update account set password = #{new_password} where id = #{account_id}")
+    int setNewPasswordByAccountId(String account_id, String new_password);
 
     @Select("select * from account where role <> 'admin'")
     List<Account> getAllAccountUser();

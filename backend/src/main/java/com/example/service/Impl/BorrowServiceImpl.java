@@ -1,6 +1,8 @@
 package com.example.service.Impl;
 
 import com.example.entity.Borrow;
+import com.example.entity.BorrowCount;
+import com.example.mapper.BookMapper;
 import com.example.mapper.BorrowMapper;
 import com.example.mapper.UserMapper;
 import com.example.service.BorrowService;
@@ -31,6 +33,9 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Resource
     UserMapper userMapper;
+
+    @Resource
+    BookMapper bookMapper;
 
     Timestamp now = new Timestamp(System.currentTimeMillis());
 
@@ -123,6 +128,19 @@ public class BorrowServiceImpl implements BorrowService {
             return "数据库内部出现错误，请联系管理员";
         }
 
+    }
+
+    @Override
+    public List<BorrowCount> getHotBorrowedBookTop5() {
+
+        List<BorrowCount> borrowCounts = borrowMapper.selectHotBorrowBook();
+
+        borrowCounts.forEach(borrowCount -> {
+            borrowCount.setTitle(bookMapper.selectTitleById(borrowCount.getBook_id()));
+            borrowCount.setCover_url(bookMapper.selectCoverUrlByBookId(borrowCount.getBook_id()));
+        });
+
+        return borrowCounts;
     }
 
 }

@@ -21,6 +21,13 @@ public interface BookMapper {
     })
     List<Book> getAllBook();
 
+    @Select("select title from book where bid = #{book_id}")
+    String selectTitleById(int book_id);
+
+    @Select("select cover_url from book where bid = #{book_id}")
+    String selectCoverUrlByBookId(int book_id);
+
+    //严禁删除！！！ 用在别处
     @Select("select type_name from type where type_id = #{type_id}")
     String getTypeNameByTypeId(int type_id);
 

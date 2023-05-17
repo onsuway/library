@@ -19,4 +19,6 @@ public interface UserService {
     int getUserCount();
 
     List<Account> searchAccountByUsername(String text);
+
+    String resetPassword(String account_id, String current_password, String new_password);
 }

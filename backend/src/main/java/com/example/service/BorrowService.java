@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.entity.Borrow;
+import com.example.entity.BorrowCount;
 
 import java.util.List;
 
@@ -13,7 +14,6 @@ import java.util.List;
 public interface BorrowService {
 
     List<Borrow> getUnreturnedBorrow();
-
 
     List<Borrow> searchBorrowByTitleOrAuthor(String searchType, String searchValue);
 
@@ -30,4 +30,6 @@ public interface BorrowService {
     List<Borrow> getBorrowingByAccountId(String account_id);
 
     String borrow(String bid, String accountId);
+
+    List<BorrowCount> getHotBorrowedBookTop5();
 }

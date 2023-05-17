@@ -40,6 +40,19 @@ public class UserController {
         }
     }
 
+    @PostMapping("/reset-password")
+    public RestBean<String> resetPassword(@RequestParam("account_id") String account_id,
+                                          @RequestParam("current_password") String current_password,
+                                          @RequestParam("new_password") String new_password){
+        String message = userService.resetPassword(account_id,current_password, new_password);
+
+        if (message == null) {
+            return RestBean.success("重置密码成功");
+        }else {
+            return RestBean.failure(401, message);
+        }
+    }
+
     @GetMapping("/user-count")
     public RestBean<Integer> getUserCount(){
         return RestBean.success(userService.getUserCount());

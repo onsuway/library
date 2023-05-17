@@ -32,62 +32,15 @@
                 <div class="title-right">查看全部</div>
             </div>
 
-            <!-- TODO 待实现从数据库中实时读取热门书籍信息
-                 我的想法是：分组并根据书号查询在borrow表中的借阅信息 再Limit输出排名前5
-             -->
-            <div class="hot-book">
-                <div class="hot-book-item">
+            <div class="hot-book" >
+                <div class="hot-book-item" v-for="book in hotBookList">
                     <div style="width: 180px;height: 240px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2tvU.jpeg"/>
+                        <el-image style="width: 100%;height: 100%;" :src="book.cover_url"/>
                     </div>
                     <div class="hot-book-info">
-                        <el-link type="primary" class="hot-book-title">史记</el-link>
+                        <el-link type="primary" class="hot-book-title">{{book.title}}</el-link>
                         <div class="hot-book-popularity">
-                            借阅次数：<span>10</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hot-book-item">
-                    <div style="width: 180px;height: 240px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2tvU.jpeg"/>
-                    </div>
-                    <div class="hot-book-info">
-                        <el-link type="primary" class="hot-book-title">史记</el-link>
-                        <div class="hot-book-popularity">
-                            借阅次数：<span>10</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hot-book-item">
-                    <div style="width: 180px;height: 240px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2tvU.jpeg"/>
-                    </div>
-                    <div class="hot-book-info">
-                        <el-link type="primary" class="hot-book-title">史记</el-link>
-                        <div class="hot-book-popularity">
-                            借阅次数：<span>10</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hot-book-item">
-                    <div style="width: 180px;height: 240px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2tvU.jpeg"/>
-                    </div>
-                    <div class="hot-book-info">
-                        <el-link type="primary" class="hot-book-title">史记</el-link>
-                        <div class="hot-book-popularity">
-                            借阅次数：<span>10</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hot-book-item">
-                    <div style="width: 180px;height: 240px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2tvU.jpeg"/>
-                    </div>
-                    <div class="hot-book-info">
-                        <el-link type="primary" class="hot-book-title">史记</el-link>
-                        <div class="hot-book-popularity">
-                            借阅次数：<span>10</span>
+                            总借阅次数：<span>{{book.borrow_count}}</span>
                         </div>
                     </div>
                 </div>
@@ -247,14 +200,17 @@
 <script setup>
 import {Right, Search} from "@element-plus/icons-vue";
 import {ElMessage} from "element-plus";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import router from "@/router";
+import {get} from "@/net";
 
 //搜索框选择的搜索类型
 const searchInputSelected = ref('')
 
 //搜索框的输入文本
 const searchInputText = ref('')
+
+const hotBookList = ref([])
 
 const handleSearch = () => {
     if (searchInputText.value === '' || searchInputSelected.value === '') {
@@ -270,10 +226,19 @@ const handleSearch = () => {
     }
 }
 
+const freshHotBookList = () => {
+    get('/api/borrow/get-hot-borrow-book', (message) => {
+        hotBookList.value = message
+    })
+}
+
 const handleRecommend = () => {
     ElMessage.info('推荐')
 }
 
+onMounted(() => {
+    freshHotBookList()
+})
 </script>
 
 <style scoped>

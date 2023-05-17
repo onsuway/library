@@ -4,6 +4,7 @@ import com.example.entity.Account;
 import com.example.mapper.UserMapper;
 import com.example.service.UserService;
 import jakarta.annotation.Resource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,4 +43,26 @@ public class UserServiceImpl implements UserService {
         return userMapper.searchAccountByUsername(text);
     }
 
+    @Override
+    public String resetPassword(String account_id, String current_password, String new_password) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        //得到当前加密过的密码
+        String current_password_encrypted = userMapper.getPasswordByAccountId(account_id);
+
+        //加密过的密码与用户输入的明文密码对比
+        if (passwordEncoder.matches(current_password, current_password_encrypted)){
+            String new_password_encrypted = passwordEncoder.encode(new_password);
+
+            if (userMapper.setNewPasswordByAccountId(account_id, new_password_encrypted) == 1){
+                return null;
+            }else {
+                return "数据库内部出现错误，请联系管理员";
+            }
+
+        }else {
+            return "输入的原密码错误";
+        }
+
+    }
 }
