@@ -1,12 +1,12 @@
 package com.example.controller;
 
 import com.example.entity.Book;
+import com.example.entity.NewCreateBook;
 import com.example.entity.RestBean;
 import com.example.entity.Type;
 import com.example.service.BookService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,6 +22,11 @@ public class BookController {
 
     @Resource
     BookService bookService;
+
+    @PostMapping("/get-by-id")
+    public RestBean<Book> getBookById(@RequestParam("book_id") String book_id){
+        return RestBean.success(bookService.getBookById(book_id));
+    }
 
     @GetMapping("/getAllBook")
     public RestBean<List<Book>> getAllBook() {
@@ -99,10 +104,9 @@ public class BookController {
         return RestBean.success(bookService.getTypeCount());
     }
 
-    @PostMapping("/post-image")
-    public RestBean<String> postImage(@RequestParam("file")MultipartFile file){
-        System.out.println(file);
-
-        return RestBean.success("成功上传");
+    @GetMapping("/get-new-create")
+    public RestBean<List<NewCreateBook>> getNewCreateBook(){
+        return RestBean.success(bookService.getNewCreateBook());
     }
+
 }

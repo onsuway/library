@@ -1,18 +1,16 @@
 package com.example.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
  * @ClassName BorrowCount
- * @Description 该类用来查询借阅次数多的书籍信息
+ * @Description 接收查询出的借阅次数多的书籍信息并传给前端
  * @Author su
  * @Date 2023/5/17 22:56
  */
 @Data
-public class BorrowCount {
+public class HotBorrowBook {
 
-    @JsonIgnore
     int book_id;
 
     String title;
@@ -20,5 +18,4 @@ public class BorrowCount {
     String cover_url;
 
     int borrow_count;
-
 }

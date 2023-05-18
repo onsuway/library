@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.entity.Book;
+import com.example.entity.NewCreateBook;
 import com.example.entity.Type;
 
 import java.util.List;
@@ -34,4 +35,8 @@ public interface BookService {
     int getBookTotalCount();
 
     int getTypeCount();
+
+    List<NewCreateBook> getNewCreateBook();
+
+    Book getBookById(String bid);
 }

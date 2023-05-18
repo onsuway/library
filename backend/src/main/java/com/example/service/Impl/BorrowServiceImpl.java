@@ -1,7 +1,7 @@
 package com.example.service.Impl;
 
 import com.example.entity.Borrow;
-import com.example.entity.BorrowCount;
+import com.example.entity.HotBorrowBook;
 import com.example.mapper.BookMapper;
 import com.example.mapper.BorrowMapper;
 import com.example.mapper.UserMapper;
@@ -131,16 +131,16 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public List<BorrowCount> getHotBorrowedBookTop5() {
+    public List<HotBorrowBook> getHotBorrowedBookTop5() {
 
-        List<BorrowCount> borrowCounts = borrowMapper.selectHotBorrowBook();
+        List<HotBorrowBook> hotBorrowBooks = borrowMapper.selectHotBorrowBook();
 
-        borrowCounts.forEach(borrowCount -> {
+        hotBorrowBooks.forEach(borrowCount -> {
             borrowCount.setTitle(bookMapper.selectTitleById(borrowCount.getBook_id()));
             borrowCount.setCover_url(bookMapper.selectCoverUrlByBookId(borrowCount.getBook_id()));
         });
 
-        return borrowCounts;
+        return hotBorrowBooks;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.example.mapper;
 
 import com.example.entity.Borrow;
-import com.example.entity.BorrowCount;
+import com.example.entity.HotBorrowBook;
 import org.apache.ibatis.annotations.*;
 
 import java.sql.Timestamp;
@@ -96,6 +96,6 @@ public interface BorrowMapper {
 
 
     @Select("select book_id, count(*) as borrow_count from borrow group by book_id order by borrow_count DESC LIMIT 5")
-    List<BorrowCount> selectHotBorrowBook();
+    List<HotBorrowBook> selectHotBorrowBook();
 
 }

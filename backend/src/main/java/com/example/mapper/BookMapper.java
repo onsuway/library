@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.entity.Book;
+import com.example.entity.NewCreateBook;
 import com.example.entity.Type;
 import org.apache.ibatis.annotations.*;
 
@@ -23,6 +24,13 @@ public interface BookMapper {
 
     @Select("select title from book where bid = #{book_id}")
     String selectTitleById(int book_id);
+
+    @Results({
+            @Result(column = "type_id", property = "type_name",
+                    one = @One(select = "getTypeNameByTypeId")),
+    })
+    @Select("select * from book where bid = #{book_id}")
+    Book selectBookByBid(String book_id);
 
     @Select("select cover_url from book where bid = #{book_id}")
     String selectCoverUrlByBookId(int book_id);
@@ -77,4 +85,8 @@ public interface BookMapper {
 
     @Select("select count(*) from type")
     int getTypeCount();
+
+    @Select("select bid as book_id, title, author, cover_url, create_day from book order by create_day desc limit 8")
+    List<NewCreateBook> getNewCreateBook();
 }
+

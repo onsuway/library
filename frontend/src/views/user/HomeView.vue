@@ -34,11 +34,11 @@
 
             <div class="hot-book" >
                 <div class="hot-book-item" v-for="book in hotBookList">
-                    <div style="width: 180px;height: 240px">
-                        <el-image style="width: 100%;height: 100%;" :src="book.cover_url"/>
+                    <div style="width: 180px;height: 240px; cursor: pointer" @click="router.push(`/user/bookDetails/${book.book_id}`)">
+                        <el-image  style="width: 100%;height: 100%;" :src="book.cover_url"/>
                     </div>
                     <div class="hot-book-info">
-                        <el-link type="primary" class="hot-book-title">{{book.title}}</el-link>
+                        <el-link type="primary" class="hot-book-title" @click="router.push(`/user/bookDetails/${book.book_id}`)">{{book.title}}</el-link>
                         <div class="hot-book-popularity">
                             总借阅次数：<span>{{book.borrow_count}}</span>
                         </div>
@@ -54,121 +54,22 @@
                 <div class="title-right">查看全部</div>
             </div>
 
-            <!-- TODO 待实现从数据库中读取创建时间来获取新书
-                需要在book表中增加create_time字段 -->
             <div class="new-book">
-                <div class="new-book-item">
+                <div class="new-book-item" v-for="book in newBookList" @click="router.push(`/user/bookDetails/${book.book_id}`)">
                     <div style="width: 90px;height: 127px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2kyv.jpeg"/>
+                        <el-image style="width: 100%;height: 100%;" :src="book.cover_url"/>
                     </div>
                     <div class="new-book-info">
                         <div class="new-book-title">
-                            <div>围城</div>
-                            <div class="new-book-desc">钱钟书</div>
+                            <div>{{book.title}}</div>
+                            <div class="new-book-desc">{{book.author}}</div>
                         </div>
                         <div class="new-book-desc">
-                            <div>2023-5-16上架</div>
+                            <div>{{book.create_day}}上架</div>
                         </div>
                     </div>
                 </div>
-                <div class="new-book-item">
-                    <div style="width: 90px;height: 127px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2kyv.jpeg"/>
-                    </div>
-                    <div class="new-book-info">
-                        <div class="new-book-title">
-                            <div>围城</div>
-                            <div class="new-book-desc">钱钟书</div>
-                        </div>
-                        <div class="new-book-desc">
-                            <div>2023-5-16上架</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="new-book-item">
-                    <div style="width: 90px;height: 127px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2kyv.jpeg"/>
-                    </div>
-                    <div class="new-book-info">
-                        <div class="new-book-title">
-                            <div>围城</div>
-                            <div class="new-book-desc">钱钟书</div>
-                        </div>
-                        <div class="new-book-desc">
-                            <div>2023-5-16上架</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="new-book-item">
-                    <div style="width: 90px;height: 127px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2kyv.jpeg"/>
-                    </div>
-                    <div class="new-book-info">
-                        <div class="new-book-title">
-                            <div>围城</div>
-                            <div class="new-book-desc">钱钟书</div>
-                        </div>
-                        <div class="new-book-desc">
-                            <div>2023-5-16上架</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="new-book-item">
-                    <div style="width: 90px;height: 127px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2kyv.jpeg"/>
-                    </div>
-                    <div class="new-book-info">
-                        <div class="new-book-title">
-                            <div>围城</div>
-                            <div class="new-book-desc">钱钟书</div>
-                        </div>
-                        <div class="new-book-desc">
-                            <div>2023-5-16上架</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="new-book-item">
-                    <div style="width: 90px;height: 127px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2kyv.jpeg"/>
-                    </div>
-                    <div class="new-book-info">
-                        <div class="new-book-title">
-                            <div>围城</div>
-                            <div class="new-book-desc">钱钟书</div>
-                        </div>
-                        <div class="new-book-desc">
-                            <div>2023-5-16上架</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="new-book-item">
-                    <div style="width: 90px;height: 127px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2kyv.jpeg"/>
-                    </div>
-                    <div class="new-book-info">
-                        <div class="new-book-title">
-                            <div>围城</div>
-                            <div class="new-book-desc">钱钟书</div>
-                        </div>
-                        <div class="new-book-desc">
-                            <div>2023-5-16上架</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="new-book-item">
-                    <div style="width: 90px;height: 127px">
-                        <el-image style="width: 100%;height: 100%;" src="https://i.328888.xyz/2023/05/16/Vi2kyv.jpeg"/>
-                    </div>
-                    <div class="new-book-info">
-                        <div class="new-book-title">
-                            <div>围城</div>
-                            <div class="new-book-desc">钱钟书</div>
-                        </div>
-                        <div class="new-book-desc">
-                            <div>2023-5-16上架</div>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
 
@@ -210,7 +111,11 @@ const searchInputSelected = ref('')
 //搜索框的输入文本
 const searchInputText = ref('')
 
+//热门书籍
 const hotBookList = ref([])
+
+//新书推荐
+const newBookList = ref([])
 
 const handleSearch = () => {
     if (searchInputText.value === '' || searchInputSelected.value === '') {
@@ -232,12 +137,19 @@ const freshHotBookList = () => {
     })
 }
 
+const freshNewBookList = () => {
+    get('/api/book/get-new-create', (message) => {
+        newBookList.value = message
+    })
+}
+
 const handleRecommend = () => {
     ElMessage.info('推荐')
 }
 
 onMounted(() => {
     freshHotBookList()
+    freshNewBookList()
 })
 </script>
 

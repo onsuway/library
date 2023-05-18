@@ -88,7 +88,7 @@ const router = createRouter({
                 {
                     path: 'bookSearchList',
                     name: 'book-searchList',
-                    component: () => import('@/views/user/BookSearchList.vue')
+                    component: () => import('@/views/user/BookSearchList.vue'),
                 },
                 {
                     path: 'bookRecommend',
@@ -100,6 +100,11 @@ const router = createRouter({
                     name: 'user-me',
                     component: () => import('@/views/user/PersBorrowView.vue')
                 },
+                {
+                    path: 'bookDetails/:book_id',
+                    name: 'book-details',
+                    component: () => import('@/views/user/BookDetails.vue')
+                }
 
             ]
         }

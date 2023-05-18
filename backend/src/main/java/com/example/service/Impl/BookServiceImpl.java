@@ -1,6 +1,7 @@
 package com.example.service.Impl;
 
 import com.example.entity.Book;
+import com.example.entity.NewCreateBook;
 import com.example.entity.Type;
 import com.example.mapper.BookMapper;
 import com.example.service.BookService;
@@ -102,5 +103,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public int getTypeCount() {
         return bookMapper.getTypeCount();
+    }
+
+    @Override
+    public List<NewCreateBook> getNewCreateBook() {
+        return bookMapper.getNewCreateBook();
+    }
+
+    @Override
+    public Book getBookById(String bid) {
+        return bookMapper.selectBookByBid(bid);
     }
 }

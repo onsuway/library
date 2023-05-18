@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.entity.Borrow;
-import com.example.entity.BorrowCount;
+import com.example.entity.HotBorrowBook;
 import com.example.entity.RestBean;
 import com.example.service.BorrowService;
 import jakarta.annotation.Resource;
@@ -80,7 +80,7 @@ public class BorrowController {
     }
 
     @GetMapping("/get-hot-borrow-book")
-    public RestBean<List<BorrowCount>> getHotBook(){
+    public RestBean<List<HotBorrowBook>> getHotBook(){
         return RestBean.success(borrowService.getHotBorrowedBookTop5());
     }
 }

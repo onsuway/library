@@ -1,6 +1,6 @@
 package com.example;
 
-import com.example.entity.BorrowCount;
+import com.example.entity.HotBorrowBook;
 import com.example.mapper.BookMapper;
 import com.example.mapper.BorrowMapper;
 import jakarta.annotation.Resource;
@@ -15,15 +15,21 @@ class BackendApplicationTests {
     @Resource
     BorrowMapper borrowMapper;
 
+    @Resource
+    BookMapper bookMapper;
+
 
     @Test
     void contextLoads() {
 
-        List<BorrowCount> borrowCounts = borrowMapper.selectHotBorrowBook();
+        List<HotBorrowBook> hotBorrowBooks = borrowMapper.selectHotBorrowBook();
 
-        System.out.println(borrowCounts);
+        System.out.println(hotBorrowBooks);
+    }
 
-
+    @Test
+    void Time(){
+        System.out.println(bookMapper.getNewCreateBook());
     }
 
 
