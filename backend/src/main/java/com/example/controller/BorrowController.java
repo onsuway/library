@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.entity.Borrow;
+import com.example.entity.BorrowBookInfo;
 import com.example.entity.HotBorrowBook;
 import com.example.entity.RestBean;
 import com.example.service.BorrowService;
@@ -50,24 +51,27 @@ public class BorrowController {
         return RestBean.success(borrows);
     }
 
+    //  批量续借 / 单本书续借
     @PostMapping("/extend/{borrow_ids}")
     public RestBean<String> extendBorrow(@PathVariable String borrow_ids){
         int result = borrowService.extendBorrowByIds(borrow_ids);
         return RestBean.success("成功延长了" + result + "条借阅订单");
     }
 
+    //  批量归还 / 单本书归还
     @PostMapping("/return/{borrow_ids}")
     public RestBean<String> returnBorrow(@PathVariable String borrow_ids){
         int result = borrowService.returnBorrowByIds(borrow_ids);
         return RestBean.success("成功归还了" + result + "条借阅订单");
     }
 
-    @GetMapping("/get-borrowing-by-user/{account_id}")
-    public RestBean<List<Borrow>> getBorrowingByAccount(@PathVariable String account_id){
-        List<Borrow> borrowing = borrowService.getBorrowingByAccountId(account_id);
-        return RestBean.success(borrowing);
+    //admin-用户管理页面获取某个用户的借阅
+    @GetMapping("/get-user-borrowing/{account_id}")
+    public RestBean<List<BorrowBookInfo>> getBorrowingByAccount(@PathVariable String account_id){
+        return RestBean.success(borrowService.getBorrowingByAccountId(account_id));
     }
 
+    //用户借阅接口
     @PostMapping("/user-borrow")
     public RestBean<String> userBorrow(@RequestParam("bid") String bid,
                                        @RequestParam("account_id") String account_id){
@@ -83,4 +87,5 @@ public class BorrowController {
     public RestBean<List<HotBorrowBook>> getHotBook(){
         return RestBean.success(borrowService.getHotBorrowedBookTop5());
     }
+
 }

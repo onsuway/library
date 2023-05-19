@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.entity.Borrow;
+import com.example.entity.BorrowBookInfo;
 import com.example.entity.HotBorrowBook;
 import org.apache.ibatis.annotations.*;
 
@@ -40,7 +41,6 @@ public interface BorrowMapper {
     @Select("select username from account where id = #{account_id}")
     String findUsernameById(int account_id);
 
-
     @Results({
             @Result(column = "book_id", property = "title",
                     one = @One(select = "findTitleByBid")),
@@ -76,15 +76,6 @@ public interface BorrowMapper {
     @Update("update borrow set del_flag = 1, actual_time = NOW() where borrow_id in (${ids})")
     int batchReturnBorrowByIds(String ids);
 
-    @Results({
-            @Result(column = "book_id", property = "title",
-                    one = @One(select = "findTitleByBid")),
-            @Result(column = "account_id", property = "username",
-                    one = @One(select = "findUsernameById")),
-    })
-    @Select("select * from borrow where account_id = #{account_id} and del_flag = 0")
-    List<Borrow> selectBorrowingByAccountId(String account_id);
-
     @Update("update book set nums = nums - 1 where bid = #{bid} and nums > 0")
     int decreaseBookNumsByBid(String bid);
 
@@ -94,8 +85,13 @@ public interface BorrowMapper {
     @Select("select count(*) from borrow where book_id = #{book_id} and account_id = #{account_id}")
     int selectBorrowByBidAndAccountId(String book_id, String account_id);
 
-
     @Select("select book_id, count(*) as borrow_count from borrow group by book_id order by borrow_count DESC LIMIT 5")
     List<HotBorrowBook> selectHotBorrowBook();
+
+    @Select("""
+            select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time\s
+            from book, borrow\s
+            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 0""")
+    List<BorrowBookInfo> selectUserBorrowingBook(String account_id);
 
 }

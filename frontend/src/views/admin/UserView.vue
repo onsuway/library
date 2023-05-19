@@ -30,7 +30,7 @@
                         </el-button>
                         <template #dropdown>
                             <el-dropdown-menu>
-                                <el-dropdown-item @click="handleDetailBorrow(row)">查看详细借阅</el-dropdown-item>
+                                <el-dropdown-item @click="handleDetailBorrow(row)">查看正在借阅</el-dropdown-item>
                                 <el-dropdown-item>更改用户角色</el-dropdown-item>
                                 <el-dropdown-item @click="handleResetCredit(row)">重置信用积分</el-dropdown-item>
                             </el-dropdown-menu>
@@ -108,7 +108,7 @@ const freshUserList = () => {
 freshUserList()
 
 const getBorrowByUser = (account_id) => {
-    get('/api/borrow/get-borrowing-by-user/' + account_id, (message) => {
+    get('/api/borrow/get-user-borrowing/' + account_id, (message) => {
         userBorrowingList.value = message
     }, (message) => {
         ElMessage.warning(message)

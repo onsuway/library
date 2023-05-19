@@ -1,6 +1,7 @@
 package com.example.service.Impl;
 
 import com.example.entity.Borrow;
+import com.example.entity.BorrowBookInfo;
 import com.example.entity.HotBorrowBook;
 import com.example.mapper.BookMapper;
 import com.example.mapper.BorrowMapper;
@@ -83,8 +84,8 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public List<Borrow> getBorrowingByAccountId(String account_id) {
-        return borrowMapper.selectBorrowingByAccountId(account_id);
+    public List<BorrowBookInfo> getBorrowingByAccountId(String account_id) {
+        return borrowMapper.selectUserBorrowingBook(account_id);
     }
 
     @Override
@@ -142,5 +143,4 @@ public class BorrowServiceImpl implements BorrowService {
 
         return hotBorrowBooks;
     }
-
 }
