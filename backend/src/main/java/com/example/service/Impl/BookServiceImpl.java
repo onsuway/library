@@ -114,4 +114,16 @@ public class BookServiceImpl implements BookService {
     public Book getBookById(String bid) {
         return bookMapper.selectBookByBid(bid);
     }
+
+    @Override
+    public List<Book> getSameTypeBookByBookId(int book_id) {
+        int type_id = bookMapper.getTypeIdByBookId(book_id);
+        return bookMapper.getBookByTypeId(type_id, book_id);
+    }
+
+    @Override
+    public List<Book> getSameAuthorBookByBookId(int book_id) {
+        String author = bookMapper.getAuthorByBookId(book_id);
+        return bookMapper.getBookByAuthor(author, book_id);
+    }
 }

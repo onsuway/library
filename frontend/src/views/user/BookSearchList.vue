@@ -62,7 +62,7 @@
                                     </li>
                                     <li>
                                         <span style="font-style: italic;font-size: 15px">简介：</span>
-                                        <div>{{ book.desc }}</div>
+                                        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ book.desc }}</div>
                                     </li>
                                 </ul>
                             </div>
@@ -235,7 +235,7 @@ const handleCheckBoxChange = () => {
 .book-list .book-card {
     position: relative;
     padding: 20px;
-    height: 150px;
+    height: 200px;
     border-bottom: solid 1px #e0e0e0;
 }
 

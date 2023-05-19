@@ -39,4 +39,8 @@ public interface BookService {
     List<NewCreateBook> getNewCreateBook();
 
     Book getBookById(String bid);
+
+    List<Book> getSameTypeBookByBookId(int book_id);
+
+    List<Book> getSameAuthorBookByBookId(int book_id);
 }

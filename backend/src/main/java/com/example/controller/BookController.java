@@ -109,4 +109,13 @@ public class BookController {
         return RestBean.success(bookService.getNewCreateBook());
     }
 
+    @PostMapping("/get-same-type-book")
+    public RestBean<List<Book>> getSameTypeBook(@RequestParam("book_id") int book_id){
+        return RestBean.success(bookService.getSameTypeBookByBookId(book_id));
+    }
+
+    @PostMapping("/get-same-author-book")
+    public RestBean<List<Book>> getSameAuthorBook(@RequestParam("book_id") int book_id){
+        return RestBean.success(bookService.getSameAuthorBookByBookId(book_id));
+    }
 }

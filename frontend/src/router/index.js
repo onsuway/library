@@ -98,7 +98,24 @@ const router = createRouter({
                 {
                     path: 'me',
                     name: 'user-me',
-                    component: () => import('@/views/user/PersBorrowView.vue')
+                    component: () => import('@/views/user/PersonalView.vue'),
+                    children: [
+                        {
+                            path: 'myBorrow',
+                            name: 'my-borrow',
+                            component: () => import('@/components/user/PersonalBorrowPage.vue')
+                        },
+                        {
+                            path: 'myInfo',
+                            name: 'my-info',
+                            component: () => import('@/components/user/PersonalInfoPage.vue'),
+                        },
+                        {
+                            path: 'changePwd',
+                            name: 'change-pwd',
+                            component: () => import('@/components/user/UserChangePwdPage.vue'),
+                        },
+                    ]
                 },
                 {
                     path: 'bookDetails/:book_id',

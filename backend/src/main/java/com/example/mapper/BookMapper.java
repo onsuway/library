@@ -39,8 +39,28 @@ public interface BookMapper {
     @Select("select type_name from type where type_id = #{type_id}")
     String getTypeNameByTypeId(int type_id);
 
+    @Select("select type_id from book where bid = #{book_id}")
+    int getTypeIdByBookId(int book_id);
+
     @Select("select type_id from type where type_name = #{type_name}")
     int getTypeIdByTypeName(String type_name);
+
+    @Results({
+            @Result(column = "type_id", property = "type_name",
+                    one = @One(select = "getTypeNameByTypeId")),
+    })
+    @Select("select * from book where type_id = #{type_id} and bid <> #{book_id} limit 6")
+    List<Book> getBookByTypeId(int type_id, int book_id);
+
+    @Results({
+            @Result(column = "type_id", property = "type_name",
+                    one = @One(select = "getTypeNameByTypeId")),
+    })
+    @Select("select * from book where author = #{author} and bid <> #{book_id} limit 5")
+    List<Book> getBookByAuthor(String author, int book_id);
+
+    @Select("select author from book where bid = #{book_id}")
+    String getAuthorByBookId(int book_Id);
 
     @Delete("delete from book where bid in (${ids})")
     int batchDeleteBookByIds(String ids);

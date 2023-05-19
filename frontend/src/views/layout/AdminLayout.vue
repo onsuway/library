@@ -8,7 +8,6 @@
                 </div>
                 <el-menu
                         style="height: calc(100% - 60px);border: none"
-                        class="el-menu-vertical-demo"
                         router
                         unique-opened
                         :default-active="router.currentRoute.value.fullPath"
@@ -91,7 +90,7 @@
                     </div>
                 </el-header>
                 <el-main>
-                    <router-view/>
+                    <router-view />
                 </el-main>
             </el-container>
         </el-container>

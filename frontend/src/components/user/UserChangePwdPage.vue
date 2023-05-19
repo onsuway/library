@@ -1,5 +1,5 @@
 <template>
-    <h1>这里是user-个人借阅页面</h1>
+    <h1>这里是更改密码页面</h1>
 </template>
 
 <script setup>

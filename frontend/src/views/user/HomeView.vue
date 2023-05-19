@@ -34,7 +34,10 @@
 
             <div class="hot-book" >
                 <div class="hot-book-item" v-for="book in hotBookList">
-                    <div style="width: 180px;height: 240px; cursor: pointer" @click="router.push(`/user/bookDetails/${book.book_id}`)">
+                    <div
+                        style="width: 180px;height: 240px; cursor: pointer"
+                        @click="router.push(`/user/bookDetails/${book.book_id}`)"
+                    >
                         <el-image  style="width: 100%;height: 100%;" :src="book.cover_url"/>
                     </div>
                     <div class="hot-book-info">

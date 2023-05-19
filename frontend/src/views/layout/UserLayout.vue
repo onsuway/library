@@ -20,7 +20,7 @@
                     >
                         <el-menu-item index="/user/home">书籍检索</el-menu-item>
                         <el-menu-item index="/user/bookRecommend">书籍推荐</el-menu-item>
-                        <el-menu-item index="/user/me">个人借阅</el-menu-item>
+                        <el-menu-item index="/user/me/myBorrow">个人借阅</el-menu-item>
                     </el-menu>
                 </div>
                 <div style="text-align: right;margin: 15px 10px 0 0; line-height: 15px">
@@ -35,7 +35,7 @@
                         />
                         <template #dropdown>
                             <el-dropdown-menu>
-                                <el-dropdown-item :icon="User">个人信息</el-dropdown-item>
+                                <el-dropdown-item :icon="User" @click="router.push('/user/me/myInfo')">个人信息</el-dropdown-item>
                                 <el-dropdown-item :icon="SwitchButton" divided @click="logout">退出登录
                                 </el-dropdown-item>
                             </el-dropdown-menu>
@@ -43,7 +43,7 @@
                     </el-dropdown>
                 </div>
             </el-header>
-            <el-main style="padding: 0"><router-view/></el-main>
+            <el-main style="padding: 0"><router-view :key="router.currentRoute.value.fullPath" /></el-main>
         </el-container>
     </div>
 </template>

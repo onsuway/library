@@ -1,5 +1,5 @@
 <template>
-    <!-- 表格上方一排 按钮 + 搜索框 -->
+  <!-- 表格上方一排 按钮 + 搜索框 -->
     <div style="display: flex;margin-bottom: 20px">
         <div style="margin-right: 5px;margin-top: 5px">
             <el-button type="danger" @click="deleteSelectedBooks(selectedRowIds)">批量删除</el-button>
@@ -35,11 +35,11 @@
                 </template>
                 <!-- 书籍类别信息表格 -->
                 <el-table
-                    :data="typeList"
-                    height="200"
-                    width="100%"
-                    :cell-style="{'text-align':'center'}"
-                    :header-cell-style="{'text-align':'center'}"
+                        :data="typeList"
+                        height="200"
+                        width="100%"
+                        :cell-style="{'text-align':'center'}"
+                        :header-cell-style="{'text-align':'center'}"
                 >
                     <el-table-column prop="type_name" label="类型"/>
                     <el-table-column fixed="right" label="操作">
@@ -112,7 +112,7 @@
         </el-dialog>
     </div>
 
-    <!-- 书籍信息表格 -->
+  <!-- 书籍信息表格 -->
     <div>
         <el-table
                 @selection-change="handleSelectionChange"
@@ -140,7 +140,7 @@
             </el-table-column>
             <el-table-column prop="title" label="书名" width="200"/>
             <el-table-column prop="author" label="作者" width="200"/>
-            <el-table-column prop="desc" label="简介" show-overflow-tooltip />
+            <el-table-column prop="desc" label="简介" show-overflow-tooltip/>
             <el-table-column
                     prop="type_name"
                     label="类型"
@@ -150,7 +150,7 @@
                     filter-placement="bottom"
             />
             <el-table-column prop="nums" label="库存" width="100"/>
-            <el-table-column label="操作" align="right" width="200" >
+            <el-table-column label="操作" align="right" width="200">
                 <template #default="{row}">
                     <el-button type="primary" @click="handleEdit(row)">编辑</el-button>
                     <el-button type="danger" @click="handleDeleteBook(row)">删除</el-button>
@@ -255,7 +255,10 @@ const rules = {
         {required: true, message: '作者不能为空', trigger: 'blur'},
     ],
     type_name: [
-        {required: true, message: '类型不能为空，如果无对应类别，请先添加类别', trigger: 'blur'},
+        {required: true, message: '类型不能为空，如果无对应类别，请先添加类别', trigger: ['blur', 'change']},
+    ],
+    desc: [
+        {max: 300, message: '简介最长300字符', trigger: 'blur'}
     ]
 }
 
@@ -402,7 +405,7 @@ const editSubmit = () => {
                 ElMessage.success(message)
                 freshBookList()
             })
-        }else {
+        } else {
             ElMessage.warning('请完整填写书籍内容')
         }
     })
@@ -459,7 +462,7 @@ const addBookSubmit = () => {
                 ElMessage.success(message)
                 freshBookList()
             })
-        }else {
+        } else {
             ElMessage.warning('请完整填写书籍内容')
         }
     })
