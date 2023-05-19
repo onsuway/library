@@ -1,10 +1,11 @@
 <template>
+    <!-- 表格上方一排 按钮 + 搜索框 -->
     <div style="display: flex;margin-bottom: 20px">
-        <div style="margin-right: 5px">
+        <div style="margin-right: 5px;margin-top: 5px">
             <el-button type="danger" @click="deleteSelectedBooks(selectedRowIds)">批量删除</el-button>
             <el-button type="primary" @click="handleAddBook()">添加书籍</el-button>
         </div>
-        <div style="margin: 5px 10px">
+        <div style="margin: 10px 10px">
             <el-tag type="warning">库存不足</el-tag>
             <el-tag type="danger">库存为0</el-tag>
         </div>
@@ -22,16 +23,24 @@
             </el-input>
         </div>
 
-        <div style="margin-left: 5px">
+        <div style="margin-left: 5px;margin-top: 5px">
+            <!-- 表格上方点此查看所有书籍类别按钮 -->
             <el-popover
                     placement="top-start"
-                    :width="220"
+                    :width="280"
                     trigger="click"
             >
                 <template #reference>
                     <el-button class="m-2" type="success">点此查看所有书籍类别</el-button>
                 </template>
-                <el-table :data="typeList" height="200" width="100%">
+                <!-- 书籍类别信息表格 -->
+                <el-table
+                    :data="typeList"
+                    height="200"
+                    width="100%"
+                    :cell-style="{'text-align':'center'}"
+                    :header-cell-style="{'text-align':'center'}"
+                >
                     <el-table-column prop="type_name" label="类型"/>
                     <el-table-column fixed="right" label="操作">
                         <template #default="{row}">
@@ -53,13 +62,13 @@
             <el-button type="primary" @click="handleAddType()">添加书籍类别</el-button>
         </div>
 
-
         <!--  点击表格上方的添加书籍按钮按钮打开的对话框表单  -->
         <el-dialog
                 v-model="addBookDialogVisible"
                 title="新增书籍信息"
                 width="27%"
                 align-center
+                center
         >
             <el-form
                     label-width="100px"
@@ -103,6 +112,7 @@
         </el-dialog>
     </div>
 
+    <!-- 书籍信息表格 -->
     <div>
         <el-table
                 @selection-change="handleSelectionChange"
@@ -113,8 +123,10 @@
                 size="large"
                 :cell-style="{'text-align':'center'}"
                 :header-cell-style="{'text-align':'center'}"
+                :tooltip-options="tooltipOption"
         >
             <el-table-column type="selection" width="55"/>
+            <el-table-column prop="bid" label="ID" width="100"/>
             <el-table-column label="封面图" width="180">
                 <template #default="scope">
                     <div style="height: 120px;width: 90px; margin: 0 auto">
@@ -126,10 +138,9 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="bid" label="ID" width="100"/>
             <el-table-column prop="title" label="书名" width="200"/>
             <el-table-column prop="author" label="作者" width="200"/>
-            <el-table-column prop="desc" label="简介"/>
+            <el-table-column prop="desc" label="简介" show-overflow-tooltip />
             <el-table-column
                     prop="type_name"
                     label="类型"
@@ -147,12 +158,13 @@
             </el-table-column>
         </el-table>
 
-        <!--  点击每行的编辑按钮打开的对话框表单  -->
+        <!--  点击每行书籍的编辑按钮打开的对话框表单  -->
         <el-dialog
                 v-model="editBookDialogVisible"
                 title="编辑书籍信息"
-                width="40%"
+                width="30%"
                 align-center
+                center
         >
             <el-form
                     label-width="100px"
@@ -196,8 +208,6 @@
         </el-dialog>
 
     </div>
-
-
 </template>
 
 <script setup>
@@ -228,8 +238,13 @@ const selectedRowIds = ref([]);
 //书籍表格根据类型筛选的列表
 const filterTypeList = ref([])
 
-
+//表单的ref 用于添加校验规则
 const formRef = ref()
+
+//书籍表格中“简介”的tooltip样式
+const tooltipOption = ref({
+    'popperClass': 'table-tooltip',
+})
 
 //编辑书籍内容 和 添加新书籍 的表单内容规则限制
 const rules = {
@@ -448,8 +463,6 @@ const addBookSubmit = () => {
             ElMessage.warning('请完整填写书籍内容')
         }
     })
-
-
 }
 
 const handleAddType = () => {
@@ -462,9 +475,9 @@ const handleAddType = () => {
     })
         .then(({value}) => {
             post('/api/book/addType', {
-                type_name: value + '类'
+                type_name: value
             }, (message) => {
-                ElMessage.success(message + value + '类');
+                ElMessage.success(message + value);
                 freshTypeList()
             }, (message) => {
                 ElMessage.warning(message)
@@ -497,6 +510,7 @@ const handleSearch = () => {
 </script>
 
 <style>
+/* 书籍表格中根据库存数量设置背景颜色 */
 .el-table .warning-row {
     --el-table-tr-bg-color: var(--el-color-warning-light-9);
 }
@@ -507,5 +521,10 @@ const handleSearch = () => {
 
 .el-table .danger-row {
     --el-table-tr-bg-color: var(--el-color-danger-light-9);
+}
+
+/* 书籍表格中“简介”tooltip的样式 */
+.table-tooltip {
+    width: 300px;
 }
 </style>
