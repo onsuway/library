@@ -39,4 +39,6 @@ public interface BorrowService {
     List<HotBorrowBook> getHotBorrowedBookTop5();
 
     String userSingleReturnById(String borrow_id, String account_id);
+
+    String userSingleExtendById(String borrow_id);
 }

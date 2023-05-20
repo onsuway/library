@@ -94,8 +94,8 @@ public interface BorrowMapper {
     @Insert("insert into borrow (book_id, account_id, borrow_time, due_time) values (#{book_id}, #{account_id}, #{borrow_time}, #{due_time})")
     int insertBorrow(String book_id, String account_id, Timestamp borrow_time, Timestamp due_time);
 
-    @Select("select count(*) from borrow where book_id = #{book_id} and account_id = #{account_id}")
-    int selectBorrowByBidAndAccountId(String book_id, String account_id);
+    @Select("select count(*) from borrow where book_id = #{book_id} and account_id = #{account_id} and del_flag = 0")
+    int countBorrowingByBidAndAccountId(String book_id, String account_id);
 
     @Select("select book_id, count(*) as borrow_count from borrow group by book_id order by borrow_count DESC LIMIT 5")
     List<HotBorrowBook> selectHotBorrowBook();
@@ -112,16 +112,18 @@ public interface BorrowMapper {
             where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1""")
     List<BorrowBookInfo> selectUserBorrowedBook(String account_id);
 
-
     @Select("""
-            select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time
-            from book, borrow
+            select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time\s
+            from book, borrow\s
             where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1 and book.title like '%${searchValue}%'""")
     List<BorrowBookInfo> searchBorrowedByTitleWithAccount(String searchValue, String account_id);
 
     @Select("""
-            select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time
-            from book, borrow
+            select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time\s
+            from book, borrow\s
             where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1 and book.author like '%${searchValue}%'""")
     List<BorrowBookInfo> searchBorrowedByAuthorWithAccount(String searchValue, String account_id);
+
+    @Update("update borrow set is_extended = 1, due_time = DATE_ADD(due_time,INTERVAL 3 DAY) where borrow_id = #{borrow_id} and is_extended = 0")
+    int userSingleExtendBorrowing(String borrow_id);
 }

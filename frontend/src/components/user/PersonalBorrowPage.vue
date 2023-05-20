@@ -4,10 +4,10 @@
             <el-tab-pane label="当前借阅" name="borrowing">
                 <el-table
                         size="large"
-                        @selection-change="handleSelectionChange"
                         :data="borrowingBookList"
                         :cell-style="{'text-align':'center'}"
                         :header-cell-style="{'text-align':'center'}"
+                        empty-text="还没有借阅过书籍呢，快去看一看叭"
                 >
                     <el-table-column prop="title" label="书名"/>
                     <el-table-column prop="author" label="作者"/>
@@ -67,6 +67,8 @@
                         :data="borrowedBookList"
                         :cell-style="{'text-align':'center'}"
                         :header-cell-style="{'text-align':'center'}"
+                        height="650"
+                        empty-text="还没有借阅过书籍呢，快去看一看叭"
                 >
                     <el-table-column prop="title" label="书名"/>
                     <el-table-column prop="author" label="作者"/>
@@ -127,7 +129,7 @@ const handleSearch = () => {
 }
 
 const handleExtendBorrow = (row) => {
-    post('/api/borrow/extend/' + row.borrow_id, {
+    post('/api/borrow/user-single-extend/' + row.borrow_id, {
         borrow_id: row.borrow_id
     }, () => {
         ElMessage.success("成功续借《" + row.title + "》三天")

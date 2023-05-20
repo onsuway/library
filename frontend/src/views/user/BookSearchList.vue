@@ -50,30 +50,42 @@
                                 :key="book.bid"
                         >
                             <div style="font-weight: bold;font-size: 20px">{{ index + 1 + '. ' + book.title }}</div>
-                            <div style="margin: 15px 20px">
-                                <ul>
-                                    <li>
-                                        <span style="font-style: italic;font-size: 15px">作者：</span>
-                                        {{ book.author }}
-                                    </li>
-                                    <li>
-                                        <span style="font-style: italic;font-size: 15px">类别：</span>
-                                        {{ book.type_name }}
-                                    </li>
-                                    <li>
-                                        <span style="font-style: italic;font-size: 15px">简介：</span>
-                                        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ book.desc }}</div>
-                                    </li>
-                                </ul>
+                            <div style="display: flex; margin: 10px">
+                                <div style="flex: 1; margin-top: 15px">
+                                    <el-image
+                                            style="width: 100%;height: 180px;"
+                                            fit="fill"
+                                            :src="book.cover_url"/>
+                                </div>
+                                <div style="flex: 6;">
+                                    <ul>
+                                        <li>
+                                            <span style="font-style: italic;font-size: 15px">作者：</span>
+                                            {{ book.author }}
+                                        </li>
+                                        <li>
+                                            <span style="font-style: italic;font-size: 15px">类别：</span>
+                                            {{ book.type_name }}
+                                        </li>
+                                        <li>
+                                            <span style="font-style: italic;font-size: 15px">简介：</span>
+                                            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ book.desc }}</div>
+                                        </li>
+                                    </ul>
+                                </div>
+
                             </div>
                             <div class="book-nums">可借({{ book.nums }})</div>
                             <div class="book-operation">
-                                <el-button type="primary" :disabled="book.nums === 0" @click="handleBorrow(book.bid)">
+                                <el-button
+                                        type="primary"
+                                        :disabled="book.nums === 0"
+                                        @click="handleBorrow(book.bid)">
                                     借阅
                                 </el-button>
                             </div>
                             <div v-if="book.nums === 0" class="book-nums-0">
-                                <el-link :icon="Promotion" @click="ElMessage.success('管理员知道了')">
+                                <el-link :icon="Promotion" @click="ElMessage.success('管理员已经在全速补货啦')">
                                     没库存啦？提醒管理员
                                 </el-link>
                             </div>
@@ -89,7 +101,7 @@
 import {useRoute} from "vue-router";
 import {onMounted, ref} from "vue";
 import {Promotion, Search} from "@element-plus/icons-vue";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import {get, post} from "@/net";
 import {useCheckBoxStore, useUserStore} from "@/stores";
 import router from "@/router";
@@ -159,19 +171,31 @@ const handleSearch = () => {
     }
 }
 
-
 const handleBorrow = (bid) => {
-    post('/api/borrow/user-borrow', {
-        bid: bid,
-        account_id: userStore.userInfo.id
-    },() => {
-        ElMessage.success('成功借阅')
-        freshBookSearchList()
-    }, (message) => {
-        ElMessage.warning(message)
-    })
+    ElMessageBox.confirm(
+        '确定借阅吗？',
+        '借阅确认',
+        {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'success',
+        }
+    )
+        .then(() => {
+            post('/api/borrow/user-borrow', {
+                bid: bid,
+                account_id: userStore.userInfo.id
+            }, () => {
+                ElMessage.success('成功借阅')
+                freshBookSearchList()
+            }, (message) => {
+                ElMessage.warning(message)
+            })
+        })
+        .catch(() => {
+            ElMessage.info('你取消了借阅')
+        })
 }
-
 
 const handleCheckBoxChange = () => {
     checkBoxStore.setCheckBoxList(checkBoxList.value)
@@ -235,7 +259,7 @@ const handleCheckBoxChange = () => {
 .book-list .book-card {
     position: relative;
     padding: 20px;
-    height: 200px;
+    height: 240px;
     border-bottom: solid 1px #e0e0e0;
 }
 

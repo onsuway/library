@@ -50,7 +50,6 @@
             </div>
         </div>
 
-
         <div class="new-book-container margin-auto">
             <div class="book-container-title">
                 <span class="title-left">新书速递</span>
@@ -72,7 +71,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -109,7 +107,7 @@ import router from "@/router";
 import {get} from "@/net";
 
 //搜索框选择的搜索类型
-const searchInputSelected = ref('')
+const searchInputSelected = ref('title')
 
 //搜索框的输入文本
 const searchInputText = ref('')

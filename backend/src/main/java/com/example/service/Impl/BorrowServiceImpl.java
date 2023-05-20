@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -89,6 +88,8 @@ public class BorrowServiceImpl implements BorrowService {
         return borrowMapper.batchExtendBorrowByIds(ids);
     }
 
+
+
     @Override
     @Transactional
     public int adminReturnBorrowByIds(String ids) {
@@ -130,6 +131,16 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
+    public String userSingleExtendById(String borrow_id) {
+
+        if (borrowMapper.userSingleExtendBorrowing(borrow_id) == 1){
+            return null;
+        }else {
+            return "已经续借过了，不能这么贪心哦";
+        }
+    }
+
+    @Override
     public List<BorrowBookInfo> getBorrowingByAccountId(String account_id) {
         return borrowMapper.selectUserBorrowingBook(account_id);
     }
@@ -159,7 +170,7 @@ public class BorrowServiceImpl implements BorrowService {
         }
 
         //判断该用户是否借阅过该书
-        if (borrowMapper.selectBorrowByBidAndAccountId(bid, account_id) > 0){
+        if (borrowMapper.countBorrowingByBidAndAccountId(bid, account_id) > 0){
             return "已经借过这本书啦，快去读叭";
         }
 
@@ -175,7 +186,6 @@ public class BorrowServiceImpl implements BorrowService {
                     return "数据库内部出现错误，请联系管理员";
                 }
             } else return "数据库内部出现错误，请联系管理员";
-
         } else {
             return "数据库内部出现错误，请联系管理员";
         }

@@ -62,12 +62,26 @@ public class BorrowController {
         return RestBean.success(searchBorrowed);
     }
 
-    //  批量续借 / 单本书续借
+    //  admin-批量续借 此接口为强制续借（不会判断是否续借过
     @PostMapping("/extend/{borrow_ids}")
     public RestBean<String> extendBorrow(@PathVariable String borrow_ids){
         int result = borrowService.extendBorrowByIds(borrow_ids);
         return RestBean.success("成功延长了" + result + "条借阅订单");
     }
+
+    @PostMapping("/user-single-extend/{borrow_id}")
+    public RestBean<String> userSingleExtend(@PathVariable String borrow_id){
+        String message = borrowService.userSingleExtendById(borrow_id);
+
+        if (message == null){
+            return RestBean.success();
+        }else {
+            return RestBean.failure(401, message);
+        }
+
+    }
+
+
 
     //  admin-批量归还 此接口为强制归还（不会判断借阅是否逾期
     @PostMapping("/admin-batch-return/{borrow_ids}")

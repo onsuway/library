@@ -29,10 +29,26 @@
                             <el-col :span="12">{{ currentBook.desc }}</el-col>
                         </el-row>
                     </div>
+
+                    <div v-if="currentBook.nums === 0" class="book-nums-0">
+                        <el-link :icon="Promotion" @click="ElMessage.success('管理员已经在全速补货啦')">
+                            没库存啦？提醒管理员
+                        </el-link>
+                    </div>
+                    <div class="borrow-button">
+                        <el-button
+                                :disabled="currentBook.nums === 0"
+                                style="width: 100px"
+                                type="primary"
+                                plain
+                                @click="handleBorrow(currentBook.bid)">
+                            借阅
+                        </el-button>
+                    </div>
                 </div>
                 <div class="same-type-book">
                     <div style="font-size: 18px;font-weight: bold">同类型书籍推荐</div>
-                    <el-divider />
+                    <el-divider/>
                     <div style="display: flex">
                         <div class="type-book-item" v-for="book in sameTypeBookList">
                             <div style="width: 120px;height: 160px">
@@ -41,8 +57,10 @@
                                           @click="clickRouterPush(book.bid)"
                                           fit="fill"/>
                                 <div style="margin-left: 5px">
-                                    <el-link @click="clickRouterPush(book.bid)" type="primary" style="font-size: 17px">{{book.title}}</el-link>
-                                    <div style="font-size: 14px;margin-top: 5px;color: #aba7a7">{{book.author}}</div>
+                                    <el-link @click="clickRouterPush(book.bid)" type="primary" style="font-size: 17px">
+                                        {{ book.title }}
+                                    </el-link>
+                                    <div style="font-size: 14px;margin-top: 5px;color: #aba7a7">{{ book.author }}</div>
                                 </div>
                             </div>
                         </div>
@@ -52,39 +70,39 @@
             <div class="relative-info">
                 <div class="link">
                     <div style="font-size: 18px;font-weight: bold">相关资源链接</div>
-                    <el-divider />
+                    <el-divider/>
                     <div style="display: flex;flex-wrap: wrap">
                         <!-- TODO 待实现点击图片直接跳转对应链接搜索 -->
                         <el-image
-                            style="height: 40px;width: 60px;cursor: pointer"
-                            @click="searchTaoBaoLink(currentBook.title)"
-                            src="https://i.328888.xyz/2023/05/18/VVTbcU.png"
-                            fit="fill"
+                                style="height: 40px;width: 60px;cursor: pointer"
+                                @click="searchTaoBaoLink(currentBook.title)"
+                                src="https://i.328888.xyz/2023/05/18/VVTbcU.png"
+                                fit="fill"
                         />
                         <el-image
-                            style="height: 40px;width: 60px;cursor: pointer"
-                            @click="searchJDLink(currentBook.title)"
-                            src="https://i.328888.xyz/2023/05/18/VVTrF5.png"
-                            fit="fill"
+                                style="height: 40px;width: 60px;cursor: pointer"
+                                @click="searchJDLink(currentBook.title)"
+                                src="https://i.328888.xyz/2023/05/18/VVTrF5.png"
+                                fit="fill"
                         />
                         <el-image
-                            style="height: 40px;width: 60px;cursor: pointer"
-                            src="https://i.328888.xyz/2023/05/18/VVTStN.png"
-                            @click="searchDangDangLink(currentBook.title)"
-                            fit="cover"
+                                style="height: 40px;width: 60px;cursor: pointer"
+                                src="https://i.328888.xyz/2023/05/18/VVTStN.png"
+                                @click="searchDangDangLink(currentBook.title)"
+                                fit="cover"
                         />
                         <el-image
-                            style="height: 40px;width: 60px;cursor: pointer"
-                            src="https://i.328888.xyz/2023/05/18/VVTN8y.png"
-                            @click="searchDouBanLink(currentBook.title)"
-                            fit="fill"
+                                style="height: 40px;width: 60px;cursor: pointer"
+                                src="https://i.328888.xyz/2023/05/18/VVTN8y.png"
+                                @click="searchDouBanLink(currentBook.title)"
+                                fit="fill"
                         />
                     </div>
 
                 </div>
                 <div class="same-author-book">
                     <div style="font-size: 18px;font-weight: bold">作者其他著作</div>
-                    <el-divider />
+                    <el-divider/>
                     <div class="author-book-item" v-for="book in sameAuthorBookList">
                         <div style="width: 90px;height: 127px">
                             <el-image style="width: 100%;height: 100%;cursor: pointer"
@@ -94,11 +112,11 @@
                         </div>
                         <div class="author-book-info">
                             <el-link
-                                type="primary"
-                                style="font-size: 20px"
-                                @click="clickRouterPush(book.bid)"
+                                    type="primary"
+                                    style="font-size: 20px"
+                                    @click="clickRouterPush(book.bid)"
                             >
-                                {{book.title}}
+                                {{ book.title }}
                             </el-link>
                         </div>
                     </div>
@@ -113,8 +131,13 @@ import {useRoute} from "vue-router";
 import {ref} from "vue";
 import {post} from "@/net";
 import router from "@/router";
+import {ElMessage, ElMessageBox} from "element-plus";
+import {useUserStore} from "@/stores";
+import {Promotion} from "@element-plus/icons-vue";
 
 const route = useRoute()
+
+const userStore = useUserStore()
 
 //传递过来的书籍ID
 const book_id = ref(route.params.book_id)
@@ -165,6 +188,32 @@ const freshPage = () => {
     freshCurrentBookDetail()
     freshSameTypeBookList()
     freshSameAuthorBookList()
+}
+
+const handleBorrow = (bid) => {
+    ElMessageBox.confirm(
+        '确定借阅吗？',
+        '借阅确认',
+        {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'success',
+        }
+    )
+        .then(() => {
+            post('/api/borrow/user-borrow', {
+                bid: bid,
+                account_id: userStore.userInfo.id
+            }, () => {
+                ElMessage.success('成功借阅')
+                freshPage()
+            }, (message) => {
+                ElMessage.warning(message)
+            })
+        })
+        .catch(() => {
+            ElMessage.info('你取消了借阅')
+        })
 }
 
 const searchTaoBaoLink = (title) => {
@@ -226,6 +275,18 @@ freshPage()
     top: 15px;
     width: 230px;
     height: 300px;
+}
+
+.book-nums-0 {
+    position: absolute;
+    right: 40px;
+    top: 370px;
+}
+
+.borrow-button {
+    position: absolute;
+    right: 60px;
+    top: 340px;
 }
 
 .same-type-book {

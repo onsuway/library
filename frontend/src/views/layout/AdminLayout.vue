@@ -76,8 +76,8 @@
                     <div style="margin-top: 5px">
                         <el-dropdown>
                             <el-avatar
-                                class="user-avatar"
-                                src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"
+                                    class="user-avatar"
+                                    src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"
                             />
                             <template #dropdown>
                                 <el-dropdown-menu>
@@ -90,7 +90,7 @@
                     </div>
                 </el-header>
                 <el-main>
-                    <router-view />
+                    <router-view/>
                 </el-main>
             </el-container>
         </el-container>
@@ -135,6 +135,7 @@ const logout = () => {
     height: 50px;
     border-bottom: solid 1px #e0e0e0;
 }
+
 
 .content-aside {
     width: 250px;
