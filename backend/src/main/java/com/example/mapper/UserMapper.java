@@ -50,4 +50,10 @@ public interface UserMapper {
 
     @Update("update account set borrowing_nums = borrowing_nums + 1 where id = #{id}")
     int increaseBorrowingNumsById(String id);
+
+    @Update("update account set borrowing_nums = borrowing_nums - 1 where id = #{id} and borrowing_nums > 0")
+    void decreaseBorrowingNumsById(String id);
+
+    @Update("update account set credit = credit - 1 where id = #{id} and credit > 0")
+    void decreaseCreditById(String id);
 }

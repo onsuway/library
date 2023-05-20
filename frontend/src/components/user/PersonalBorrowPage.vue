@@ -2,11 +2,6 @@
     <div style="padding: 30px">
         <el-tabs v-model="activeName" class="demo-tabs">
             <el-tab-pane label="当前借阅" name="borrowing">
-                <div style="display: flex">
-                    <div style="flex: 1"></div>
-                    <el-button type="primary" plain @click="handleBatchExtend(selectedRowIds)">批量续借</el-button>
-                    <el-button type="success" plain @click="handleBatchReturn(selectedRowIds)">批量归还</el-button>
-                </div>
                 <el-table
                         size="large"
                         @selection-change="handleSelectionChange"
@@ -14,11 +9,10 @@
                         :cell-style="{'text-align':'center'}"
                         :header-cell-style="{'text-align':'center'}"
                 >
-                    <el-table-column type="selection"/>
                     <el-table-column prop="title" label="书名"/>
                     <el-table-column prop="author" label="作者"/>
                     <el-table-column prop="borrow_time" label="借阅时间"/>
-                    <el-table-column prop="due_time" label="应还时间"/>
+                    <el-table-column prop="due_time" label="最晚归还时间"/>
                     <el-table-column label="操作">
                         <template #default="{row}">
                             <el-popconfirm
@@ -52,7 +46,7 @@
                     <div style="flex: 1;font-size: 15px;color: grey;margin-left: 10px">
                         注：正在借阅中的书籍不在此表中
                     </div>
-                    <el-button type="danger" plain style="margin-right: 10px">批量删除记录</el-button>
+                    <el-button style="margin-right: 10px" type="primary" @click="resetBorrowedBook()" plain>重置</el-button>
                     <el-input style="flex: 0.5" v-model="searchInputText" placeholder="按书名或作者搜索">
                         <template #prepend>
                             <el-select
@@ -68,18 +62,16 @@
                         </template>
                     </el-input>
                 </div>
-                <!-- TODO 待完成查询数据绑定历史借阅表格 -->
                 <el-table
                         size="large"
+                        :data="borrowedBookList"
                         :cell-style="{'text-align':'center'}"
                         :header-cell-style="{'text-align':'center'}"
                 >
-                    <el-table-column type="selection"/>
-                    <el-table-column prop="bid" label="封面图"/>
-                    <el-table-column prop="bid" label="书名"/>
-                    <el-table-column prop="bid" label="作者"/>
-                    <el-table-column prop="bid" label="借阅时间"/>
-                    <el-table-column prop="bid" label="归还时间"/>
+                    <el-table-column prop="title" label="书名"/>
+                    <el-table-column prop="author" label="作者"/>
+                    <el-table-column prop="borrow_time" label="借阅时间"/>
+                    <el-table-column prop="actual_time" label="归还时间"/>
                 </el-table>
             </el-tab-pane>
         </el-tabs>
@@ -101,19 +93,6 @@ const searchInputSelected = ref('title')
 //搜索框的输入文本
 const searchInputText = ref('')
 
-// 多选框选中的书籍
-const selectedRows = ref([]);
-// 多选框选中的书籍ids
-const selectedRowIds = ref([]);
-
-//多选框选择每次改变后执行
-const handleSelectionChange = (val) => {
-    // 设置选中的数据
-    selectedRows.value = val;
-    // 设置选中的数据ids
-    selectedRowIds.value = val.map((item) => item.borrow_id);
-};
-
 const borrowingBookList = ref([])
 
 const borrowedBookList = ref([])
@@ -126,7 +105,10 @@ const freshBorrowingBook = () => {
 }
 
 const freshBorrowedBook = () => {
-
+    get('/api/borrow/get-user-borrowed/' + userStore.userInfo.id,
+        (message) => {
+            borrowedBookList.value = message
+        })
 }
 
 const handleSearch = () => {
@@ -134,7 +116,13 @@ const handleSearch = () => {
         ElMessage.warning('搜索类型和搜索输入均不允许为空')
     } else {
         //post
-        ElMessage.success('搜索成功')
+        post('/api/borrow/search-borrowed-with-account', {
+            search_type: searchInputSelected.value,
+            search_value: searchInputText.value,
+            account_id: userStore.userInfo.id
+        }, (message) => {
+            borrowedBookList.value = message
+        })
     }
 }
 
@@ -150,68 +138,29 @@ const handleExtendBorrow = (row) => {
 }
 
 const handleReturnBorrow = (row) => {
-    post('/api/borrow/return/' + row.borrow_id, {
-        borrow_id: row.borrow_id
+    post('/api/borrow/user-single-return', {
+        borrow_id: row.borrow_id,
+        account_id: userStore.userInfo.id
     }, () => {
         ElMessage.success("成功归还《" + row.title + "》")
         freshBorrowingBook()
     }, (message) => {
         ElMessage.warning(message)
+        freshBorrowingBook()
     })
 }
 
-const handleBatchExtend = (selectedRowIds) => {
-    if (selectedRowIds.length === 0) {
-        ElMessage.warning('选中不能为空！')
-    } else {
-        ElMessageBox.confirm(
-            '确定将这些借阅延长三天吗，这不可撤销！',
-            '延长确认',
-            {
-                confirmButtonText: '确认',
-                cancelButtonText: '取消',
-                type: 'warning',
-            }
-        ).then(() => {
-            post('/api/borrow/extend/' + selectedRowIds, selectedRowIds, (message) => {
-                ElMessage.success(message)
-                freshBorrowingBook()
-            }, (message) => {
-                ElMessage.warning(message)
-            })
-        }).catch(() => {
-            ElMessage.info('你取消了批量延长')
-        })
-    }
-
+const resetBorrowedBook = () => {
+    searchInputSelected.value = 'title'
+    searchInputText.value = ''
+    freshBorrowedBook()
 }
 
-const handleBatchReturn = (selectedRowIds) => {
-    if (selectedRowIds.length === 0) {
-        ElMessage.warning('选中不能为空！')
-    } else {
-        ElMessageBox.confirm(
-            '确定将这些借阅归还吗，这不可撤销！',
-            '归还确认',
-            {
-                confirmButtonText: '确认',
-                cancelButtonText: '取消',
-                type: 'warning',
-            }
-        ).then(() => {
-            post('/api/borrow/return/' + selectedRowIds, selectedRowIds, (message) => {
-                ElMessage.success(message)
-                freshBorrowingBook()
-            }, (message) => {
-                ElMessage.warning(message)
-            })
-        }).catch(() => {
-            ElMessage.info('你取消了批量归还')
-        })
-    }
-}
+
+
 
 freshBorrowingBook()
+freshBorrowedBook()
 </script>
 
 <style scoped>

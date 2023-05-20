@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,11 +48,20 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public List<Borrow> searchBorrowByTitleOrAuthor(String searchType, String searchValue) {
+    public List<Borrow> searchBorrowingByTitleOrUsername(String searchType, String searchValue) {
         if (Objects.equals(searchType, "title")) {
-            return borrowMapper.searchBorrowByTitle(searchValue);
+            return borrowMapper.searchBorrowingByTitle(searchValue);
         } else if (Objects.equals(searchType, "username")) {
-            return borrowMapper.searchBorrowByUsername(searchValue);
+            return borrowMapper.searchBorrowingByUsername(searchValue);
+        } else return null;
+    }
+
+    @Override
+    public List<BorrowBookInfo> searchBorrowedByTitleOrAuthorWithAccount(String searchType, String searchValue, String account_id) {
+        if (Objects.equals(searchType, "title")) {
+            return borrowMapper.searchBorrowedByTitleWithAccount(searchValue, account_id);
+        } else if (Objects.equals(searchType, "author")) {
+            return borrowMapper.searchBorrowedByAuthorWithAccount(searchValue, account_id);
         } else return null;
     }
 
@@ -79,13 +90,53 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public int returnBorrowByIds(String ids) {
+    @Transactional
+    public int adminReturnBorrowByIds(String ids) {
+        String[] borrowIdList = ids.split(",");
+        List<String> accountIdList = Arrays
+                .stream(borrowIdList)
+                .map(borrowMapper::findAccountIdByBorrowId)
+                .toList();
+
+        // 拼接为一个字符串传给数据库一次删除 虽然不占用数据库
+        // 但是当批量归还的借阅中有相同用户 会造成归还了多本书但只会减一次borrowing_nums
+        // 所以只好采用for循环一次一次删除
+        //String accountIds = String.join(",", accountIdList);
+        accountIdList.forEach(account_id ->
+                userMapper.decreaseBorrowingNumsById(account_id)
+        );
+
         return borrowMapper.batchReturnBorrowByIds(ids);
+    }
+
+    @Override
+    @Transactional
+    public String userSingleReturnById(String borrow_id, String account_id) {
+        Borrow borrow = borrowMapper.getBorrowById(borrow_id);
+
+        //归还逾期
+        if (borrow.getDue_time().before(now)){
+            userMapper.decreaseCreditById(account_id);
+
+            borrowMapper.userSingleReturn(borrow_id);
+
+            return "归还逾期，扣除信用积分";
+        }else {
+            //方法自带扣除borrowing_nums
+            borrowMapper.userSingleReturn(borrow_id);
+            return null;
+        }
+
     }
 
     @Override
     public List<BorrowBookInfo> getBorrowingByAccountId(String account_id) {
         return borrowMapper.selectUserBorrowingBook(account_id);
+    }
+
+    @Override
+    public List<BorrowBookInfo> getBorrowedByAccountId(String account_id) {
+        return borrowMapper.selectUserBorrowedBook(account_id);
     }
 
     @Override
@@ -143,4 +194,6 @@ public class BorrowServiceImpl implements BorrowService {
 
         return hotBorrowBooks;
     }
+
+
 }

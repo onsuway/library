@@ -25,6 +25,9 @@ public interface BorrowMapper {
     @Select("select * from borrow")
     List<Borrow> getAllBorrow();
 
+    @Select("select * from borrow where borrow_id = #{borrow_id}")
+    Borrow getBorrowById(String borrow_id);
+
     @Results({
             @Result(column = "book_id", property = "title",
                     one = @One(select = "findTitleByBid")),
@@ -40,6 +43,9 @@ public interface BorrowMapper {
     //严禁删除！
     @Select("select username from account where id = #{account_id}")
     String findUsernameById(int account_id);
+
+    @Select("select account_id from borrow where borrow_id = #{borrow_id}")
+    String findAccountIdByBorrowId(String borrow_id);
 
     @Results({
             @Result(column = "book_id", property = "title",
@@ -58,7 +64,7 @@ public interface BorrowMapper {
     })
     @Select("select * from borrow, account, book " +
             "where book_id = bid and account_id = id and username like '%${text}%' and borrow.del_flag = 0")
-    List<Borrow> searchBorrowByUsername(String text);
+    List<Borrow> searchBorrowingByUsername(String text);
 
     @Results({
             @Result(column = "book_id", property = "title",
@@ -68,13 +74,19 @@ public interface BorrowMapper {
     })
     @Select("select * from borrow, account, book " +
             "where book_id = bid and account_id = id and title like '%${text}%' and borrow.del_flag = 0")
-    List<Borrow> searchBorrowByTitle(String text);
+    List<Borrow> searchBorrowingByTitle(String text);
 
     @Update("update borrow set due_time = DATE_ADD(due_time,INTERVAL 3 DAY) where borrow_id in (${ids})")
     int batchExtendBorrowByIds(String ids);
 
     @Update("update borrow set del_flag = 1, actual_time = NOW() where borrow_id in (${ids})")
     int batchReturnBorrowByIds(String ids);
+
+    @Update("""
+            update account, borrow
+            set borrow.del_flag = 1, borrow.actual_time = NOW(), account.borrowing_nums = borrowing_nums - 1
+            where borrow.account_id = account.id and borrow_id = #{borrow_id}""")
+    void userSingleReturn(String borrow_id);
 
     @Update("update book set nums = nums - 1 where bid = #{bid} and nums > 0")
     int decreaseBookNumsByBid(String bid);
@@ -94,4 +106,22 @@ public interface BorrowMapper {
             where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 0""")
     List<BorrowBookInfo> selectUserBorrowingBook(String account_id);
 
+    @Select("""
+            select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time\s
+            from book, borrow\s
+            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1""")
+    List<BorrowBookInfo> selectUserBorrowedBook(String account_id);
+
+
+    @Select("""
+            select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time
+            from book, borrow
+            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1 and book.title like '%${searchValue}%'""")
+    List<BorrowBookInfo> searchBorrowedByTitleWithAccount(String searchValue, String account_id);
+
+    @Select("""
+            select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time
+            from book, borrow
+            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1 and book.author like '%${searchValue}%'""")
+    List<BorrowBookInfo> searchBorrowedByAuthorWithAccount(String searchValue, String account_id);
 }

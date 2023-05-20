@@ -44,11 +44,22 @@ public class BorrowController {
         return RestBean.success(borrowService.getWillOverdue());
     }
 
+
+    //admin-借阅管理页面 查询所有的正在借阅
     @PostMapping("/search")
-    public RestBean<List<Borrow>> searchBorrow(@RequestParam("search_type") String search_type,
-                                           @RequestParam("search_value")String search_value){
-        List<Borrow> borrows = borrowService.searchBorrowByTitleOrAuthor(search_type, search_value);
+    public RestBean<List<Borrow>> searchBorrowing(@RequestParam("search_type") String search_type,
+                                                  @RequestParam("search_value")String search_value){
+        List<Borrow> borrows = borrowService.searchBorrowingByTitleOrUsername(search_type, search_value);
         return RestBean.success(borrows);
+    }
+
+    //user-个人借阅页面 查询一个用户的历史借阅
+    @PostMapping("/search-borrowed-with-account")
+    public RestBean<List<BorrowBookInfo>> searchBorrowedWithAccount(@RequestParam("search_type") String search_type,
+                                                                  @RequestParam("search_value")String search_value,
+                                                                  @RequestParam("account_id") String account_id){
+        List<BorrowBookInfo> searchBorrowed = borrowService.searchBorrowedByTitleOrAuthorWithAccount(search_type, search_value, account_id);
+        return RestBean.success(searchBorrowed);
     }
 
     //  批量续借 / 单本书续借
@@ -58,17 +69,39 @@ public class BorrowController {
         return RestBean.success("成功延长了" + result + "条借阅订单");
     }
 
-    //  批量归还 / 单本书归还
-    @PostMapping("/return/{borrow_ids}")
-    public RestBean<String> returnBorrow(@PathVariable String borrow_ids){
-        int result = borrowService.returnBorrowByIds(borrow_ids);
-        return RestBean.success("成功归还了" + result + "条借阅订单");
+    //  admin-批量归还 此接口为强制归还（不会判断借阅是否逾期
+    @PostMapping("/admin-batch-return/{borrow_ids}")
+    public RestBean<String> adminBatchReturn(@PathVariable String borrow_ids){
+        int result = borrowService.adminReturnBorrowByIds(borrow_ids);
+        if (result == 0) {
+            return RestBean.failure(401, "系统内部出现错误导致归还失败");
+        }else {
+            return RestBean.success("成功归还" + result + "本书");
+        }
     }
 
-    //admin-用户管理页面获取某个用户的借阅
+    @PostMapping("/user-single-return")
+    public RestBean<String> userSingleReturn(@RequestParam("borrow_id")String borrow_id,
+                                             @RequestParam("account_id")String account_id){
+        String message = borrowService.userSingleReturnById(borrow_id, account_id);
+
+        if (message == null) {
+            return RestBean.success();
+        }else {
+            return RestBean.failure(401, message);
+        }
+    }
+
+    //获取某个用户的正在借阅
     @GetMapping("/get-user-borrowing/{account_id}")
     public RestBean<List<BorrowBookInfo>> getBorrowingByAccount(@PathVariable String account_id){
         return RestBean.success(borrowService.getBorrowingByAccountId(account_id));
+    }
+
+    //获取某个用户的历史借阅
+    @GetMapping("/get-user-borrowed/{account_Id}")
+    public RestBean<List<BorrowBookInfo>> getBorrowedByAccount(@PathVariable String account_Id){
+        return RestBean.success(borrowService.getBorrowedByAccountId(account_Id));
     }
 
     //用户借阅接口

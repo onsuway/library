@@ -78,9 +78,7 @@
                 </el-table-column>
             </el-table>
         </el-dialog>
-
     </div>
-
 </template>
 
 <script setup>
@@ -123,7 +121,7 @@ const handleDetailBorrow = (row) => {
 
 const handleExtendBorrow = (row) => {
     post('/api/borrow/extend/' + row.borrow_id, row.borrow_id, () => {
-        ElMessage.success("成功延长" + row.username + "借阅《" + row.title + "》三天")
+        ElMessage.success("成功延长" + currentUser.value + "借阅《" + row.title + "》三天")
         dialogTableVisible.value = false
     }, (message) => {
         ElMessage.warning(message)
@@ -131,8 +129,8 @@ const handleExtendBorrow = (row) => {
 }
 
 const handleReturnBorrow = (row) => {
-    post('/api/borrow/return/' + row.borrow_id, row.borrow_id, () => {
-        ElMessage.success("成功归还" + row.username + "借阅《" + row.title + "》")
+    post('/api/borrow/admin-batch-return/' + row.borrow_id, row.borrow_id, () => {
+        ElMessage.success("成功归还" + currentUser.value + "借阅《" + row.title + "》")
         dialogTableVisible.value = false
     }, (message) => {
         ElMessage.warning(message)

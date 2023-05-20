@@ -189,7 +189,7 @@ const handleExtendBorrow = (row) => {
 }
 
 const handleReturnBorrow = (row) => {
-    post('/api/borrow/return/' + row.borrow_id, row.borrow_id, () => {
+    post('/api/borrow/admin-batch-return/' + row.borrow_id, row.borrow_id, () => {
         ElMessage.success("成功归还" + row.username + "借阅《" + row.title + "》")
         handleRadioChange(radio.value)
     }, (message) => {
@@ -228,7 +228,7 @@ const handleBatchReturn = (selectedRowIds) => {
         ElMessage.warning('选中不能为空！')
     } else {
         ElMessageBox.confirm(
-            '确定将这些借阅归还吗，这不可撤销！',
+            '强制归还将不会检查借阅是否逾期，请再次确认',
             '归还确认',
             {
                 confirmButtonText: '确认',
@@ -236,12 +236,13 @@ const handleBatchReturn = (selectedRowIds) => {
                 type: 'warning',
             }
         ).then(() => {
-            post('/api/borrow/return/' + selectedRowIds, selectedRowIds, (message) => {
-                ElMessage.success(message)
-                handleRadioChange(radio.value)
-            }, (message) => {
-                ElMessage.warning(message)
-            })
+            post('/api/borrow/admin-batch-return/' + selectedRowIds,
+                selectedRowIds, (message) => {
+                    ElMessage.success(message)
+                    handleRadioChange(radio.value)
+                }, (message) => {
+                    ElMessage.warning(message)
+                })
         }).catch(() => {
             ElMessage.info('你取消了批量归还')
         })

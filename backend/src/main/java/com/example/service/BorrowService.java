@@ -16,7 +16,9 @@ public interface BorrowService {
 
     List<Borrow> getUnreturnedBorrow();
 
-    List<Borrow> searchBorrowByTitleOrAuthor(String searchType, String searchValue);
+    List<Borrow> searchBorrowingByTitleOrUsername(String searchType, String searchValue);
+
+    List<BorrowBookInfo> searchBorrowedByTitleOrAuthorWithAccount(String searchType, String searchValue, String account_id);
 
     List<Borrow> getOverdue();
 
@@ -26,12 +28,15 @@ public interface BorrowService {
 
     int extendBorrowByIds(String ids);
 
-    int returnBorrowByIds(String ids);
+    int adminReturnBorrowByIds(String ids);
 
     List<BorrowBookInfo> getBorrowingByAccountId(String account_id);
+
+    List<BorrowBookInfo> getBorrowedByAccountId(String account_id);
 
     String borrow(String bid, String accountId);
 
     List<HotBorrowBook> getHotBorrowedBookTop5();
 
+    String userSingleReturnById(String borrow_id, String account_id);
 }
