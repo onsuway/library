@@ -29,9 +29,8 @@
         <div class="hot-book-container margin-auto">
             <div class="book-container-title">
                 <span class="title-left">热读推荐</span>
-                <div class="title-right">查看全部</div>
+                <div class="title-right" @click="router.push('/user/hotBorrow')">查看全部</div>
             </div>
-
             <div class="hot-book" >
                 <div class="hot-book-item" v-for="book in hotBookList">
                     <div
@@ -53,7 +52,6 @@
         <div class="new-book-container margin-auto">
             <div class="book-container-title">
                 <span class="title-left">新书速递</span>
-                <div class="title-right">查看全部</div>
             </div>
 
             <div class="new-book">

@@ -91,9 +91,9 @@ const router = createRouter({
                     component: () => import('@/views/user/BookSearchList.vue'),
                 },
                 {
-                    path: 'bookRecommend',
-                    name: 'book-recommend',
-                    component: () => import('@/views/user/BookRecommendationsView.vue')
+                    path: 'hotBorrow',
+                    name: 'hot-borrow',
+                    component: () => import('@/views/user/HotBorrowView.vue')
                 },
                 {
                     path: 'me',

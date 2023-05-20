@@ -21,7 +21,7 @@
                             :default-active="router.currentRoute.value.fullPath"
                         >
                             <el-menu-item index="/user/home">书籍检索</el-menu-item>
-                            <el-menu-item index="/user/bookRecommend">书籍推荐</el-menu-item>
+                            <el-menu-item index="/user/hotBorrow">热门借阅</el-menu-item>
                             <el-menu-item index="/user/me/myBorrow">个人借阅</el-menu-item>
                         </el-menu>
                     </div>

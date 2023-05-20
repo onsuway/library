@@ -5,13 +5,14 @@
                 <el-table
                         size="large"
                         :data="borrowingBookList"
+                        :default-sort="{ prop: 'borrow_time', order: 'descending' }"
                         :cell-style="{'text-align':'center'}"
                         :header-cell-style="{'text-align':'center'}"
                         empty-text="还没有借阅过书籍呢，快去看一看叭"
                 >
                     <el-table-column prop="title" label="书名"/>
                     <el-table-column prop="author" label="作者"/>
-                    <el-table-column prop="borrow_time" label="借阅时间"/>
+                    <el-table-column prop="borrow_time" label="借阅时间" sortable/>
                     <el-table-column prop="due_time" label="最晚归还时间"/>
                     <el-table-column label="操作">
                         <template #default="{row}">
@@ -66,13 +67,14 @@
                         size="large"
                         :data="borrowedBookList"
                         :cell-style="{'text-align':'center'}"
+                        :default-sort="{ prop: 'borrow_time', order: 'descending' }"
                         :header-cell-style="{'text-align':'center'}"
                         height="650"
                         empty-text="还没有借阅过书籍呢，快去看一看叭"
                 >
                     <el-table-column prop="title" label="书名"/>
                     <el-table-column prop="author" label="作者"/>
-                    <el-table-column prop="borrow_time" label="借阅时间"/>
+                    <el-table-column prop="borrow_time" label="借阅时间" sortable/>
                     <el-table-column prop="actual_time" label="归还时间"/>
                 </el-table>
             </el-tab-pane>
