@@ -81,8 +81,6 @@ public class BorrowController {
 
     }
 
-
-
     //  admin-批量归还 此接口为强制归还（不会判断借阅是否逾期
     @PostMapping("/admin-batch-return/{borrow_ids}")
     public RestBean<String> adminBatchReturn(@PathVariable String borrow_ids){
@@ -130,9 +128,17 @@ public class BorrowController {
         }
     }
 
+    //在所有范围内查询借阅数量最多的五本书
     @GetMapping("/get-hot-borrow-book")
     public RestBean<List<HotBorrowBook>> getHotBook(){
-        return RestBean.success(borrowService.getHotBorrowedBookTop5());
+        return RestBean.success(borrowService.getHotBorrowBookTop5());
+    }
+
+    //在 类型范围/时间范围 内 查询借阅数量最多的十本书
+    @PostMapping("/get-hot-borrow-leaderboard")
+    public RestBean<List<HotBorrowBook>> getHotBorrowLeaderboard(@RequestParam("type_id") String type_id,
+                                                                 @RequestParam("time_range")String time_range){
+        return RestBean.success(borrowService.getHotBorrowBookTop10ByTimeAndType(type_id, time_range));
     }
 
 }

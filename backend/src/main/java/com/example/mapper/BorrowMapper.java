@@ -85,7 +85,8 @@ public interface BorrowMapper {
     @Update("""
             update account, borrow
             set borrow.del_flag = 1, borrow.actual_time = NOW(), account.borrowing_nums = borrowing_nums - 1
-            where borrow.account_id = account.id and borrow_id = #{borrow_id}""")
+            where borrow.account_id = account.id and borrow_id = #{borrow_id}
+            """)
     void userSingleReturn(String borrow_id);
 
     @Update("update book set nums = nums - 1 where bid = #{bid} and nums > 0")
@@ -97,8 +98,59 @@ public interface BorrowMapper {
     @Select("select count(*) from borrow where book_id = #{book_id} and account_id = #{account_id} and del_flag = 0")
     int countBorrowingByBidAndAccountId(String book_id, String account_id);
 
-    @Select("select book_id, count(*) as borrow_count from borrow group by book_id order by borrow_count DESC LIMIT 5")
-    List<HotBorrowBook> selectHotBorrowBook();
+    @Select("""
+            select book_id, title, author, nums, cover_url, count(*) as borrow_count
+            from borrow, book
+            where book_id = bid
+            group by book_id
+            order by borrow_count DESC
+            LIMIT 5
+            """)
+    List<HotBorrowBook> selectHotBorrowBookTop5();
+
+    @Select("""
+            select book_id, title, author, nums, cover_url, count(*) as borrow_count
+            from borrow, book
+            where book_id = bid
+            group by book_id
+            order by borrow_count DESC
+            LIMIT 10
+            """)
+    List<HotBorrowBook> selectHotBorrowBookTop10();
+
+    @Select("""
+            select book_id, title, author, nums, cover_url, count(*) as borrow_count
+            from borrow, book
+            where borrow_time >= NOW() - INTERVAL 1 ${time_range} and book_id = bid
+            group by book_id
+            order by borrow_count DESC
+            LIMIT 10
+            """)
+    List<HotBorrowBook> selectHotBorrowBookTop10WithTime(String time_range);
+
+
+    @Select("""
+            select book_id, title, author, nums, cover_url, count(*) as borrow_count
+            from borrow, book
+            where book_id = bid and type_id = #{type_id}
+            group by book_id
+            order by borrow_count DESC
+            LIMIT 10
+            """)
+    List<HotBorrowBook> selectHotBorrowBookTop10WithType(String type_id);
+
+
+    @Select("""
+            select book_id, title, author, nums, cover_url, count(*) as borrow_count
+            from borrow, book
+            where borrow_time >= NOW() - INTERVAL 1 ${time_range} and book_id = bid and type_id = #{type_id}
+            group by book_id
+            order by borrow_count DESC
+            LIMIT 10
+            """)
+    List<HotBorrowBook> selectHotBorrowBookTop10WithTimeAndType(String type_id, String time_range);
+
+
 
     @Select("""
             select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time\s
@@ -109,19 +161,22 @@ public interface BorrowMapper {
     @Select("""
             select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time\s
             from book, borrow\s
-            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1""")
+            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1
+            """)
     List<BorrowBookInfo> selectUserBorrowedBook(String account_id);
 
     @Select("""
             select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time\s
             from book, borrow\s
-            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1 and book.title like '%${searchValue}%'""")
+            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1 and book.title like '%${searchValue}%'
+            """)
     List<BorrowBookInfo> searchBorrowedByTitleWithAccount(String searchValue, String account_id);
 
     @Select("""
             select borrow_id, borrow.book_id, book.title ,book.author, borrow.borrow_time, borrow.due_time, borrow.actual_time\s
             from book, borrow\s
-            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1 and book.author like '%${searchValue}%'""")
+            where book.bid = borrow.book_id and borrow.account_id = #{account_id} and borrow.del_flag = 1 and book.author like '%${searchValue}%'
+            """)
     List<BorrowBookInfo> searchBorrowedByAuthorWithAccount(String searchValue, String account_id);
 
     @Update("update borrow set is_extended = 1, due_time = DATE_ADD(due_time,INTERVAL 3 DAY) where borrow_id = #{borrow_id} and is_extended = 0")

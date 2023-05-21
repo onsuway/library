@@ -15,6 +15,10 @@ public class HotBorrowBook {
 
     String title;
 
+    String author;
+
+    int nums;
+
     String cover_url;
 
     int borrow_count;

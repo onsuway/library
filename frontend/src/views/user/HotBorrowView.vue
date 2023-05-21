@@ -4,21 +4,21 @@
             <div class="type-row">
                 <div style="font-size: 18px; font-weight: bold;flex: 1">分类：</div>
                 <div style="flex: 14">
-                    <!-- TODO 待查询绑定类别
-                     有个问题是：如果类型过多该如何显示 -->
-                    <el-radio-group v-model="typeRadio">
+                    <el-radio-group v-model="typeRadio" @change="handleTypeRadioChange()">
                         <el-radio-button label="all">全部</el-radio-button>
-                        <el-radio-button label="chinese">语文</el-radio-button>
-                        <el-radio-button label="math">数学</el-radio-button>
-                        <el-radio-button label="english">英语</el-radio-button>
+                        <el-radio-button
+                                v-for="type in typeList"
+                                :label="type.type_id"
+                        >
+                            {{ type.type_name }}
+                        </el-radio-button>
                     </el-radio-group>
                 </div>
             </div>
             <div class="statistics-time-row">
                 <div style="font-size: 18px; font-weight: bold;flex: 1">统计范围：</div>
                 <div style="flex: 14">
-                    <!-- TODO 待绑定 -->
-                    <el-radio-group v-model="timeRadio">
+                    <el-radio-group v-model="timeRadio" @change="handleTimeRadioChange()">
                         <el-radio-button label="all">全部</el-radio-button>
                         <el-radio-button label="week">最近一周</el-radio-button>
                         <el-radio-button label="month">最近一月</el-radio-button>
@@ -29,9 +29,6 @@
         </el-container>
 
         <el-container class="table-container">
-            <!-- TODO 待绑定数据库信息
-                计划将之前主页用的HotBorrowBook类增加一些新的信息并绑定在这里
-             -->
             <el-table
                     :data="bookLeaderboardList"
                     size="large"
@@ -41,7 +38,16 @@
                     stripe
             >
                 <el-table-column label="序号" type="index" width="80"/>
-                <el-table-column label="书名" prop="title" width="400"/>
+                <el-table-column label="书名" prop="title" width="400">
+                    <template #default="scope">
+                        <el-link
+                                type="primary"
+                                @click="router.push(`/user/bookDetails/${scope.row.book_id}`)"
+                        >
+                            {{ scope.row.title }}
+                        </el-link>
+                    </template>
+                </el-table-column>
                 <el-table-column label="作者" prop="author"/>
                 <el-table-column label="可借数量" prop="nums"/>
                 <el-table-column label="借阅次数" prop="borrow_count"/>
@@ -53,64 +59,43 @@
 
 <script setup>
 import {ref} from "vue";
+import {get, post} from "@/net";
+import router from "@/router";
 
 const typeRadio = ref('all')
 
 const timeRadio = ref('all')
 
-const bookLeaderboardList = ref([
-    {
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    }, {
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    }, {
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    }, {
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    },{
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    },{
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    },{
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    },{
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    },{
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    },{
-        title: '测试1',
-        author: '刘慈欣',
-        nums: 66,
-        borrow_count: 22,
-    }
-])
+const typeList = ref([])
+
+const bookLeaderboardList = ref([])
+
+const freshBookList = () => {
+    post('/api/borrow/get-hot-borrow-leaderboard', {
+        type_id: typeRadio.value,
+        time_range: timeRadio.value
+    }, (message) => {
+        bookLeaderboardList.value = message
+    })
+}
+
+const freshTypeList = () => {
+    get('/api/book/getAllType', (message) => {
+        typeList.value = message
+    })
+}
+
+const handleTypeRadioChange = () => {
+    freshBookList()
+}
+
+const handleTimeRadioChange = () => {
+    freshBookList()
+}
+
+
+freshTypeList()
+freshBookList()
 </script>
 
 <style scoped>

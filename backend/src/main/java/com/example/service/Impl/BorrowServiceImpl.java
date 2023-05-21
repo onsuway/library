@@ -36,9 +36,6 @@ public class BorrowServiceImpl implements BorrowService {
     @Resource
     UserMapper userMapper;
 
-    @Resource
-    BookMapper bookMapper;
-
     Timestamp now = new Timestamp(System.currentTimeMillis());
 
     @Override
@@ -193,17 +190,30 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public List<HotBorrowBook> getHotBorrowedBookTop5() {
-
-        List<HotBorrowBook> hotBorrowBooks = borrowMapper.selectHotBorrowBook();
-
-        hotBorrowBooks.forEach(borrowCount -> {
-            borrowCount.setTitle(bookMapper.selectTitleById(borrowCount.getBook_id()));
-            borrowCount.setCover_url(bookMapper.selectCoverUrlByBookId(borrowCount.getBook_id()));
-        });
-
-        return hotBorrowBooks;
+    public List<HotBorrowBook> getHotBorrowBookTop5() {
+        return borrowMapper.selectHotBorrowBookTop5();
     }
 
+    @Override
+    public List<HotBorrowBook> getHotBorrowBookTop10ByTimeAndType(String type_id, String time_range) {
+
+        //类型为全部 时间范围不是全部 只筛选时间范围
+        if (Objects.equals(type_id, "all") && !Objects.equals(time_range, "all")){
+            return borrowMapper.selectHotBorrowBookTop10WithTime(time_range);
+        }
+
+        //时间范围是全部 类型选择不是全部 只筛选类型
+        if (!Objects.equals(type_id, "all") && Objects.equals(time_range, "all")){
+            return borrowMapper.selectHotBorrowBookTop10WithType(type_id);
+        }
+
+        //两方都为all 不筛选
+        if (Objects.equals(type_id, "all") && Objects.equals(time_range, "all")){
+            return borrowMapper.selectHotBorrowBookTop10();
+        }
+
+        //都不为all 则进行双重筛选
+        return borrowMapper.selectHotBorrowBookTop10WithTimeAndType(type_id, time_range);
+    }
 
 }
