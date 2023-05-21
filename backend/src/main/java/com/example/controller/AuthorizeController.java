@@ -86,8 +86,9 @@ public class AuthorizeController {
                                          @Pattern(regexp = PASSWORD_REGEX) @Length(min = 6, max = 16) @RequestParam("password") String password,
                                          @Pattern(regexp = EMAIL_REGEX) @RequestParam("email") String email,
                                          @Length(min = 6, max = 6) @RequestParam("code") String code,
+                                         @RequestParam("role") String role,
                                          HttpSession session) {
-        String s = authorizeService.validateAndRegister(username, password, email, code, session.getId());
+        String s = authorizeService.validateAndRegister(username, password, role, email, code, session.getId());
         if (s == null)
             return RestBean.success("注册成功");
         else
@@ -141,7 +142,6 @@ public class AuthorizeController {
         }
 
     }
-
 
 }
 

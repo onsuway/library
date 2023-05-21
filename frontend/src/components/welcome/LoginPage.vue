@@ -71,7 +71,12 @@ const login = () => {
             ElMessage.success(message)
             get('/api/user/me', (message) => {
                 userStore.login(message)
-                router.push('/' + message.role)
+                const {role} = message
+                if (role === 'admin'){
+                    router.push('/admin')
+                }else {
+                    router.push('/user')
+                }
             },() => {
                 userStore.logout()
             })

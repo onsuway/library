@@ -65,4 +65,14 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public String changeUserRole(String account_id, String new_role) {
+        int result = userMapper.setNewRoleById(account_id, new_role);
+        if (result == 1){
+            return null;
+        }else {
+            return "更改角色失败";
+        }
+    }
 }

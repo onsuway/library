@@ -40,7 +40,7 @@
                         用户类型
                     </div>
                 </template>
-                <el-tag size="small">student</el-tag>
+                <el-tag size="small">{{userStore.userInfo.role}}</el-tag>
             </el-descriptions-item>
             <el-descriptions-item>
                 <template #label>

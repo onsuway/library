@@ -120,7 +120,6 @@ const router = createRouter({
 
             ]
         }
-
     ]
 })
 
@@ -137,13 +136,17 @@ router.beforeEach((to, from, next) => {
         const {role} = userStore.userInfo
         if (isWelcome) {
             ElMessage.info('已经登录，无需进入登录页面')
-            next('/' + role)
+            if (role === 'admin'){
+                next('/admin')
+            }else {
+                next('/user')
+            }
         } else if (role !== 'admin' && requireAdmin) {
             ElMessage.warning('无权访问管理页面')
-            next('/' + role)
-        } else if (role !== 'user' && requireUser) {
+            next('/user')
+        } else if (role === 'admin' && requireUser) {
             ElMessage.warning('管理员无法访问用户页面')
-            next('/' + role)
+            next('/admin')
         } else {
             next()
         }

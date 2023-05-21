@@ -24,18 +24,19 @@ import java.util.Objects;
 @Service
 public class BorrowServiceImpl implements BorrowService {
 
-    Timestamp nowTimestamp = new Timestamp(System.currentTimeMillis());
+    Timestamp now = new Timestamp(System.currentTimeMillis());
 
-    //TODO 待实现student/teacher分离后将该变量提取到yaml文件里作为一个常量
-    long borrowTimeLong = 7 * 24 * 60 * 60 * 1000L;
+    //学生借阅时长
+    long studentBorrowTimeLong = 10 * 24 * 60 * 60 * 1000L;
+
+    //教职工借阅时长
+    long teacherBorrowTimeLong = 20 * 24 * 60 * 60 * 1000L;
 
     @Resource
     BorrowMapper borrowMapper;
 
     @Resource
     UserMapper userMapper;
-
-    Timestamp now = new Timestamp(System.currentTimeMillis());
 
     @Override
     public List<Borrow> getUnreturnedBorrow() {
@@ -149,19 +150,25 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     @Transactional
     public String borrow(String bid, String account_id) {
-        //获取  用户信用积分  和 正在借阅中的书籍数量
+        //获取  用户信用积分 正在借阅中的书籍数量 用户角色
         int userCredit = userMapper.getUserCreditById(account_id);
         int userBorrowingNums = userMapper.getUserBorrowingNumsById(account_id);
+        String userRole = userMapper.getUserRoleById(account_id);
 
-        Timestamp due_time = new Timestamp(nowTimestamp.getTime() + borrowTimeLong);
+        Timestamp due_time = new Timestamp(now.getTime() + studentBorrowTimeLong);
+        //teacher借阅的时间不同
+        if (Objects.equals(userRole, "teacher")){
+            due_time = new Timestamp(now.getTime() + teacherBorrowTimeLong);
+        }
 
         //判断用户积分是否合法
         if (userCredit == 0) {
             return "逾期借阅次数过多，请联系管理员缴纳罚款解封！";
         }
 
-        //判断用户正在借阅中的书籍数量是否合法
-        if (userBorrowingNums >= 3) {
+        //判断用户正在借阅中的书籍数量是否合法 (student借阅最多3 teacher-5
+        if (userBorrowingNums >= 3 && Objects.equals(userRole, "student") ||
+            userBorrowingNums >= 5 && Objects.equals(userRole, "teacher")) {
             return "借阅的太多啦，先去读完再借叭";
         }
 
@@ -172,18 +179,18 @@ public class BorrowServiceImpl implements BorrowService {
 
         //书籍数量减一成功再进行插入借阅信息
         if (borrowMapper.decreaseBookNumsByBid(bid) == 1) {
-            int result = borrowMapper.insertBorrow(bid, account_id, nowTimestamp, due_time);
+            int result = borrowMapper.insertBorrow(bid, account_id, now, due_time);
             //成功借阅与否
             if (result == 1) {
                 //用户正借阅书籍数量加1
                 if(userMapper.increaseBorrowingNumsById(account_id) == 1){
                     return null;
                 }else {
-                    return "数据库内部出现错误，请联系管理员";
+                    return "user数据库内部出现错误，请联系管理员";
                 }
-            } else return "数据库内部出现错误，请联系管理员";
+            } else return "borrow数据库内部出现错误，请联系管理员";
         } else {
-            return "数据库内部出现错误，请联系管理员";
+            return "book数据库内部出现错误，请联系管理员";
         }
 
     }

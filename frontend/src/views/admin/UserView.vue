@@ -32,8 +32,7 @@
                         <template #dropdown>
                             <el-dropdown-menu>
                                 <el-dropdown-item @click="handleDetailBorrow(row)">查看正在借阅</el-dropdown-item>
-                                <!-- TODO 更改用户角色 student/teacher -->
-                                <el-dropdown-item>更改用户角色</el-dropdown-item>
+                                <el-dropdown-item @click="handleChangeUserRole(row)">更改用户角色</el-dropdown-item>
                                 <el-dropdown-item @click="handleResetCredit(row)">重置信用积分</el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
@@ -119,6 +118,30 @@ const handleDetailBorrow = (row) => {
     currentUser.value = row.username
 }
 
+const handleChangeUserRole = (row) => {
+    ElMessageBox.confirm(
+        '确定更改该用户角色吗？',
+        '更改角色确认',
+        {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'info',
+        }
+    )
+        .then(() => {
+            post('/api/user/change-role',{
+                account_id: row.id,
+                new_role: row.role === 'student' ? 'teacher' : 'student',
+            },(message) => {
+                ElMessage.success(message)
+                freshUserList()
+            })
+        })
+        .catch(() => {
+            ElMessage.info('你取消了更改角色')
+        })
+}
+
 const handleExtendBorrow = (row) => {
     post('/api/borrow/extend/' + row.borrow_id, row.borrow_id, () => {
         ElMessage.success("成功延长" + currentUser.value + "借阅《" + row.title + "》三天")
@@ -163,9 +186,9 @@ const handleResetCredit = (row) => {
 }
 
 const handleSearch = () => {
-    if (searchInputText.value === ''){
+    if (searchInputText.value === '') {
         ElMessage.warning('搜索不允许为空')
-    }else {
+    } else {
         post('/api/user/search', {
             text: searchInputText.value
         }, (message) => {

@@ -11,6 +11,13 @@
                     @validate="onValidate"
                     ref="formRef"
             >
+                <el-form-item>
+                    <span style="font-size: 15px;font-weight: lighter">选择身份：</span>
+                    <el-radio-group v-model="form.role">
+                        <el-radio-button label="student">学生</el-radio-button>
+                        <el-radio-button label="teacher">教职工</el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item prop="username">
                     <el-input v-model="form.username" :maxlength="8" type="text" placeholder="用户名">
                         <template #prefix>
@@ -92,8 +99,8 @@ const isEmailValid = ref(false)
 
 const coldTime = ref(0)
 
-
 const form = reactive({
+    role: 'student',
     username: '',
     password: '',
     password_repeat: '',
@@ -155,7 +162,6 @@ const rules = {
     ]
 }
 
-
 const onValidate = (prop, isValid) => {
     if (prop === 'email') {
         isEmailValid.value = isValid
@@ -166,6 +172,7 @@ const register = () => {
     formRef.value.validate((isValid) => {
         if (isValid) {
             post('/api/auth/register', {
+                role: form.role,
                 username: form.username,
                 password: form.password,
                 email: form.email,

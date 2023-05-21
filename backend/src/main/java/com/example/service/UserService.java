@@ -21,4 +21,6 @@ public interface UserService {
     List<Account> searchAccountByUsername(String text);
 
     String resetPassword(String account_id, String current_password, String new_password);
+
+    String changeUserRole(String account_id, String new_role);
 }

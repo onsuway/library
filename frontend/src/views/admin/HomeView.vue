@@ -17,7 +17,11 @@
     <div style="margin-top: 120px">
         <el-row :gutter="40">
             <el-col :span="6">
-                <el-statistic :value="userCount" class="card" :value-style="valueCss">
+                <el-statistic
+                        class="card"
+                        :value="userCount"
+                        :value-style="valueCss"
+                >
                     <template #prefix>
                         <el-icon size="25px">
                             <UserFilled/>
@@ -34,7 +38,7 @@
                 <el-statistic :value="bookUniqueCount" class="card" :value-style="valueCss">
                     <template #prefix>
                         <el-icon size="25px">
-                            <Notebook />
+                            <Notebook/>
                         </el-icon>
                     </template>
                     <template #title>

@@ -92,7 +92,7 @@ public class AuthorizeServiceImpl implements AuthorizeService {
     }
 
     @Override
-    public String validateAndRegister(String username, String password, String email, String code, String sessionId) {
+    public String validateAndRegister(String username, String password, String role, String email, String code, String sessionId) {
         String key = "email:" + sessionId + ":" + email + ":false";
         if (Boolean.TRUE.equals(template.hasKey(key))) {
             String s = template.opsForValue().get(key);
@@ -102,7 +102,7 @@ public class AuthorizeServiceImpl implements AuthorizeService {
                 if (account != null) return "此用户名已被注册";
                 template.delete(key);
                 password = encoder.encode(password);
-                if (userMapper.creatAccount(username, password, email) > 0) {
+                if (userMapper.creatAccount(username, password, role, email) > 0) {
                     return null;
                 } else {
                     return "内部错误，请联系管理员";

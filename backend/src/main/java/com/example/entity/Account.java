@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * @ClassName Account
- * @Description 用户类   TODO 待实现admin/student/teacher的分离
+ * @Description 用户类
  * @Author su
  * @Date 2023/4/19 21:33
  */

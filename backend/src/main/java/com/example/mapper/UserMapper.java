@@ -18,8 +18,8 @@ public interface UserMapper {
     @Select("select * from account where username = #{text} or email = #{text}")
     Account findAccountByUsernameOrEmail(String text);
 
-    @Insert("insert into account (username, password, email) values (#{username}, #{password}, #{email})")
-    int creatAccount(String username, String password, String email);
+    @Insert("insert into account (username, password, role, email) values (#{username}, #{password}, #{role}, #{email})")
+    int creatAccount(String username, String password, String role, String email);
 
     @Update("update account set password = #{password} where email = #{email}")
     int resetPasswordByEmail(String password, String email);
@@ -36,7 +36,7 @@ public interface UserMapper {
     @Update("update account set credit = 3 where id = #{id}")
     int resetCreditById(String id);
 
-    @Select("select count(*) from account")
+    @Select("select count(*) from account where role <> 'admin'")
     int getUserCount();
 
     @Select("select * from account where username like '%${text}%' and del_flag = 0")
@@ -44,6 +44,9 @@ public interface UserMapper {
 
     @Select("select credit from account where id = #{id}")
     int getUserCreditById(String id);
+
+    @Select("select role from account where id = #{id}")
+    String getUserRoleById(String id);
 
     @Select("select borrowing_nums from account where id = #{id}")
     int getUserBorrowingNumsById(String id);
@@ -56,4 +59,7 @@ public interface UserMapper {
 
     @Update("update account set credit = credit - 1 where id = #{id} and credit > 0")
     void decreaseCreditById(String id);
+
+    @Update("update account set role = #{new_role} where id = #{account_id}")
+    int setNewRoleById(String account_id, String new_role);
 }
