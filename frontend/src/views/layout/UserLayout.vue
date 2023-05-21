@@ -6,7 +6,7 @@
                 <el-header class="content-header">
                     <div style="flex: 1">
                         <el-image
-                            src="https://image.itbaima.net/images/90/image-20230514153349528.png"
+                            src="https://i.imgloc.com/2023/05/21/V4nGiz.png"
                             @click="router.push('/user/home')"
                             class="logo"
                         />
@@ -33,7 +33,7 @@
                         <el-dropdown>
                             <el-avatar
                                 class="user-avatar"
-                                src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"
+                                src="https://i.imgloc.com/2023/04/01/i2lTJw.jpeg"
                             />
                             <template #dropdown>
                                 <el-dropdown-menu>
@@ -76,7 +76,7 @@ const logout = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .user-avatar:hover {
     cursor: pointer;
 }
@@ -91,6 +91,5 @@ const logout = () => {
     display: flex;
     height: 63px;
 }
-
 
 </style>

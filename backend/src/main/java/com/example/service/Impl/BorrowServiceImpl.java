@@ -3,7 +3,6 @@ package com.example.service.Impl;
 import com.example.entity.Borrow;
 import com.example.entity.BorrowBookInfo;
 import com.example.entity.HotBorrowBook;
-import com.example.mapper.BookMapper;
 import com.example.mapper.BorrowMapper;
 import com.example.mapper.UserMapper;
 import com.example.service.BorrowService;
@@ -27,7 +26,7 @@ public class BorrowServiceImpl implements BorrowService {
 
     Timestamp nowTimestamp = new Timestamp(System.currentTimeMillis());
 
-    //TODO 待将该变量提取到yaml文件里作为一个常量
+    //TODO 待实现student/teacher分离后将该变量提取到yaml文件里作为一个常量
     long borrowTimeLong = 7 * 24 * 60 * 60 * 1000L;
 
     @Resource

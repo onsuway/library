@@ -2,7 +2,7 @@
     <div style="text-align: center; margin: 0 20px">
         <div style="margin-top: 150px">
             <div style="font-size: 25px;font-weight: bold">登录</div>
-            <div style="font-size: 14px; color: grey">在进入系统之前请先输入用户名和密码进行登录</div>
+            <div style="font-size: 14px; color: grey">在进入之前请先输入用户名和密码进行登录</div>
         </div>
         <div style="margin-top: 50px">
             <el-input v-model="form.username" type="text" placeholder="用户名/邮箱">

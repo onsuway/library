@@ -4,7 +4,7 @@
             <div style="height: 300px;width: 100%;">
                 <el-image
                         style="width: 100%; height: 100%;"
-                        src="https://i.328888.xyz/2023/05/14/VZtUya.jpeg"
+                        src="https://i.imgloc.com/2023/05/21/V4n51x.jpeg"
                         fit="cover"
                 />
             </div>
@@ -277,7 +277,7 @@ onMounted(() => {
 }
 
 .recommend-buy {
-    background: #fff url("https://i.328888.xyz/2023/05/16/ViOfLk.jpeg") no-repeat bottom;
+    background: #fff url("https://i.imgloc.com/2023/05/21/V4ndbw.jpeg") no-repeat bottom;
     height: 240px;
     box-shadow: 0 3px 4px rgba(0, 0, 0, .2);
     border-radius: 4px;

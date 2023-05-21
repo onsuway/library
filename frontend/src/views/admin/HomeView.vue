@@ -3,13 +3,13 @@
         <div style="height: 40vh;width: 100%;">
             <el-image
                     style="width: 100%; height: 100%;"
-                    src="https://i.328888.xyz/2023/05/13/iuarKd.jpeg"
+                    src="https://i.imgloc.com/2023/05/21/V4nhza.jpeg"
                     fit="cover"/>
         </div>
         <div class="welcome-slogan">
             <div style="font-size: 35px;font-weight: bold">
-                Welcome to our library,<br/>
-                where the benefits of reading await you on every shelf.
+                欢迎登录图书馆管理员端<br/>
+                你可以在这里管理图书馆相关业务
             </div>
         </div>
     </div>

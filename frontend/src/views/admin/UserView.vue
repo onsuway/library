@@ -15,6 +15,7 @@
         >
             <el-table-column prop="username" label="用户名"/>
             <el-table-column prop="role" label="用户角色"/>
+            <el-table-column prop="email" label="用户邮箱"/>
             <el-table-column prop="borrowing_nums" label="正借阅数量"/>
             <el-table-column prop="credit" label="信用积分"/>
             <el-table-column label="操作" align="right" width="200">
@@ -31,6 +32,7 @@
                         <template #dropdown>
                             <el-dropdown-menu>
                                 <el-dropdown-item @click="handleDetailBorrow(row)">查看正在借阅</el-dropdown-item>
+                                <!-- TODO 更改用户角色 student/teacher -->
                                 <el-dropdown-item>更改用户角色</el-dropdown-item>
                                 <el-dropdown-item @click="handleResetCredit(row)">重置信用积分</el-dropdown-item>
                             </el-dropdown-menu>
@@ -103,8 +105,6 @@ const freshUserList = () => {
     })
 }
 
-freshUserList()
-
 const getBorrowByUser = (account_id) => {
     get('/api/borrow/get-user-borrowing/' + account_id, (message) => {
         userBorrowingList.value = message
@@ -175,6 +175,8 @@ const handleSearch = () => {
         })
     }
 }
+
+freshUserList()
 </script>
 
 <style scoped>

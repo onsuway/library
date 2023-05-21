@@ -53,9 +53,6 @@
                             </el-icon>
                             <span>个人设置</span>
                         </template>
-                        <el-menu-item index="/admin/me">
-                            个人信息
-                        </el-menu-item>
                         <el-menu-item index="/admin/changePassword">
                             修改密码
                         </el-menu-item>
@@ -77,12 +74,11 @@
                         <el-dropdown>
                             <el-avatar
                                     class="user-avatar"
-                                    src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"
+                                    src="https://i.imgloc.com/2023/04/01/i2lTJw.jpeg"
                             />
                             <template #dropdown>
                                 <el-dropdown-menu>
-                                    <el-dropdown-item :icon="User">个人信息</el-dropdown-item>
-                                    <el-dropdown-item :icon="SwitchButton" divided @click="logout">退出登录
+                                    <el-dropdown-item :icon="SwitchButton" @click="logout">退出登录
                                     </el-dropdown-item>
                                 </el-dropdown-menu>
                             </template>
@@ -107,7 +103,7 @@ import {
     Expand, Fold, HomeFilled, List, MessageBox,
     Setting,
     SwitchButton,
-    User, UserFilled
+    UserFilled
 } from "@element-plus/icons-vue";
 import {ref} from "vue";
 

@@ -84,7 +84,7 @@
 <script setup>
 import {ref} from "vue";
 import {Search} from "@element-plus/icons-vue"
-import {ElMessage, ElMessageBox} from "element-plus";
+import {ElMessage} from "element-plus";
 import {get, post} from "@/net";
 import {useUserStore} from "@/stores";
 

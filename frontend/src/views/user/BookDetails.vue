@@ -72,7 +72,6 @@
                     <div style="font-size: 18px;font-weight: bold">相关资源链接</div>
                     <el-divider/>
                     <div style="display: flex;flex-wrap: wrap">
-                        <!-- TODO 待实现点击图片直接跳转对应链接搜索 -->
                         <el-image
                                 style="height: 40px;width: 60px;cursor: pointer"
                                 @click="searchTaoBaoLink(currentBook.title)"

@@ -77,7 +77,7 @@ public class AuthorizeServiceImpl implements AuthorizeService {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setFrom(from);
         mailMessage.setTo(email);
-        mailMessage.setSubject("您的验证邮件");
+        mailMessage.setSubject("Library-Online验证邮件");
         mailMessage.setText("验证码是：" + code);
         try {
             mailSender.send(mailMessage);

@@ -1,6 +1,6 @@
 <template>
     <div class="avatar-title">
-        <el-avatar :size="150" src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"/>
+        <el-avatar :size="150" src="https://i.imgloc.com/2023/04/01/i2lTJw.jpeg"/>
         <div style="font-size: 20px;margin-top: 10px;font-weight: bold">student</div>
     </div>
     <div class="description">
