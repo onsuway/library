@@ -87,7 +87,12 @@ const login = () => {
 
 onMounted(() => {
     if (userStore.isLogin){
-        router.push('/' + userStore.userInfo.role)
+        const {role} = userStore.userInfo
+        if (role === 'admin'){
+            router.push('/admin')
+        }else {
+            router.push('/user')
+        }
     }
 })
 
