@@ -10,7 +10,8 @@ const router = createRouter({
             name: 'welcome',
             component: () => import('@/views/WelcomeView.vue'),
             meta: {
-                welcome: true
+                welcome: true,
+                title: '线上图书馆-欢迎'
             },
             children: [
                 {
@@ -36,6 +37,7 @@ const router = createRouter({
             redirect: 'admin/home',
             meta: {
                 requireAdmin: true,
+                title: '线上图书馆-管理端'
             },
             component: () => import('@/views/layout/AdminLayout.vue'),
             children: [
@@ -72,6 +74,7 @@ const router = createRouter({
             redirect: 'user/home',
             meta: {
                 requireUser: true,
+                title: '尽情借阅-就在线上图书馆'
             },
             component: () => import('@/views/layout/UserLayout.vue'),
             children: [
@@ -131,6 +134,10 @@ router.beforeEach((to, from, next) => {
     const requireAdmin = to.matched.some(record => record.meta.requireAdmin)
     const requireUser = to.matched.some(record => record.meta.requireUser)
     const isWelcome = to.matched.some(record => record.meta.welcome)
+
+    if (to.meta.title){
+        document.title = to.meta.title
+    }
 
     if (userStore.isLogin) {
         const {role} = userStore.userInfo
