@@ -21,6 +21,7 @@ public class UserController {
     @Resource
     UserService userService;
 
+    //从session中获取个人信息
     @GetMapping("/me")
     public RestBean<Account> me(@SessionAttribute("account") Account user) {
         return RestBean.success(user);
@@ -53,6 +54,7 @@ public class UserController {
         }
     }
 
+    //admin主页展示用户数量
     @GetMapping("/user-count")
     public RestBean<Integer> getUserCount() {
         return RestBean.success(userService.getUserCount());

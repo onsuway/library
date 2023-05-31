@@ -80,7 +80,7 @@ const freshBookList = () => {
 }
 
 const freshTypeList = () => {
-    get('/api/book/getAllType', (message) => {
+    get('/api/book/get-all-type', (message) => {
         typeList.value = message
     })
 }

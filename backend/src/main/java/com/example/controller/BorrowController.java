@@ -23,27 +23,29 @@ public class BorrowController {
     @Resource
     BorrowService borrowService;
 
-
+    //获取未归还的借阅
     @GetMapping("/get-unreturned")
     public RestBean<List<Borrow>> getUnreturnedBorrow(){
         return RestBean.success(borrowService.getUnreturnedBorrow());
     }
 
+    //获取逾期借阅
     @GetMapping("/get-overdue")
     public RestBean<List<Borrow>> getOverdueBorrow(){
         return RestBean.success(borrowService.getOverdue());
     }
 
+    //获取所有借阅
     @GetMapping("/get-all")
     public RestBean<List<Borrow>> getAllBorrow(){
         return RestBean.success(borrowService.getAllBorrow());
     }
 
+    //获取即将逾期的借阅（最晚归还时间在一天之内
     @GetMapping("/get-willOverdue")
     public RestBean<List<Borrow>> getWillOverdueBorrow(){
         return RestBean.success(borrowService.getWillOverdue());
     }
-
 
     //admin-借阅管理页面 查询所有的正在借阅
     @PostMapping("/search")
@@ -53,7 +55,7 @@ public class BorrowController {
         return RestBean.success(borrows);
     }
 
-    //user-个人借阅页面 查询一个用户的历史借阅
+    //user-个人借阅页面 查询用户的历史借阅
     @PostMapping("/search-borrowed-with-account")
     public RestBean<List<BorrowBookInfo>> searchBorrowedWithAccount(@RequestParam("search_type") String search_type,
                                                                   @RequestParam("search_value")String search_value,
@@ -62,13 +64,14 @@ public class BorrowController {
         return RestBean.success(searchBorrowed);
     }
 
-    //  admin-批量续借 此接口为强制续借（不会判断是否续借过
+    //admin-批量续借 此接口为强制续借（不会判断是否续借过
     @PostMapping("/extend/{borrow_ids}")
     public RestBean<String> extendBorrow(@PathVariable String borrow_ids){
         int result = borrowService.extendBorrowByIds(borrow_ids);
         return RestBean.success("成功延长了" + result + "条借阅订单");
     }
 
+    //user-个人借阅页面 续借（此接口会判断是否续借过
     @PostMapping("/user-single-extend/{borrow_id}")
     public RestBean<String> userSingleExtend(@PathVariable String borrow_id){
         String message = borrowService.userSingleExtendById(borrow_id);
@@ -92,6 +95,7 @@ public class BorrowController {
         }
     }
 
+    //user-个人借阅 归还（此接口会判断是否逾期并自动扣除信用积分
     @PostMapping("/user-single-return")
     public RestBean<String> userSingleReturn(@RequestParam("borrow_id")String borrow_id,
                                              @RequestParam("account_id")String account_id){
@@ -127,8 +131,6 @@ public class BorrowController {
             return RestBean.failure(400, message);
         }
     }
-
-
 
     //在所有范围内查询借阅数量最多的五本书
     @GetMapping("/get-hot-borrow-book")

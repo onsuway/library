@@ -31,15 +31,7 @@ public class AuthorizeController {
     @Resource
     AuthorizeService authorizeService;
 
-
-    /**
-     * @param email   邮箱地址
-     * @param session HttpSession
-     * @return com.example.entity.RestBean<java.lang.String>
-     * @description 给用户注册的邮箱地址 发验证码
-     * @author su
-     * @date 2023/4/25 22:34
-     */
+    //给用户注册的邮箱地址 发验证码
     @PostMapping("/valid-register-email")
     public RestBean<String> validateRegisterEmail(@Pattern(regexp = EMAIL_REGEX) @RequestParam("email") String email,
                                                   HttpSession session) {
@@ -51,14 +43,7 @@ public class AuthorizeController {
         }
     }
 
-    /**
-     * @param email   邮箱地址
-     * @param session HttpSession
-     * @return com.example.entity.RestBean<java.lang.String>
-     * @description 给要重置密码的邮箱 发验证码
-     * @author su
-     * @date 2023/4/25 22:35
-     */
+    //给要 重置密码/忘记密码 的邮箱 发验证码
     @PostMapping("/valid-reset-email")
     public RestBean<String> validateResetEmail(@Pattern(regexp = EMAIL_REGEX) @RequestParam("email") String email,
                                                HttpSession session) {
@@ -70,17 +55,7 @@ public class AuthorizeController {
         }
     }
 
-    /**
-     * @param username 用户名
-     * @param password 密码
-     * @param email    邮箱地址
-     * @param code     验证码
-     * @param session  HttpSession
-     * @return com.example.entity.RestBean<java.lang.String>
-     * @description 注册接口
-     * @author su
-     * @date 2023/4/25 22:36
-     */
+    //注册
     @PostMapping("/register")
     public RestBean<String> registerUser(@Pattern(regexp = USERNAME_REGEX) @Length(min = 2, max = 8) @RequestParam("username") String username,
                                          @Pattern(regexp = PASSWORD_REGEX) @Length(min = 6, max = 16) @RequestParam("password") String password,
@@ -96,15 +71,7 @@ public class AuthorizeController {
     }
 
 
-    /**
-     * @param email
-     * @param code
-     * @param session
-     * @return com.example.entity.RestBean<java.lang.String>
-     * @description 重置密码前验证用户邮箱的接口
-     * @author su
-     * @date 2023/4/25 22:37
-     */
+    //重置密码前验证用户邮箱的接口
     @PostMapping("/start-reset")
     public RestBean<String> startRest(@Pattern(regexp = EMAIL_REGEX) @RequestParam("email") String email,
                                       @Length(min = 6, max = 6) @RequestParam("code") String code,
@@ -118,14 +85,7 @@ public class AuthorizeController {
         }
     }
 
-    /**
-     * @param password
-     * @param session
-     * @return com.example.entity.RestBean<java.lang.String>
-     * @description 根据是否验证通过来重置密码
-     * @author su
-     * @date 2023/4/25 22:38
-     */
+    //根据是否验证通过来重置密码
     @PostMapping("/do-reset")
     public RestBean<String> resetPassword(@Pattern(regexp = PASSWORD_REGEX) @Length(min = 6, max = 16) @RequestParam("password") String password,
                                           HttpSession session) {
@@ -134,13 +94,10 @@ public class AuthorizeController {
             return RestBean.failure(401, "请先通过邮箱验证码验证");
         } else if (authorizeService.resetPassword(password, email)) {
             session.removeAttribute("reset-password");
-
-
             return RestBean.success("密码重置成功");
         } else {
             return RestBean.failure(500, "内部错误，请联系管理员");
         }
-
     }
 
 }

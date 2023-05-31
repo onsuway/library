@@ -158,7 +158,8 @@ const rules = {
         {type: 'email', message: '请输入合法的邮箱地址', trigger: ['blur', 'change']}
     ],
     code: [
-        {required: true, message: '请输入获取的验证码', trigger: 'blur'},
+        {required: true, message: '请输入获取的验证码',trigger: 'blur'},
+        {min: 6, max: 6, message: '请正确输入六位数验证码'},
     ]
 }
 

@@ -133,7 +133,7 @@ const checkBoxList = ref(checkBoxStore.getCheckBox)
 const typeNameList = ref([])
 
 
-get('/api/book/getAllType', (message) => {
+get('/api/book/get-all-type', (message) => {
     typeList.value = message
     typeNameList.value = typeList.value.map(type => type.type_name)
 })

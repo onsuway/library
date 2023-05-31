@@ -306,7 +306,7 @@ const bookForm = ref({
 
 //刷新书籍列表
 const freshBookList = () => {
-    get('/api/book/getAllBook', (message) => {
+    get('/api/book/get-all', (message) => {
         bookList.value = message
         bookList.value.sort((a, b) => a.nums - b.nums)
     }, (message) => {
@@ -317,7 +317,7 @@ const freshBookList = () => {
 
 //刷新类型列表
 const freshTypeList = () => {
-    get('/api/book/getAllType', (message) => {
+    get('/api/book/get-all-type', (message) => {
         typeList.value = message
         if (typeList.value.length !== filterTypeList.value.length) {
             filterTypeList.value = []
@@ -458,7 +458,7 @@ const addBookSubmit = () => {
     formRef.value.validate((isValid) => {
         if (isValid) {
             addBookDialogVisible.value = false
-            post('/api/book/addBook', bookForm.value, (message) => {
+            post('/api/book/add', bookForm.value, (message) => {
                 ElMessage.success(message)
                 freshBookList()
             })
@@ -477,7 +477,7 @@ const handleAddType = () => {
         inputPlaceholder: "类别名称后无需加‘类’"
     })
         .then(({value}) => {
-            post('/api/book/addType', {
+            post('/api/book/add-type', {
                 type_name: value
             }, (message) => {
                 ElMessage.success(message + value);
