@@ -378,6 +378,7 @@ const handleDeleteType = (row) => {
     deleted('/api/book/delete-type/' + row.type_id, row.type_id, (message) => {
         ElMessage.success(message + row.type_name)
         freshTypeList()
+        freshBookList()
     }, (message) => {
         ElMessage.warning(message)
     })

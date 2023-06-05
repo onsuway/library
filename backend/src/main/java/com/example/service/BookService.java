@@ -15,7 +15,7 @@ public interface BookService {
 
     List<Book> getAllBook();
 
-    int batchDeleteBook(String ids);
+    String batchDeleteBook(String ids);
 
     List<Type> getAllType();
 

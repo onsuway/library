@@ -20,12 +20,10 @@ spring:
       database: 0
       host: localhost
       port: 6379
+  #json传输时间时区/格式
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
 
-#constants:
-#  time:
-#    borrow-long: ${7*24*60*60*1000L}
 
 

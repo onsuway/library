@@ -1,7 +1,12 @@
 <template>
     <div>
-        <div style="margin: 20px 600px">
-            <el-input size="large" v-model="searchInputText" placeholder="按用户名搜索用户">
+        <div style="display: flex;justify-content: center">
+            <el-input
+                    style="width: 400px"
+                    size="large"
+                    v-model="searchInputText"
+                    placeholder="按用户名搜索用户"
+            >
                 <template #append>
                     <el-button :icon="Search" @click="handleSearch()"/>
                 </template>
@@ -129,10 +134,10 @@ const handleChangeUserRole = (row) => {
         }
     )
         .then(() => {
-            post('/api/user/change-role',{
+            post('/api/user/change-role', {
                 account_id: row.id,
                 new_role: row.role === 'student' ? 'teacher' : 'student',
-            },(message) => {
+            }, (message) => {
                 ElMessage.success(message)
                 freshUserList()
             })

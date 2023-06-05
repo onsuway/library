@@ -86,7 +86,6 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
 
-
     @Override
     @Transactional
     public int adminReturnBorrowByIds(String ids) {
@@ -113,13 +112,13 @@ public class BorrowServiceImpl implements BorrowService {
         Borrow borrow = borrowMapper.getBorrowById(borrow_id);
 
         //归还逾期
-        if (borrow.getDue_time().before(now)){
+        if (borrow.getDue_time().before(now)) {
             userMapper.decreaseCreditById(account_id);
 
             borrowMapper.userSingleReturn(borrow_id);
 
             return "归还逾期，扣除信用积分";
-        }else {
+        } else {
             //方法自带扣除borrowing_nums
             borrowMapper.userSingleReturn(borrow_id);
             return null;
@@ -130,9 +129,9 @@ public class BorrowServiceImpl implements BorrowService {
     @Override
     public String userSingleExtendById(String borrow_id) {
 
-        if (borrowMapper.userSingleExtendBorrowing(borrow_id) == 1){
+        if (borrowMapper.userSingleExtendBorrowing(borrow_id) == 1) {
             return null;
-        }else {
+        } else {
             return "已经续借过了，不能这么贪心哦";
         }
     }
@@ -157,7 +156,7 @@ public class BorrowServiceImpl implements BorrowService {
 
         Timestamp due_time = new Timestamp(now.getTime() + studentBorrowTimeLong);
         //teacher借阅的时间不同
-        if (Objects.equals(userRole, "teacher")){
+        if (Objects.equals(userRole, "teacher")) {
             due_time = new Timestamp(now.getTime() + teacherBorrowTimeLong);
         }
 
@@ -168,12 +167,12 @@ public class BorrowServiceImpl implements BorrowService {
 
         //判断用户正在借阅中的书籍数量是否合法 (student借阅最多3 teacher-5
         if (userBorrowingNums >= 3 && Objects.equals(userRole, "student") ||
-            userBorrowingNums >= 5 && Objects.equals(userRole, "teacher")) {
+                userBorrowingNums >= 5 && Objects.equals(userRole, "teacher")) {
             return "借阅的太多啦，先去读完再借叭";
         }
 
         //判断该用户是否借阅过该书
-        if (borrowMapper.countBorrowingByBidAndAccountId(bid, account_id) > 0){
+        if (borrowMapper.countBorrowingByBidAndAccountId(bid, account_id) > 0) {
             return "已经借过这本书啦，快去读叭";
         }
 
@@ -183,9 +182,9 @@ public class BorrowServiceImpl implements BorrowService {
             //成功借阅与否
             if (result == 1) {
                 //用户正借阅书籍数量加1
-                if(userMapper.increaseBorrowingNumsById(account_id) == 1){
+                if (userMapper.increaseBorrowingNumsById(account_id) == 1) {
                     return null;
-                }else {
+                } else {
                     return "user数据库内部出现错误，请联系管理员";
                 }
             } else return "borrow数据库内部出现错误，请联系管理员";
@@ -204,17 +203,17 @@ public class BorrowServiceImpl implements BorrowService {
     public List<HotBorrowBook> getHotBorrowBookTop10ByTimeAndType(String type_id, String time_range) {
 
         //类型为全部 时间范围不是全部 只筛选时间范围
-        if (Objects.equals(type_id, "all") && !Objects.equals(time_range, "all")){
+        if (Objects.equals(type_id, "all") && !Objects.equals(time_range, "all")) {
             return borrowMapper.selectHotBorrowBookTop10WithTime(time_range);
         }
 
         //时间范围是全部 类型选择不是全部 只筛选类型
-        if (!Objects.equals(type_id, "all") && Objects.equals(time_range, "all")){
+        if (!Objects.equals(type_id, "all") && Objects.equals(time_range, "all")) {
             return borrowMapper.selectHotBorrowBookTop10WithType(type_id);
         }
 
         //两方都为all 不筛选
-        if (Objects.equals(type_id, "all") && Objects.equals(time_range, "all")){
+        if (Objects.equals(type_id, "all") && Objects.equals(time_range, "all")) {
             return borrowMapper.selectHotBorrowBookTop10();
         }
 

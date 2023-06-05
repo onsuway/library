@@ -40,8 +40,13 @@ public class BookController {
 
     @DeleteMapping("/delete-book/{ids}")
     public RestBean<String> batchDelete(@PathVariable String ids) {
-        int result = bookService.batchDeleteBook(ids);
-        return RestBean.success("成功删除了" + result + "本书");
+        String message = bookService.batchDeleteBook(ids);
+        if (message == null) {
+            return RestBean.success("成功删除");
+        }else {
+            return RestBean.failure(401, message);
+        }
+
     }
 
     @PostMapping("/edit")
