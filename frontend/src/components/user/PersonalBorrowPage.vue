@@ -69,7 +69,7 @@
                         :cell-style="{'text-align':'center'}"
                         :default-sort="{ prop: 'borrow_time', order: 'descending' }"
                         :header-cell-style="{'text-align':'center'}"
-                        height="650"
+                        height="450"
                         empty-text="还没有借阅过书籍呢，快去看一看叭"
                 >
                     <el-table-column prop="title" label="书名"/>

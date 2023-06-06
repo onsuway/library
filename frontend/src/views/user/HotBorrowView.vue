@@ -103,13 +103,12 @@ freshBookList()
     flex-direction: column;
     align-items: center;
     background-color: #f5f5f5;
-    height: 93.5vh;
 }
 
 .header-selection {
     flex-direction: column;
     background-color: #ffffff;
-    width: 1600px;
+    width: 100%;
     padding: 20px;
     margin-top: 20px;
     box-shadow: 0 3px 4px rgba(0, 0, 0, .15);
@@ -129,7 +128,7 @@ freshBookList()
 
 .table-container {
     background-color: #ffffff;
-    width: 1600px;
+    width: 100%;
     margin-top: 30px;
     padding: 30px;
     margin-bottom: 30px;

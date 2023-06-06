@@ -54,28 +54,31 @@
             <el-table-column prop="due_time" label="最晚归还时间" sortable/>
             <el-table-column label="操作" align="right" header-align="center">
                 <template #default="{row}">
-                    <el-popconfirm
+                    <div style="display: flex">
+                        <el-popconfirm
                             title="确定延长三天借阅时间吗？"
                             width="220"
                             confirm-button-text="确定"
                             cancel-button-text="取消"
                             @confirm="handleExtendBorrow(row)"
-                    >
-                        <template #reference>
-                            <el-button type="primary">延长借阅</el-button>
-                        </template>
-                    </el-popconfirm>
-                    <el-popconfirm
+                        >
+                            <template #reference>
+                                <el-button type="primary">延长借阅</el-button>
+                            </template>
+                        </el-popconfirm>
+                        <el-popconfirm
                             title="确定归还该书籍吗？"
-                            width="220"
+                            width="200"
                             confirm-button-text="确定"
                             cancel-button-text="取消"
                             @confirm="handleReturnBorrow(row)"
-                    >
-                        <template #reference>
-                            <el-button type="success">确认归还</el-button>
-                        </template>
-                    </el-popconfirm>
+                        >
+                            <template #reference>
+                                <el-button type="success">确认归还</el-button>
+                            </template>
+                        </el-popconfirm>
+                    </div>
+
                 </template>
             </el-table-column>
         </el-table>

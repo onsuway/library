@@ -66,7 +66,7 @@
         <el-dialog
                 v-model="addBookDialogVisible"
                 title="新增书籍信息"
-                width="27%"
+                width="35%"
                 align-center
                 center
         >
@@ -125,9 +125,9 @@
                 :header-cell-style="{'text-align':'center'}"
                 :tooltip-options="tooltipOption"
         >
-            <el-table-column type="selection" width="55"/>
-            <el-table-column prop="bid" label="ID" width="100"/>
-            <el-table-column label="封面图" width="180">
+            <el-table-column type="selection"/>
+            <el-table-column prop="bid" label="ID"/>
+            <el-table-column label="封面图" width="150">
                 <template #default="scope">
                     <div style="height: 120px;width: 90px; margin: 0 auto">
                         <el-image :src="scope.row.cover_url">
@@ -138,8 +138,8 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column prop="title" label="书名" width="200"/>
-            <el-table-column prop="author" label="作者" width="200"/>
+            <el-table-column prop="title" label="书名" width="180"/>
+            <el-table-column prop="author" label="作者" width="180"/>
             <el-table-column prop="desc" label="简介" show-overflow-tooltip/>
             <el-table-column
                     prop="type_name"
@@ -149,11 +149,13 @@
                     :filter-method="filterHandler"
                     filter-placement="bottom"
             />
-            <el-table-column prop="nums" label="库存" width="100"/>
-            <el-table-column label="操作" align="right" width="200">
+            <el-table-column prop="nums" label="库存"/>
+            <el-table-column label="操作" align="right" width="150">
                 <template #default="{row}">
-                    <el-button type="primary" @click="handleEdit(row)">编辑</el-button>
-                    <el-button type="danger" @click="handleDeleteBook(row)">删除</el-button>
+                    <div style="display: flex">
+                        <el-button type="primary" @click="handleEdit(row)">编辑</el-button>
+                        <el-button type="danger" @click="handleDeleteBook(row)">删除</el-button>
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -162,7 +164,7 @@
         <el-dialog
                 v-model="editBookDialogVisible"
                 title="编辑书籍信息"
-                width="30%"
+                width="35%"
                 align-center
                 center
         >

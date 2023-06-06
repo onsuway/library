@@ -224,14 +224,12 @@ const handleCheckBoxChange = () => {
 
 .content {
     background-color: #f0f3f5;
-    height: 100vh;
 }
 
 .main {
     display: flex;
     background-color: #fafafa;
     width: 1200px;
-    height: 100vh;
 }
 
 .main-aside {

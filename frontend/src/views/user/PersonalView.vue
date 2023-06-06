@@ -29,7 +29,6 @@ import router from "@/router";
 .background {
     background-color: #f5f5f5;
     padding: 20px;
-    height: 89.5vh;
 }
 
 .margin-auto {
@@ -39,7 +38,7 @@ import router from "@/router";
 .content-container {
     display: flex;
     width: 1200px;
-    height: 800px;
+    height: 600px;
     background-color: #f5f5f5;
 }
 
