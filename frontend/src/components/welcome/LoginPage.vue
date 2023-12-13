@@ -60,9 +60,9 @@ const form = reactive({
 })
 
 const login = () => {
-    if (!form.username || !form.password){
+    if (!form.username || !form.password) {
         ElMessage.warning('用户名和密码不能为空')
-    }else {
+    } else {
         post('/api/auth/login', {
             username: form.username,
             password: form.password,
@@ -72,12 +72,12 @@ const login = () => {
             get('/api/user/me', (message) => {
                 userStore.login(message)
                 const {role} = message
-                if (role === 'admin'){
+                if (role === 'admin') {
                     router.push('/admin')
-                }else {
+                } else {
                     router.push('/user')
                 }
-            },() => {
+            }, () => {
                 userStore.logout()
             })
         })
@@ -86,11 +86,11 @@ const login = () => {
 
 
 onMounted(() => {
-    if (userStore.isLogin){
+    if (userStore.isLogin) {
         const {role} = userStore.userInfo
-        if (role === 'admin'){
+        if (role === 'admin') {
             router.push('/admin')
-        }else {
+        } else {
             router.push('/user')
         }
     }

@@ -15,6 +15,11 @@ spring:
         smtp:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
+  web:
+    cors:
+      origin: '*'
+      credentials: true
+      methods: '*'
   data:
     redis:
       database: 0
@@ -24,6 +29,8 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+
+
 
 
 

@@ -10,6 +10,22 @@
             margin: 0;
             padding: 0;
         }
+        /* 隐藏滚动条的轨道 */
+        ::-webkit-scrollbar {
+            width: 0;
+            background-color: #f5f5f5;
+        }
+
+        /* 给滚动条添加圆角样式 */
+        ::-webkit-scrollbar-thumb {
+            border-radius: 0.5em;
+            background-color: #cecccc;
+        }
+
+        /* 鼠标悬停时滚动条的样式 */
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #aaaaaa;
+        }
     </style>
 </head>
 <body>

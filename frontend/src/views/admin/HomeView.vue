@@ -3,7 +3,7 @@
         <div style="height: 40vh;width: 100%;">
             <el-image
                     style="width: 100%; height: 100%;"
-                    src="https://i.imgloc.com/2023/05/21/V4nhza.jpeg"
+                    src="https://image.itbaima.net/images/90/image-20230514118051790.jpeg"
                     fit="cover"/>
         </div>
         <div class="welcome-slogan">

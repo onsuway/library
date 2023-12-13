@@ -18,9 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -46,45 +43,29 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, PersistentTokenRepository tokenRepository) throws Exception {
         return http
-                .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/api/auth/login")
-                .successHandler(this::onAuthenticationSuccess)
-                .failureHandler(this::onAuthenticationFailure)
-                .and()
-                .logout()
-                .logoutUrl("/api/auth/logout")
-                .logoutSuccessHandler(this::onAuthenticationSuccess)
-                .and()
-                .rememberMe()
-                .rememberMeParameter("remember")
-                .tokenRepository(tokenRepository)
-                .tokenValiditySeconds(60 * 60 * 24 * 7)  //七天免登录
-                .and()
+                .authorizeHttpRequests(conf -> conf
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(conf -> conf
+                        .loginProcessingUrl("/api/auth/login")
+                        .successHandler(this::onAuthenticationSuccess)
+                        .failureHandler(this::onAuthenticationFailure)
+                )
+                .logout(conf -> conf
+                        .logoutUrl("/api/auth/logout")
+                        .logoutSuccessHandler(this::onAuthenticationSuccess)
+                )
+                .rememberMe(conf -> conf
+                        .rememberMeParameter("remember")
+                        .tokenRepository(tokenRepository)
+                        .tokenValiditySeconds(60 * 60 * 24 * 7)  //七天免登录
+                )
+                .exceptionHandling(conf -> conf
+                        .authenticationEntryPoint(this::onAuthenticationFailure)
+                )
                 .csrf().disable()
-                .cors()
-                .configurationSource(this.corsConfigurationSource())
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(this::onAuthenticationFailure)
-                .and()
                 .build();
-
-    }
-
-    private CorsConfigurationSource corsConfigurationSource(){
-        CorsConfiguration cors = new CorsConfiguration();
-        cors.addAllowedOriginPattern("*");
-        cors.setAllowCredentials(true);
-        cors.addAllowedMethod("*");
-        cors.addAllowedHeader("*");
-        cors.addExposedHeader("*");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", cors);
-        return source;
     }
 
     @Bean
@@ -108,7 +89,6 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         response.setCharacterEncoding("utf-8");
         if (request.getRequestURI().endsWith("/login")){
@@ -116,7 +96,6 @@ public class SecurityConfiguration {
         }else if(request.getRequestURI().endsWith("/logout")){
             response.getWriter().write(JSONObject.toJSONString(RestBean.success("退出登录成功")));
         }
-
     }
 
     private void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {

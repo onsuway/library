@@ -4,7 +4,7 @@
             <div style="height: 300px;width: 100%;">
                 <el-image
                         style="width: 100%; height: 100%;"
-                        src="https://i.imgloc.com/2023/05/21/V4n51x.jpeg"
+                        src="https://image.itbaima.net/images/90/image-20230702146594853.jpeg"
                         fit="cover"
                 />
             </div>
@@ -277,8 +277,8 @@ onMounted(() => {
 }
 
 .recommend-buy {
-    background: #fff url("https://i.imgloc.com/2023/05/21/V4ndbw.jpeg") no-repeat bottom;
-    height: 240px;
+    background: #fff url("https://image.itbaima.net/images/90/image-20230924179481633.png") no-repeat 0 0;
+    height: 160px;
     box-shadow: 0 3px 4px rgba(0, 0, 0, .2);
     border-radius: 4px;
     position: relative;
@@ -287,7 +287,7 @@ onMounted(() => {
 .recommend-button {
     display: flex;
     position: absolute;
-    top: 80px;
+    top: 40px;
     left: 100px;
     align-items: center;
     justify-content: center;
@@ -300,7 +300,7 @@ onMounted(() => {
 }
 .recommend-slogan {
     position: absolute;
-    top: 100px;
+    top: 60px;
     left: 400px;
     color: white;
     font-size: 30px;

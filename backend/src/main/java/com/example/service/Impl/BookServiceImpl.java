@@ -26,6 +26,7 @@ public class BookServiceImpl implements BookService {
     @Resource
     BookMapper bookMapper;
 
+
     @Override
     public List<Book> getAllBook() {
         return bookMapper.getAllBook();
@@ -149,4 +150,5 @@ public class BookServiceImpl implements BookService {
         String author = bookMapper.getAuthorByBookId(book_id);
         return bookMapper.getBookByAuthor(author, book_id);
     }
+
 }

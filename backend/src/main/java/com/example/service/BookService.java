@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.entity.Book;
 import com.example.entity.NewCreateBook;
 import com.example.entity.Type;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -42,4 +43,5 @@ public interface BookService {
     List<Book> getSameTypeBookByBookId(int book_id);
 
     List<Book> getSameAuthorBookByBookId(int book_id);
+
 }

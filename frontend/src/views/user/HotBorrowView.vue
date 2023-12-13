@@ -34,7 +34,7 @@
                     size="large"
                     :cell-style="{'text-align':'center'}"
                     :header-cell-style="{'text-align':'center'}"
-                    height="600"
+                    height="550"
                     stripe
             >
                 <el-table-column label="序号" type="index" width="80"/>
@@ -100,6 +100,8 @@ freshBookList()
 
 <style scoped>
 .background-container {
+    padding: 30px;
+    height: calc(100vh - 63px);
     flex-direction: column;
     align-items: center;
     background-color: #f5f5f5;
@@ -110,7 +112,6 @@ freshBookList()
     background-color: #ffffff;
     width: 100%;
     padding: 20px;
-    margin-top: 20px;
     box-shadow: 0 3px 4px rgba(0, 0, 0, .15);
     flex: 1;
 }
@@ -130,8 +131,8 @@ freshBookList()
     background-color: #ffffff;
     width: 100%;
     margin-top: 30px;
+    margin-bottom: 60px;
     padding: 30px;
-    margin-bottom: 30px;
     flex: 8;
 }
 </style>

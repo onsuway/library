@@ -1,12 +1,12 @@
 <template>
     <el-form
-            label-position="right"
-            label-width="100px"
-            :model="formChangePassword"
-            style="max-width: 460px"
-            ref="formRef"
-            :rules="rules"
-            class="changePwd-form"
+        label-position="right"
+        label-width="100px"
+        :model="formChangePassword"
+        style="max-width: 460px"
+        ref="formRef"
+        :rules="rules"
+        class="changePwd-form"
     >
         <el-form-item label="原密码" prop="current_password">
             <el-input v-model="formChangePassword.current_password" type="password"/>
@@ -112,6 +112,6 @@ const submitNewPassword = () => {
 </script>
 <style scoped>
 .changePwd-form {
-    margin-top: 50px;
+    margin: 100px auto;
 }
 </style>

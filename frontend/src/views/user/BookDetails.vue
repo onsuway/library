@@ -71,29 +71,29 @@
                 <div class="link">
                     <div style="font-size: 18px;font-weight: bold">相关资源链接</div>
                     <el-divider/>
-                    <div style="display: flex;flex-wrap: wrap">
+                    <div style="display: flex;flex-wrap: wrap;gap: 5px">
                         <el-image
-                                style="height: 40px;width: 60px;cursor: pointer"
+                            class="book-source-link"
                                 @click="searchTaoBaoLink(currentBook.title)"
-                                src="https://i.328888.xyz/2023/05/18/VVTbcU.png"
+                                src="https://image.itbaima.net/images/90/image-20231125005478755.png"
                                 fit="fill"
                         />
                         <el-image
-                                style="height: 40px;width: 60px;cursor: pointer"
+                            class="book-source-link"
                                 @click="searchJDLink(currentBook.title)"
-                                src="https://i.328888.xyz/2023/05/18/VVTrF5.png"
+                                src="https://image.itbaima.net/images/90/image-20231124237298493.jpeg"
                                 fit="fill"
                         />
                         <el-image
-                                style="height: 40px;width: 60px;cursor: pointer"
-                                src="https://i.328888.xyz/2023/05/18/VVTStN.png"
+                            class="book-source-link"
                                 @click="searchDangDangLink(currentBook.title)"
+                                src="https://image.itbaima.net/images/90/image-20231124238002787.png"
                                 fit="cover"
                         />
                         <el-image
-                                style="height: 40px;width: 60px;cursor: pointer"
-                                src="https://i.328888.xyz/2023/05/18/VVTN8y.png"
+                            class="book-source-link"
                                 @click="searchDouBanLink(currentBook.title)"
+                                src="https://image.itbaima.net/images/90/image-20231124235227649.png"
                                 fit="fill"
                         />
                     </div>
@@ -239,6 +239,7 @@ freshPage()
 .background {
     background-color: #f5f5f5;
     padding: 20px;
+    height: calc(100vh - 103px);
 }
 
 .content-container {
@@ -279,6 +280,12 @@ freshPage()
     position: absolute;
     right: 40px;
     top: 370px;
+}
+
+.book-source-link {
+    height: 50px;
+    width: 60px;
+    cursor: pointer
 }
 
 .borrow-button {

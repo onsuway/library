@@ -223,19 +223,18 @@ const handleCheckBoxChange = () => {
 }
 
 .content {
-    background-color: #f0f3f5;
+    padding: 20px;
 }
 
 .main {
     display: flex;
-    background-color: #fafafa;
     width: 1200px;
 }
 
 .main-aside {
     text-align: center;
     flex: 1;
-    border-right: solid 1px #e0e0e0;
+
 }
 
 .main-list {

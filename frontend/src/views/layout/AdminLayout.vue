@@ -74,7 +74,7 @@
                         <el-dropdown>
                             <el-avatar
                                     class="user-avatar"
-                                    src="https://i.imgloc.com/2023/04/01/i2lTJw.jpeg"
+                                    src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"
                             />
                             <template #dropdown>
                                 <el-dropdown-menu>

@@ -1,13 +1,13 @@
 <template>
     <div class="avatar-title">
-        <el-avatar :size="150" src="https://i.imgloc.com/2023/04/01/i2lTJw.jpeg"/>
-        <div style="font-size: 20px;margin-top: 10px;font-weight: bold">student</div>
+        <el-avatar :size="150" src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"/>
+        <div style="font-size: 20px;margin-top: 10px;font-weight: bold">{{ userStore.userInfo.username }}</div>
     </div>
     <div class="description">
         <el-descriptions
-                :column="3"
-                size="large"
-                border
+            :column="3"
+            size="large"
+            border
         >
             <el-descriptions-item>
                 <template #label>
@@ -18,7 +18,7 @@
                         用户名
                     </div>
                 </template>
-                {{userStore.userInfo.username}}
+                {{ userStore.userInfo.username }}
             </el-descriptions-item>
             <el-descriptions-item>
                 <template #label>
@@ -29,7 +29,7 @@
                         邮箱
                     </div>
                 </template>
-                {{userStore.userInfo.email}}
+                {{ userStore.userInfo.email }}
             </el-descriptions-item>
             <el-descriptions-item>
                 <template #label>
@@ -40,7 +40,7 @@
                         用户类型
                     </div>
                 </template>
-                <el-tag size="small">{{userStore.userInfo.role}}</el-tag>
+                <el-tag size="small">{{ userStore.userInfo.role }}</el-tag>
             </el-descriptions-item>
             <el-descriptions-item>
                 <template #label>
@@ -51,7 +51,7 @@
                         信用积分
                     </div>
                 </template>
-                {{userStore.userInfo.credit}}
+                {{ userStore.userInfo.credit }}
             </el-descriptions-item>
             <el-descriptions-item>
                 <template #label>
@@ -62,7 +62,7 @@
                         借阅中书籍数量
                     </div>
                 </template>
-                {{userStore.userInfo.borrowing_nums}}
+                {{ userStore.userInfo.borrowing_nums }}
             </el-descriptions-item>
         </el-descriptions>
     </div>

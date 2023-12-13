@@ -27,6 +27,7 @@ import router from "@/router";
 
 <style scoped>
 .background {
+    height: calc(100vh - 105px);
     background-color: #f5f5f5;
     padding: 20px;
 }
@@ -38,7 +39,7 @@ import router from "@/router";
 .content-container {
     display: flex;
     width: 1200px;
-    height: 600px;
+    height: 800px;
     background-color: #f5f5f5;
 }
 

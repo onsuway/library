@@ -8,6 +8,7 @@
                         :default-sort="{ prop: 'borrow_time', order: 'descending' }"
                         :cell-style="{'text-align':'center'}"
                         :header-cell-style="{'text-align':'center'}"
+                        height="600"
                         empty-text="还没有借阅过书籍呢，快去看一看叭"
                 >
                     <el-table-column prop="title" label="书名"/>
@@ -69,7 +70,7 @@
                         :cell-style="{'text-align':'center'}"
                         :default-sort="{ prop: 'borrow_time', order: 'descending' }"
                         :header-cell-style="{'text-align':'center'}"
-                        height="450"
+                        height="600"
                         empty-text="还没有借阅过书籍呢，快去看一看叭"
                 >
                     <el-table-column prop="title" label="书名"/>
@@ -160,13 +161,6 @@ const resetBorrowedBook = () => {
     freshBorrowedBook()
 }
 
-
-
-
 freshBorrowingBook()
 freshBorrowedBook()
 </script>
-
-<style scoped>
-
-</style>

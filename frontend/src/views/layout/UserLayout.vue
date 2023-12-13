@@ -6,7 +6,7 @@
                 <el-header class="content-header">
                     <div style="flex: 1">
                         <el-image
-                            src="https://i.imgloc.com/2023/05/21/V4nGiz.png"
+                            src="https://image.itbaima.net/images/90/image-20230514153349528.png"
                             @click="router.push('/user/home')"
                             class="logo"
                         />
@@ -33,7 +33,7 @@
                         <el-dropdown>
                             <el-avatar
                                 class="user-avatar"
-                                src="https://i.imgloc.com/2023/04/01/i2lTJw.jpeg"
+                                src="https://image.itbaima.net/images/90/image-2023042612172367.jpeg"
                             />
                             <template #dropdown>
                                 <el-dropdown-menu>
